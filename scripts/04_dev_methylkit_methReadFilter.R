@@ -33,7 +33,6 @@ file.list.dev = list("../guppyWGBS/results/bismark_methylation_calls/stranded_Cp
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC4F3.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC4F4.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC4F5.CpG_report.txt.gz",
-                 "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC4M1.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC5F1.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC5F2.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DAC5F4.CpG_report.txt.gz",
@@ -97,10 +96,11 @@ file.list.dev = list("../guppyWGBS/results/bismark_methylation_calls/stranded_Cp
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DC7M3.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DC7M4.CpG_report.txt.gz",
                  "../guppyWGBS/results/bismark_methylation_calls/stranded_CpG_report/DC7M5.CpG_report.txt.gz")
+
 #create tabix file
 myobj=methRead(file.list.dev,
                    sample.id=list("DAC2F4","DAC2F5","DAC2F6","DAC3F1","DAC3F2","DAC3M1",
-                                  "DAC3M2","DAC4F1","DAC4F2","DAC4F3","DAC4F4","DAC4F5","DAC4M1",
+                                  "DAC3M2","DAC4F1","DAC4F2","DAC4F3","DAC4F4","DAC4F5",
                                   "DAC5F1", "DAC5F2","DAC5F4","DAC5F5","DAC5M1","DAC5M2","DAC5M3",
                                   "DAC5M4","DAC6F1","DAC6F2","DAC6F3","DAC6M1","DAC6M2",  "DAC6M3",
                                   "DAC7F1","DAC7F2","DAC7F3","DAC7F4","DAC7F5","DAC7F6","DAC7M1",
@@ -113,7 +113,7 @@ myobj=methRead(file.list.dev,
                                   "DC7M1","DC7M2","DC7M3","DC7M4","DC7M5"),
                    assembly="guppyWGBS_dev_new",
                    pipeline="bismarkCytosineReport",
-                   treatment=c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                   treatment=c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
                                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
                    context="CpG",
                    dbtype = "tabix",
@@ -121,21 +121,13 @@ myobj=methRead(file.list.dev,
                    mincov = 1
 )
 
-#filter out sites in the 99.9th percentile of coverage (PCR bias) and 10x coverage for DMS
-myobj.10X=filterByCoverage(myobj,lo.count=10,lo.perc=NULL,
-                                hi.count=NULL, hi.perc=99.9, suffix = "10X")
-
-#filter out sites in the 99.9th percentile of coverage (PCR bias) and 3x coverage for DMRs
+#filter out sites in the 99.9th percentile of coverage (PCR bias) and 3x coverage
 myobj.3X=filterByCoverage(myobj,lo.count=3,lo.perc=NULL,
                                hi.count=NULL, hi.perc=99.9, suffix = "3X")
 
-#normalize by median coverage
-norm.myobj.10X=normalizeCoverage(myobj.10X, method="median")
-norm.myobj.3X=normalizeCoverage(myobj.3X, method="median")
-
 ## Save workspace image for later loading ##
 save.image(file = ".RData")
-save.image(file = ".backupRData/04_methReadFilter-backup.RData")
+save.image(file = "./backupRData/04_methReadFilter-backup.RData")
 
 q(save="yes")
 
