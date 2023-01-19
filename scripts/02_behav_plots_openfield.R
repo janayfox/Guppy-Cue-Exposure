@@ -152,6 +152,7 @@ lm.test <- lm(PC1 ~ cue * sex * weight_g, data = data)
 lm.test.resid <- rstandard(lm.test)
 plot(lm.test.resid ~ data$tank, xlab = "Tank", ylab = "Standardized residuals")
 
+
 #run LMMs
 PC1.lmm <- lmer(PC1 ~ cue * sex * weight_g + (1|tank), data = data)
 PC1.lmm.nowt <- lmer(PC1 ~ cue * sex + (1|tank), data = data)
