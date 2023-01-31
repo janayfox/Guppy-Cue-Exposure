@@ -67,30 +67,61 @@ tiles.10X.subsetDB <- makeMethylDB(tiles.10X.subset, "tiles_subset_10XDB")
 tiles.5X.subsetDB <- makeMethylDB(tiles.5X.subset, "tiles_subset_5XDB")
 
 #unite calls
-DMR.meth.2L10X <- unite(tiles.10X.subsetDB, min.per.group=2L, save.db = TRUE, suffix = "DMR_unite_2L10X")
+#DMR.meth.2L10X <- unite(tiles.10X.subsetDB, min.per.group=2L, save.db = TRUE, suffix = "DMR_unite_2L10X")
 DMR.meth.10L10X <- unite(tiles.10X.subsetDB, min.per.group=10L, save.db = TRUE, suffix = "DMR_unite_10L10X")
-DMR.meth.2L5X <- unite(tiles.5X.subsetDB, min.per.group=2L, save.db = TRUE, suffix = "DMR_unite_2L5X")
+#DMR.meth.2L5X <- unite(tiles.5X.subsetDB, min.per.group=2L, save.db = TRUE, suffix = "DMR_unite_2L5X")
 DMR.meth.10L5X <- unite(tiles.5X.subsetDB, min.per.group=10L, save.db = TRUE, suffix = "DMR_unite_10L5X")
 
 #calculate differential methylation 
-DMR.myDiff.2L10X <- calculateDiffMeth(DMR.meth.2L10X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "DMR_myDiff_2L10X")
+#DMR.myDiff.2L10X <- calculateDiffMeth(DMR.meth.2L10X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "DMR_myDiff_2L10X")
 DMR.myDiff.10L10X <- calculateDiffMeth(DMR.meth.10L10X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "DMR_myDiff_10L10X")
-DMR.myDiff.2L5X <- calculateDiffMeth(DMR.meth.2L5X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "DMR_myDiff_2L5X")
+#DMR.myDiff.2L5X <- calculateDiffMeth(DMR.meth.2L5X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "DMR_myDiff_2L5X")
 DMR.myDiff.10L5X <- calculateDiffMeth(DMR.meth.10L5X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "DMR_myDiff_10L5X")
  
 #call significant methylation
-DMR.diffMeth.2L10X <- getMethylDiff(DMR.myDiff.2L10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_2L10X")
+#DMR.diffMeth.2L10X <- getMethylDiff(DMR.myDiff.2L10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_2L10X")
 DMR.diffMeth.10L10X <- getMethylDiff(DMR.myDiff.10L10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_10L10X")
-DMR.diffMeth.2L5X <- getMethylDiff(DMR.myDiff.2L5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_2L5X")
+#DMR.diffMeth.2L5X <- getMethylDiff(DMR.myDiff.2L5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_2L5X")
 DMR.diffMeth.10L5X <- getMethylDiff(DMR.myDiff.10L5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_10L5X")
 
 #get meth per chromosome
-DMR.diffMethChr.2L10X <- diffMethPerChr(DMR.myDiff.2L10X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "DMR_chr_2L10X")
+#DMR.diffMethChr.2L10X <- diffMethPerChr(DMR.myDiff.2L10X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "DMR_chr_2L10X")
 DMR.diffMethChr.10L10X <- diffMethPerChr(DMR.myDiff.10L10X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "DMR_chr_10L10X")
-DMR.diffMethChr.2L5X <- diffMethPerChr(DMR.myDiff.2L5X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "DMR_chr_2L5X")
+#DMR.diffMethChr.2L5X <- diffMethPerChr(DMR.myDiff.2L5X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "DMR_chr_2L5X")
 DMR.diffMethChr.10L5X <- diffMethPerChr(DMR.myDiff.10L5X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "DMR_chr_10L5X")
 
-## Save workspace image for later loading ##
+## Get data ##
+#DMR.meth.2L10X.data <- getData(DMR.meth.2L10X)
+DMR.meth.10L10X.data <- getData(DMR.meth.10L10X)
+#DMR.meth.2L5X.data <- getData(DMR.meth.2L5X)
+DMR.meth.10L5X.data <- getData(DMR.meth.10L5X)
+
+#DMR.myDiff.2L.10X.data <- getData(DMR.myDiff.2L.10X)
+DMR.myDiff.10L.10X.data <- getData(DMR.myDiff.10L.10X)
+#DMR.myDiff.2L.5X.data <- getData(DMR.myDiff.2L.5X)
+DMR.myDiff.10L.5X.data <- getData(DMR.myDiff.10L.5X)
+
+#DMR.diffMeth.2L.10X.data <- getData(DMR.diffMeth.2L.10X)
+DMR.diffMeth.10L.10X.data <- getData(DMR.diffMeth.10L.10X)
+#DMR.diffMeth.2L.5X.data <- getData(DMR.diffMeth.2L.5X)
+DMR.diffMeth.10L.5X.data <- getData(DMR.diffMeth.10L.5X)
+
+## Save workspace image and RDS for later loading ##
+#saveRDS(DMR.meth.2L.10X.data, file ="./backupRData/DMR_meth_2l10X.rds")
+saveRDS(DMR.meth.10L.10X.data, file ="./backupRData/DMR_meth_10l10X.rds")
+#saveRDS(DMR.meth.2L.5X.data, file ="./backupRData/DMR_meth_2l5X.rds")
+saveRDS(DMR.meth.10L.5X.data, file ="./backupRData/DMR_meth_10l5X.rds")
+
+#saveRDS(DMR.myDiff.2L.10X.data, file ="./backupRData/DMR_myDiff_2l10X.rds")
+saveRDS(DMR.myDiff.10L.10X.data, file ="./backupRData/DMR_myDiff_10l10X.rds")
+#saveRDS(DMR.myDiff.2L.5X.data, file ="./backupRData/DMR_myDiff_2l5X.rds")
+saveRDS(DMR.myDiff.10L.5X.data, file ="./backupRData/DMR_myDiff_10l5X.rds")
+
+#saveRDS(DMR.diffMeth.2L.10X.data, file ="./backupRData/DMR_diffMeth_2l10X.rds")
+saveRDS(DMR.diffMeth.10L.10X.data, file ="./backupRData/DMR_diffMeth_10l10X.rds")
+#saveRDS(DMR.diffMeth.2L.5X.data, file ="./backupRData/DMR_diffMeth_2l5X.rds")
+saveRDS(DMR.diffMeth.10L.5X.data, file ="./backupRData/DMR_diffMeth_10l5X.rds")
+
 save.image(file = ".RData")
 save.image(file = "./backupRData/06_methylCallingDMR-backup.RData")
 
