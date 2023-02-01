@@ -111,7 +111,7 @@ myobj=methRead(file.list.dev,
                                   "DC5F5","DC5M1","DC5M2","DC5M3","DC6F1","DC6F2","DC6F3",
                                   "DC6F4","DC6M1","DC6M2","DC6M4","DC7F1","DC7F2","DC7F3",
                                   "DC7M1","DC7M2","DC7M3","DC7M4","DC7M5"),
-                   assembly="guppyWGBS_dev_new",
+                   assembly="guppyWGBS_dev",
                    pipeline="bismarkCytosineReport",
                    treatment=c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
                                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0),
@@ -121,13 +121,26 @@ myobj=methRead(file.list.dev,
                    mincov = 1
 )
 
-#filter out sites in the 99.9th percentile of coverage (PCR bias) and 3x coverage
+#filter out sites in the 99.9th percentile of coverage (PCR bias) and 3x/5x/10X coverage
 myobj.3X=filterByCoverage(myobj,lo.count=3,lo.perc=NULL,
-                               hi.count=NULL, hi.perc=99.9, suffix = "3X")
+                          hi.count=NULL, hi.perc=99.9, suffix = "3X") 
 
-## Save workspace image for later loading ##
-save.image(file = ".RData")
-save.image(file = "./backupRData/04_methReadFilter-backup.RData")
+myobj.5X=filterByCoverage(myobj,lo.count=5,lo.perc=NULL,
+                               hi.count=NULL, hi.perc=99.9, suffix = "5X")
 
-q(save="yes")
+myobj.10X=filterByCoverage(myobj,lo.count=10,lo.perc=NULL,
+                          hi.count=NULL, hi.perc=99.9, suffix = "10X")
 
+#check how many CpGs we have currently
+myobj.3X
+myobj.5X
+myobj.10X
+
+#normalize by median coverage
+norm.myobj.5X=normalizeCoverage(myobj.5X, method="median")
+norm.myobj.10X=normalizeCoverage(myobj.10X, method="median")
+
+## Save R objects ##
+saveRDS(myobj.3X, file = "./myObj3X.RDS")
+saveRDS(norm.myobj.5X, file = "./myObj5X.RDS")
+saveRDS(norm.myobj.10X, file = "./myObj10X.RDS")
