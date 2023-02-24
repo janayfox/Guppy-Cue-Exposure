@@ -25,16 +25,32 @@ myobj.5X <- readRDS("./myObj5X.RDS")
 
 #read in tank covariate data
 covariates <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3","AC3",
-                                "AC3","AC4","AC4","AC4","AC4","AC4","AC4",
-                                "AC5", "AC5","AC5","AC5","AC5","AC5","AC5",
-                                "AC5","AC6","AC6","AC6","AC6","AC6", "AC6",
-                                "AC7","AC7","AC7","AC7","AC7","AC7","AC7",
-                                "AC7","AC7","C2","C2", "C2","C2","C3","C3","C3",
-                                "C3","C3","C3","C4","C4","C4","C4",
-                                "C4","C4","C4","C5","C5","C5","C5",
-                                "C5","C5","C5","C5","C6","C6","C6",
-                                "C6","C6","C6","C6","C7","C7","C7",
-                                "C7","C7","C7","C7","C7"), stringsAsFactors = TRUE)
+                                "AC3","AC4","AC4","AC4","AC4","AC4",
+                                "AC5", "AC5","AC5","AC5","AC5",
+                                "AC5","AC5","AC5","AC6","AC6","AC6",
+                                "AC6","AC6", "AC6","AC7","AC7","AC7",
+                                "AC7","AC7","AC7","AC7","AC7","AC7",
+                                "C2","C2","C2","C2","C3","C3",
+                                "C3","C3","C3","C3","C4","C4",
+                                "C4","C4","C4","C4","C4","C5",
+                                "C5","C5","C5","C5","C5","C5",
+                                "C5","C6","C6","C6","C6","C6",
+                                "C6","C6","C7","C7","C7","C7",
+                                "C7","C7","C7","C7"), 
+                         sex=c("F","F","F","F","F","M",
+                               "M","F","F","F","F","F",
+                               "F","F","F","F","M","M",
+                               "M","M","F","F","F","M",
+                               "M","M","F","F","F","F",
+                               "F","F","M","M","M","F",
+                               "F","M","M","F","F","F",
+                               "M","M","M","F","F","F",
+                               "F","F","M","M","F","F",
+                               "F","F","F","M","M","M",
+                               "F","F","F","F","M","M",
+                               "M","F","F","F","M","M",
+                               "M","M","M"),
+                         stringsAsFactors = TRUE)
 
 ## Find DMSs ## 
 # Unite methylation calls for 60% of fish
@@ -46,8 +62,8 @@ DMSmeth10X
 DMSmeth5X
 
 # Calculate differential methylation
-DMSmyDiff10X <- calculateDiffMeth(DMSmeth10X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "myDiff")
-DMSmyDiff5X <- calculateDiffMeth(DMSmeth5X, mc.cores=1, covariates=covariates, save.db = TRUE, suffix = "myDiff")
+DMSmyDiff10X <- calculateDiffMeth(DMSmeth10X, mc.cores=2, covariates=covariates, overdispersion="MN", test="Chisq", save.db = TRUE, suffix = "myDiff")
+DMSmyDiff5X <- calculateDiffMeth(DMSmeth5X, mc.cores=2, covariates=covariates, overdispersion="MN", test="Chisq", save.db = TRUE, suffix = "myDiff")
 
 # Call significant methylation
 DMSdiffMeth10X <- getMethylDiff(DMSmyDiff10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth")
@@ -60,7 +76,7 @@ DMSdiffMeth5X
 # Get meth per chromosome
 DMSdiffMethChr10X <- diffMethPerChr(DMSmyDiff10X,plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chr")
 DMSdiffMethChr10X
-DMSdiffMethChr5X <- diffMethPerChr(MSmyDiff5X,plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chr")
+DMSdiffMethChr5X <- diffMethPerChr(DMSmyDiff5X,plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chr")
 DMSdiffMethChr5X
 
 ## Save R objects ##
@@ -78,11 +94,12 @@ saveRDS(DMSdiffMethChr5X, file = "./DMSdiffMethChr5X.RDS")
 
 ## Get data ## 
 getData(DMSmeth10X) %>% saveRDS(file = "./DMSmeth10Xdata.RDS")
-getData(DMSmeth5X) %>% saveRDS(file = "./DMSmeth5Xdataa.RDS")
+getData(DMSmeth5X) %>% saveRDS(file = "./DMSmeth5Xdata.RDS")
 
 getData(DMSmyDiff10X) %>% saveRDS(file = "./DMSmyDiff10Xdata.RDS")
 getData(DMSmyDiff5X) %>% saveRDS(file = "./DMSmyDiff5Xdata.RDS")
 
 getData(DMSdiffMeth10X) %>% saveRDS(file = "./DMSdiffMeth10Xdata.RDS")
 getData(DMSdiffMeth5X) %>% saveRDS(file = "./DMSdiffMeth5Xdata.RDS")
+
 
