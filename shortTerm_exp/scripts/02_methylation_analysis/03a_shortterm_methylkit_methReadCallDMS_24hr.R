@@ -21,32 +21,32 @@ setwd("/scratch/janayfox/guppyWGBS_shortterm/24h/")
 
 ## Prepare tabix files
 #create lists of file locations
-file.list.24h = list("../mergedCov/st/ST2AC15F.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2AC15M.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2AC4F.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2AC4M.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2AC8F.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2AC8M.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2C15F.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2C15M.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2C4F.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2C4M.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2C8F.CpG_report.txt.gz",
-                     "../mergedCov/st/ST2C8M.CpG_report.txt.gz")
+file.list.24h = list("../mergedCov/st/ST2AC15F.CpG_merged.cov",
+                     "../mergedCov/st/ST2AC15M.CpG_merged.cov",
+                     "../mergedCov/st/ST2AC4F.CpG_merged.cov",
+                     "../mergedCov/st/ST2AC4M.CpG_merged.cov",
+                     "../mergedCov/st/ST2AC8F.CpG_merged.cov",
+                     "../mergedCov/st/ST2AC8M.CpG_merged.cov",
+                     "../mergedCov/st/ST2C15F.CpG_merged.cov",
+                     "../mergedCov/st/ST2C15M.CpG_merged.cov",
+                     "../mergedCov/st/ST2C4F.CpG_merged.cov",
+                     "../mergedCov/st/ST2C4M.CpG_merged.cov",
+                     "../mergedCov/st/ST2C8F.CpG_merged.cov",
+                     "../mergedCov/st/ST2C8M.CpG_merged.cov")
 
-file.list.24h.fem = list("../mergedCov/st/ST2AC15F.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2AC4F.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2AC8F.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2C15F.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2C4F.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2C8F.CpG_report.txt.gz")
+file.list.24h.fem = list("../mergedCov/st/ST2AC15F.CpG_merged.cov",
+                         "../mergedCov/st/ST2AC4F.CpG_merged.cov",
+                         "../mergedCov/st/ST2AC8F.CpG_merged.cov",
+                         "../mergedCov/st/ST2C15F.CpG_merged.cov",
+                         "../mergedCov/st/ST2C4F.CpG_merged.cov",
+                         "../mergedCov/st/ST2C8F.CpG_merged.cov")
 
-file.list.24h.mal = list("../mergedCov/st/ST2AC15M.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2AC4M.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2AC8M.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2C15M.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2C4M.CpG_report.txt.gz",
-                         "../mergedCov/st/ST2C8M.CpG_report.txt.gz")
+file.list.24h.mal = list("../mergedCov/st/ST2AC15M.CpG_merged.cov",
+                         "../mergedCov/st/ST2AC4M.CpG_merged.cov",
+                         "../mergedCov/st/ST2AC8M.CpG_merged.cov",
+                         "../mergedCov/st/ST2C15M.CpG_merged.cov",
+                         "../mergedCov/st/ST2C4M.CpG_merged.cov",
+                         "../mergedCov/st/ST2C8M.CpG_merged.cov")
 
 #create tabix file
 myobj_24h=methRead(file.list.24h,
