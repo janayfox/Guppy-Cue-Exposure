@@ -49,7 +49,7 @@ file.list.24h.mal = list("../mergedCov/st/ST2AC15M.CpG_merged.cov",
                          "../mergedCov/st/ST2C8M.CpG_merged.cov")
 
 #create tabix file
-myobj_24h=methRead(file.list.24h,
+myobj.24h=methRead(file.list.24h,
                    sample.id=list("ST2AC15F","ST2AC15M","ST2AC4F","ST2AC4M","ST2AC8F","ST2AC8M",
                                   "ST2C15F","ST2C15M","ST2C4F","ST2C4M","ST2C8F","ST2C8M"),
                    assembly="guppyWGBS_shortterm",
@@ -62,7 +62,7 @@ myobj_24h=methRead(file.list.24h,
                    dbdir = "shortterm_24h_DB"
 )
 
-myobj_24h.fem=methRead(file.list.24h.fem,
+myobj.24h.fem=methRead(file.list.24h.fem,
                        sample.id=list("ST2AC15F","ST2AC4F","ST2AC8F",
                                       "ST2C15F","ST2C4F","ST2C8F"),
                        assembly="guppyWGBS_shortterm",
@@ -75,7 +75,7 @@ myobj_24h.fem=methRead(file.list.24h.fem,
                        dbdir = "shortterm_24hF_DB"
 )
 
-myobj_24h.mal=methRead(file.list.24h.mal,
+myobj.24h.mal=methRead(file.list.24h.mal,
                        sample.id=list("ST2AC15M","ST2AC4M","ST2AC8M",
                                       "ST2C15M","ST2C4M","ST2C8M"),
                        assembly="guppyWGBS_shortterm",
@@ -89,11 +89,11 @@ myobj_24h.mal=methRead(file.list.24h.mal,
 )
 
 #filter out sites in the 99.9th percentile of coverage (PCR bias) 
-myobj.24h.5X=filterByCoverage(myobj_24h,lo.count=5,lo.perc=NULL,
+myobj.24h.5X=filterByCoverage(myobj.24h,lo.count=5,lo.perc=NULL,
                                 hi.count=NULL, hi.perc=99.9, suffix = "filt")
-myobj_24h.fem.5X=filterByCoverage(myobj_24h.fem,lo.count=5,lo.perc=NULL,
+myobj_24h.fem.5X=filterByCoverage(myobj.24h.fem,lo.count=5,lo.perc=NULL,
                                     hi.count=NULL, hi.perc=99.9, suffix = "filt")
-myobj_24h.mal.5X=filterByCoverage(myobj_24h.mal,lo.count=5,lo.perc=NULL,
+myobj_24h.mal.5X=filterByCoverage(myobj.24h.mal,lo.count=5,lo.perc=NULL,
                                     hi.count=NULL, hi.perc=99.9, suffix = "filt")
 
 #normalize by median coverage

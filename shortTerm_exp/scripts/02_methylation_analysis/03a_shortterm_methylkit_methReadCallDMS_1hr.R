@@ -89,17 +89,17 @@ myobj.1h.mal=methRead(file.list.1h.mal,
 )
 
 #filter out sites in the 99.9th percentile of coverage (PCR bias) 
-myobj.1h.5X=filterByCoverage(myobj_1h,lo.count=5,lo.perc=NULL,
+myobj.1h.5X=filterByCoverage(myobj.1h,lo.count=5,lo.perc=NULL,
                                hi.count=NULL, hi.perc=99.9, suffix = "5X")
-myobj.1h.fem.5X=filterByCoverage(myobj_1h.fem,lo.count=5,lo.perc=NULL,
+myobj.1h.fem.5X=filterByCoverage(myobj.1h.fem,lo.count=5,lo.perc=NULL,
                                    hi.count=NULL, hi.perc=99.9, suffix = "5X")
-myobj.1h.mal.5X=filterByCoverage(myobj_1h.mal,lo.count=5,lo.perc=NULL,
+myobj.1h.mal.5X=filterByCoverage(myobj.1h.mal,lo.count=5,lo.perc=NULL,
                                    hi.count=NULL, hi.perc=99.9, suffix = "5X")
 
 #normalize by median coverage
-norm.myob.1h.5X=normalizeCoverage(myobj_1h.5X, method="median")
-norm.myob.1h.fem.5X=normalizeCoverage(myobj_1h.fem.5X, method="median")
-norm.myob.1h.mal.5X=normalizeCoverage(myobj_1h.mal.5X, method="median")
+norm.myob.1h.5X=normalizeCoverage(myobj.1h.5X, method="median")
+norm.myob.1h.fem.5X=normalizeCoverage(myobj.1h.fem.5X, method="median")
+norm.myob.1h.mal.5X=normalizeCoverage(myobj.1h.mal.5X, method="median")
 
 #prepare GRanges object for chromosomes to keep 
 #to remove unplaced scaffolds and sex chromosomes
