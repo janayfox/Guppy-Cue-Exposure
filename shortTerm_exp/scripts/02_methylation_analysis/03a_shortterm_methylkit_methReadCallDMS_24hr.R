@@ -1,0 +1,215 @@
+#####################################################################################################################
+### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation
+### Author: Janay Fox
+### R script
+#####################################################################################################################
+
+## Set up  ##
+#install packages 
+#install.packages("S4Vectors")
+#install.packages("IRanges")
+#install.packages("GenomicRanges")
+#install.packages("methylKit")
+
+#load packages 
+library("S4Vectors", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
+library("IRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
+library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
+library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
+
+setwd("/scratch/janayfox/guppyWGBS_shortterm/24h/")
+
+## Prepare tabix files
+#create lists of file locations
+file.list.24h = list("../mergedCov/st/ST2AC15F.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2AC15M.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2AC4F.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2AC4M.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2AC8F.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2AC8M.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2C15F.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2C15M.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2C4F.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2C4M.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2C8F.CpG_report.txt.gz",
+                     "../mergedCov/st/ST2C8M.CpG_report.txt.gz")
+
+file.list.24h.fem = list("../mergedCov/st/ST2AC15F.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2AC4F.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2AC8F.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2C15F.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2C4F.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2C8F.CpG_report.txt.gz")
+
+file.list.24h.mal = list("../mergedCov/st/ST2AC15M.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2AC4M.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2AC8M.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2C15M.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2C4M.CpG_report.txt.gz",
+                         "../mergedCov/st/ST2C8M.CpG_report.txt.gz")
+
+#create tabix file
+myobj_24h=methRead(file.list.24h,
+                   sample.id=list("ST2AC15F","ST2AC15M","ST2AC4F","ST2AC4M","ST2AC8F","ST2AC8M",
+                                  "ST2C15F","ST2C15M","ST2C4F","ST2C4M","ST2C8F","ST2C8M"),
+                   assembly="guppyWGBS_shortterm",
+                   pipeline="bismarkCoverage",
+                   treatment=c(1,1,1,1,1,1,
+                               0,0,0,0,0,0),
+                   context="CpG",
+                   mincov = 1,
+                   dbtype = "tabix",
+                   dbdir = "shortterm_24h_DB"
+)
+
+myobj_24h.fem=methRead(file.list.24h.fem,
+                       sample.id=list("ST2AC15F","ST2AC4F","ST2AC8F",
+                                      "ST2C15F","ST2C4F","ST2C8F"),
+                       assembly="guppyWGBS_shortterm",
+                       pipeline="bismarkCoverage",
+                       treatment=c(1,1,1,
+                                   0,0,0),
+                       context="CpG",
+                       mincov = 1,
+                       dbtype = "tabix",
+                       dbdir = "shortterm_24hF_DB"
+)
+
+myobj_24h.mal=methRead(file.list.24h.mal,
+                       sample.id=list("ST2AC15M","ST2AC4M","ST2AC8M",
+                                      "ST2C15M","ST2C4M","ST2C8M"),
+                       assembly="guppyWGBS_shortterm",
+                       pipeline="bismarkCoverage",
+                       treatment=c(1,1,1,
+                                   0,0,0),
+                       context="CpG",
+                       mincov = 1,
+                       dbtype = "tabix",
+                       dbdir = "shortterm_24hM_DB"
+)
+
+#filter out sites in the 99.9th percentile of coverage (PCR bias) 
+myobj.24h.5X=filterByCoverage(myobj_24h,lo.count=5,lo.perc=NULL,
+                                hi.count=NULL, hi.perc=99.9, suffix = "filt")
+myobj_24h.fem.5X=filterByCoverage(myobj_24h.fem,lo.count=5,lo.perc=NULL,
+                                    hi.count=NULL, hi.perc=99.9, suffix = "filt")
+myobj_24h.mal.5X=filterByCoverage(myobj_24h.mal,lo.count=5,lo.perc=NULL,
+                                    hi.count=NULL, hi.perc=99.9, suffix = "filt")
+
+#normalize by median coverage
+norm.myobj.24h.5X=normalizeCoverage(myobj.24h.5X, method="median")
+norm.myobj.24h.fem.5X=normalizeCoverage(myobj.24h.fem.5X, method="median")
+norm.myobj.24h.mal.5X=normalizeCoverage(myobj.24h.mal.5X, method="median")
+
+## Remove sex chromosomes and unplacex scaffolds ##
+#prepare GRanges object for chromosomes to keep 
+keep.chr.noXY <- GRanges(seqnames = c("NC_024331.1", "NC_024332.1", "NC_024333.1", "NC_024334.1", "NC_024335.1",
+                                      "NC_024336.1", "NC_024337.1", "NC_024338.1", "NC_024339.1", "NC_024340.1",
+                                      "NC_024341.1", "NC_024343.1", "NC_024344.1", "NC_024345.1", "NC_024346.1",
+                                      "NC_024347.1", "NC_024348.1", "NC_024349.1", "NC_024350.1", "NC_024351.1",
+                                      "NC_024352.1", "NC_024353.1"),
+                         ranges=IRanges(start = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),
+                                        end = c(34115677,46286544,35265442,31497199,33908744,
+                                                31529174,31413364,27946405,34117797,32819797,
+                                                28875558,33524197,28338960,30644713,33199742,
+                                                30788009,22026651,28470737,26385442,25773841,
+                                                25248790,18084596)),
+                         strand="*")
+
+seqlengths(keep.chr.noXY)=c(34115677,46286544,35265442,31497199,33908744,
+                            31529174,31413364,27946405,34117797,32819797,
+                            28875558,33524197,28338960,30644713,33199742,
+                            30788009,22026651,28470737,26385442,25773841,
+                            25248790,18084596)
+
+#to remove unplaced scaffolds
+keep.chr.allchr <- GRanges(seqnames = c("NC_024331.1", "NC_024332.1", "NC_024333.1", "NC_024334.1", "NC_024335.1",
+                                        "NC_024336.1", "NC_024337.1", "NC_024338.1", "NC_024339.1", "NC_024340.1",
+                                        "NC_024341.1", "NC_024342.1", "NC_024343.1", "NC_024344.1", "NC_024345.1", "NC_024346.1",
+                                        "NC_024347.1", "NC_024348.1", "NC_024349.1", "NC_024350.1", "NC_024351.1",
+                                        "NC_024352.1", "NC_024353.1"),
+                           ranges=IRanges(start = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),
+                                          end = c(34115677,46286544,35265442,31497199,33908744,
+                                                  31529174,31413364,27946405,34117797,32819797,
+                                                  28875558,26439574,33524197,28338960,30644713,33199742,
+                                                  30788009,22026651,28470737,26385442,25773841,
+                                                  25248790,18084596)),
+                           strand="*")
+
+seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
+                              31529174,31413364,27946405,34117797,32819797,
+                              28875558,26439574,33524197,28338960,30644713,33199742,
+                              30788009,22026651,28470737,26385442,25773841,
+                              25248790,18084596)
+
+#remove sex chr (LG12) and unplaced scaffolds
+myobj.24h.subset <- selectByOverlap(norm.myobj.24h.5X, keep.chr.noXY)
+myobj.24h.fem.subset <- selectByOverlap(norm.myobj.24h.fem.5X, keep.chr.allchr)
+myobj.24h.mal.subset <- selectByOverlap(norm.myobj.24h.mal.5X, keep.chr.allchr)
+
+## Find DMS ##
+#unite sites 
+DMS.meth.24h.5X=unite(myobj.24h.subset, destrand=TRUE, min.per.group = 6L, save.db = TRUE, suffix = "DMS_unite_24h")
+DMS.meth.24h.fem.5X=unite(myobj.24h.fem.subset, destrand=TRUE, min.per.group = 3L, save.db = TRUE, suffix = "DMS_unite_24h_fem")
+DMS.meth.24h.mal.5X=unite(myobj.24h.mal.subset, destrand=TRUE, min.per.group = 3L, save.db = TRUE, suffix = "DMS_unite_24h_mal")
+
+#Check number of CpGs 
+DMS.meth.24h.5X
+DMS.meth.24h.fem.5X
+DMS.meth.24h.mal.5X
+
+#enter covariates 
+covariates.24h <- data.frame(tank=c("AC15","AC15","AC4","AC4","AC8","AC8",
+                                    "C15","C15","C4","C4","C8","C8"), 
+                             sex=c("F","M","F","M","F","M",
+                                   "F","M","F","M","F","M"), 
+                             stringsAsFactors = TRUE)
+
+#calculate differential methylation
+DMS.myDiff.24h.5X <- calculateDiffMeth(DMS.meth.24h.5X, covariates=covariates.24h, mc.cores=1, save.db = TRUE, suffix = "DMS_myDiff_24h")
+DMS.myDiff.24h.fem.5X <- calculateDiffMeth(DMS.meth.24h.fem.5X, mc.cores=1, save.db = TRUE, suffix = "DMS_myDiff_24h_fem")
+DMS.myDiff.24h.mal.5X <- calculateDiffMeth(DMS.meth.24h.mal.5X, mc.cores=1, save.db = TRUE, suffix = "DMS_myDiff_24h_mal")
+
+#call significant methylation
+DMS.diffMeth.24h.5X <- getMethylDiff(DMS.myDiff.24h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_24h")
+DMS.diffMeth.24h.fem.5X <- getMethylDiff(DMS.myDiff.24h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_24h.fem")
+DMS.diffMeth.24h.mal.5X <- getMethylDiff(DMS.myDiff.24h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_24h.mal")
+
+#Check number of significant DMS
+DMS.diffMeth.24h.5X
+DMS.diffMeth.24h.fem.5X
+DMS.diffMeth.24h.mal.5X
+
+# Get meth per chromosome
+DMS.diffMethChr.24h.5X <- diffMethPerChr(DMS.myDiff.24h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
+DMS.diffMethChr.24h.5X
+DMS.diffMethChr.24h.fem.5X <- diffMethPerChr(DMS.myDiff.24h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
+DMS.diffMethChr.24h.fem.5X
+DMS.diffMethChr.24h.mal.5X <- diffMethPerChr(DMS.myDiff.24h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
+DMS.diffMethChr.24h.mal.5X
+
+## Save R objects ##
+saveRDS(myobj.24h.subset, file = "./shortterm_myObj_24h_5X.RDS")
+saveRDS(myobj.24h.fem.subset, file = "./shortterm_myObj_24h_fem_5X.RDS")
+saveRDS(myobj.24h.mal.subset, file = "./shortterm_myObj_24h_mal_5X.RDS")
+
+saveRDS(DMS.meth.24h.5X, file = "./shortterm_DMSmeth_24h_5X.RDS")
+saveRDS(DMS.meth.24h.fem.5X, file = "./shortterm_DMSmeth_24h_fem_5X.RDS")
+saveRDS(DMS.meth.24h.mal.5X, file = "./shortterm_DMSmeth_24h_mal_5X.RDS")
+
+saveRDS(DMS.myDiff.24h.5X, file = "./shortterm_DMSmyDiff_24h_5X.RDS")
+saveRDS(DMS.myDiff.24h.fem.5X, file = "./shortterm_DMSmyDiff_24h_fem_5X.RDS")
+saveRDS(DMS.myDiff.24h.mal.5X, file = "./shortterm_DMSmyDiff_24h_mal_5X.RDS")
+
+saveRDS(DMS.diffMeth.24h.5X, file = "./shortterm_DMSDiffMeth_24h_5X.RDS")
+saveRDS(DMS.diffMeth.24h.fem.5X, file = "./shortterm_DMSDiffMeth_24h_fem_5X.RDS")
+saveRDS(DMS.diffMeth.24h.mal.5X, file = "./shortterm_DMSDiffMeth_24h_mal_5X.RDS")
+
+saveRDS(getData(DMS.diffMeth.24h.5X), file = "./shortterm_DMSDiffMeth_24h_5X_getData.RDS")
+saveRDS(getData(DMS.diffMeth.24h.fem.5X), file = "./shortterm_DMSDiffMeth_24h_fem_5X_getData.RDS")
+saveRDS(getData(DMS.diffMeth.24h.mal.5X), file = "./shortterm_DMSDiffMeth_24h_mal_5X_getData.RDS")
+
+saveRDS(getData(DMS.myDiff.24h.5X), file = "./shortterm_DMSmyDiff_24h_5X_getData.RDS")
+saveRDS(getData(DMS.myDiff.24h.fem.5X), file = "./shortterm_DMSmyDiff_24h_fem_5X_getData.RDS")
+saveRDS(getData(DMS.myDiff.24h.mal.5X), file = "./shortterm_DMSmyDiff_24h_mal_5X_getData.RDS")
+
