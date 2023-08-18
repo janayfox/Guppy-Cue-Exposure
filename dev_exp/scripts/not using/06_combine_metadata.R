@@ -17,8 +17,8 @@ library(dplyr)
 library(tidyr)
 
 #read in data files
-of.data <- read_csv(here("gup_cue_exp", "data", "metadata", "of_metadata.csv"))
-sh.data <- read_csv(here("gup_cue_exp", "data", "metadata", "sh_metadata.csv"))
+of.data <- read_csv(here("gup_cue_exp", "dev_exp", "data", "metadata", "of_metadata.csv"))
+sh.data <- read_csv(here("gup_cue_exp", "dev_exp", "data", "metadata", "sh_metadata.csv"))
 
 cue.subdiff.5min.data <- read_csv(here("gup_cue_exp", "data", "metadata", "cue_diffsub_fivemin_metadata.csv"))
 cue.subdiff.2min.data <- read_csv(here("gup_cue_exp", "data", "metadata", "cue_diffsub_twomin_metadata.csv"))
@@ -112,7 +112,10 @@ dev.metadata$fish_ID <- paste("D", dev.metadata$fish_ID, sep = "")
 dev.metadata$tank <- paste("D", dev.metadata$tank, sep = "")
 
 #remove unnecassry columns 
-dev.metadata <- dev.metadata[-c(6:7,9:10, 13,16,23:35)]
+dev.metadata <- dev.metadata[-c(6:7,9:10,13,16,23:35)]
+
+#remove double DAC7F3 row 
+dev.metadata <- dev.metadata[-33,]
 
 ## Export data ##
-write_csv(dev.metadata, file(here("gup_cue_exp", "data", "clean", "clean_developmental_metadata.csv")))
+write_csv(dev.metadata, file(here("gup_cue_exp", "dev_exp", "data", "clean", "clean_developmental_metadata.csv")))

@@ -34,7 +34,7 @@ library(MuMIn)
 library(DHARMa)
 
 #read data files
-data <- read_csv(here("gup_cue_exp", "data", "clean", "clean_openfield.csv"))
+data <- read_csv("./dev_exp/data/clean/clean_openfield.csv")
 
 #convert character columns to factors
 data[sapply(data, is.character)] <- lapply(data[sapply(data, is.character)], as.factor)
@@ -72,21 +72,52 @@ frozen.plot <-data %>% ggplot(aes(x=cue, y=frozen_s, fill=sex)) +
   scale_fill_discrete(labels = c("Females", "Males"))
 frozen.plot
 
+#scatterplots between variables 
+dist.shelt.scatterplot <-data %>% ggplot(aes(x=dist_cm, y=time_shelter_s)) + geom_point() + 
+                                           labs(y="Distance Travelled (cm)", x="Time Spent in Shelter (s)") + 
+                                           theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
+dist.shelt.scatterplot
+
+dist.frozen.scatterplot <-data %>% ggplot(aes(x=dist_cm, y=frozen_s)) + geom_point() + 
+                                           labs(y="Distance Travelled (cm)", x="Time Spent in Frozen (s)") + 
+                                           theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
+dist.frozen.scatterplot
+
+dist.edge.scatterplot <-data %>% ggplot(aes(x=dist_cm, y=time_outer_s)) + geom_point() + 
+                                        labs(y="Distance Travelled (cm)", x="Time Spent in Outer Edge (s)") + 
+                                        theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
+dist.edge.scatterplot
+
+shelt.frozen.scatterplot <-data %>% ggplot(aes(x=time_shelter_s, y=frozen_s)) + geom_point() + 
+                                            labs(y="Time spent in shelter (s)", x="Time spent frozen (s)") + 
+                                            theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
+shelt.frozen.scatterplot
+
+shelt.edge.scatterplot <-data %>% ggplot(aes(x=time_shelter_s, y=time_outer_s)) + geom_point() + 
+                                            labs(y="Time spent in shelter (s)", x="Time spent in outer edge (s)") + 
+                                            theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
+shelt.edge.scatterplot
+
+frozen.edge.scatterplot <-data %>% ggplot(aes(x=frozen_s, y=time_outer_s)) + geom_point() + 
+                                        labs(y="Time spent frozen (s)", x="Time spent in outer edge (s)") + 
+                                        theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
+frozen.edge.scatterplot
+
+#check for correlation between variables 
+cor.test(data$dist_cm, data$time_shelter_s)
+cor.test(data$dist_cm, data$frozen_s)
+cor.test(data$dist_cm, data$time_outer_s)
+cor.test(data$time_shelter_s, data$frozen_s)
+cor.test(data$time_shelter_s, data$time_outer_s)
+cor.test(data$frozen_s, data$time_outer_s)
+
 ### Run PCAs ###
-
-#subset data into sex specific datasets
-fem.data <- subset(data, sex == "f")
-mal.data <- subset(data, sex == "m")
-
 #run PCA
 #for all samples
 of.pca <- prcomp(data[,c(5,8,11,14)], scale = TRUE)
 of.eig <- get_eigenvalue(of.pca) #get eignenvalues
 of.var <- get_pca_var(of.pca) #get variance
 of.var$contrib
-cue.groups <- as.factor(data$cue) #group by cue
-sex.groups <- as.factor(data$sex) #also want to see groups by sex
-time.groups <- as.factor(data$time) #check for grouping by time of behavioural assay
 
 #plot using cue groups
 cue.pca.plot <- fviz_pca_ind(of.pca,
@@ -134,7 +165,7 @@ of.pca.var.plot
 data <- cbind(data, of.pca$x[,1:3])
 
 ### run LMMs ###
-wt.data <- read_csv(here("gup_cue_exp", "data", "clean", "dev_size.csv")) #import weight data 
+wt.data <- read_csv(here("gup_cue_exp", "dev_exp", "data", "clean", "dev_size.csv")) #import weight data 
 data <- merge(data, wt.data[,1:4], by = "ID") #merge onto dataset
 
 #check for impact of cue on weight
@@ -331,5 +362,5 @@ ggsave(here("gup_cue_exp","plots", "openfield", "of_cue_pca_plot.jpg"), plot = c
 ggsave(here("gup_cue_exp","plots", "openfield", "of_sex_pca_plot.jpg"), plot = sex.pca.plot)
 ggsave(here("gup_cue_exp","plots", "openfield", "of_pca_var_plot.jpg"), plot = of.pca.var.plot)
 
-write_csv(data, file(here("gup_cue_exp", "data", "metadata", "of_metadata.csv")))
+write_csv(data, file(here("gup_cue_exp", "dev_exp", "data", "metadata", "of_metadata.csv")))
 

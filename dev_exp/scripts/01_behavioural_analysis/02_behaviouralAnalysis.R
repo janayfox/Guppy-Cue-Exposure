@@ -65,7 +65,7 @@ dist.plot <-of.data %>% ggplot(aes(x=cue, y=dist_cm, fill=sex)) + theme_bw() +
   geom_boxplot() + labs(y="Distance travelled (cm)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
   theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "#9d4edd")) 
+  scale_fill_manual(name = "Sex", values = c("f" = "#FFE17B", "#9d4edd")) 
 dist.plot
 
 #Time in shelter plot
@@ -195,7 +195,7 @@ car::Anova(dist.lmm, type = 3)
 ranova(dist.lmm)
 
 #calculate partial R2 
-r2beta(dist.lmm, partial = TRUE,  method = 'sgv')
+dist.R2 <- r2beta(dist.lmm, partial = TRUE,  method = 'sgv')
 
 # time frozen #
 #run LMM
@@ -228,13 +228,19 @@ summary(frozen.lmm)
 
 #calculate stats with car package 
 car::Anova(frozen.lmm, type = 3)
-car::Anova(frozen.lmm, type = 2)
+
+#rerun without interactions 
+frozen.lmm.2 <- lmer(frozen_s ~ cue + sex + weight_g + (1|tank), data = of.data, REML = TRUE)
+
+#interpret results 
+summary(frozen.lmm.2)
+car::Anova(frozen.lmm.2, type = 2)
 
 #calulate signifcance of random effects 
-ranova(frozen.lmm)
+ranova(frozen.lmm.2)
 
 #calculate partial R2 
-r2beta(frozen.lmm, partial = TRUE,  method = 'sgv')
+frozen.R2 <- r2beta(frozen.lmm.2, partial = TRUE,  method = 'sgv')
 
 #for time in outer edge
 outer.lmm <- lmer(time_outer_s ~ cue * sex * weight_g + (1|tank), data = of.data)
@@ -266,13 +272,19 @@ summary(outer.lmm)
 
 #calculate stats with car package 
 car::Anova(outer.lmm, type = 3)
-car::Anova(outer.lmm, type = 2)
+
+#rerun without interactions 
+outer.lmm.2 <- lmer(time_outer_s ~ cue + sex + weight_g + (1|tank), data = of.data)
+
+#interpret results 
+summary(outer.lmm.2)
+car::Anova(outer.lmm.2, type = 2)
 
 #calulate signifcance of random effects 
-ranova(outer.lmm)
+ranova(outer.lmm.2)
 
 #calculate partial R2 
-r2beta(outer.lmm, partial = TRUE,  method = 'sgv')
+outer.R2 <- r2beta(outer.lmm.2, partial = TRUE,  method = 'sgv')
 
 #for time in shelter edge
 shelter.lmm <- lmer(time_shelter_s ~ cue * sex * weight_g + (1|tank), data = of.data)
@@ -304,13 +316,19 @@ summary(shelter.lmm)
 
 #calculate stats with car package 
 car::Anova(shelter.lmm, type = 3)
-car::Anova(shelter.lmm, type = 2)
+
+#rerun without interactions 
+shelter.lmm.2 <- lmer(time_shelter_s ~ cue + sex + weight_g + (1|tank), data = of.data)
+
+#interpret results 
+summary(shelter.lmm.2)
+car::Anova(shelter.lmm.2, type = 2)
 
 #calulate signifcance of random effects 
-ranova(shelter.lmm)
+ranova(shelter.lmm.2)
 
 #calculate partial R2 
-r2beta(shelter.lmm, partial = TRUE,  method = 'sgv')
+shelter.R2 <- r2beta(shelter.lmm.2, partial = TRUE,  method = 'sgv')
 
 ## Analysis of shoaling test data ##
 #calculate time differences for shoal vs empty container
@@ -371,13 +389,19 @@ summary(tight.lmm)
 
 #calculate stats with car package 
 car::Anova(tight.lmm, type = 3)
-car::Anova(tight.lmm, type = 2)
+
+#rerun without interactions 
+tight.lmm.2 <- lmer(tight_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
+
+#interpret results 
+summary(tight.lmm.2)
+car::Anova(tight.lmm.2, type = 2)
 
 #calulate signifcance of random effects 
-ranova(tight.lmm)
+ranova(tight.lmm.2)
 
 #calculate partial R2 
-r2beta(tight.lmm, partial = TRUE,  method = 'sgv')
+tight.R2 <- r2beta(tight.lmm.2, partial = TRUE,  method = 'sgv')
 
 # loose shoaling #
 #run lmm
@@ -405,13 +429,19 @@ summary(loose.lmm)
 
 #calculate stats with car package 
 car::Anova(loose.lmm, type = 3)
-car::Anova(loose.lmm, type = 2)
+
+#rerun without interactions 
+loose.lmm.2 <- lmer(lse_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
+
+#interpret results 
+summary(loose.lmm.2)
+car::Anova(loose.lmm.2, type = 2)
 
 #calulate signifcance of random effects 
-ranova(loose.lmm)
+ranova(loose.lmm.2)
 
 #calculate partial R2 
-r2beta(loose.lmm, partial = TRUE,  method = 'sgv')
+loose.R2 <- r2beta(loose.lmm.2, partial = TRUE,  method = 'sgv')
 
 ## Make panels ##
 of.panel <- ggarrange(dist.plot, frozen.plot, shelt.plot, edge.plot, labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
