@@ -30,104 +30,88 @@ library(ggpubr)
 library(RLRsim)
 
 #read data files
-fivemin.cue.data <- read_csv(here("gup_cue_exp", "data", "clean", "clean_cue_fivemin.csv"))
-twomin.cue.data <- read_csv(here("gup_cue_exp", "data", "clean", "clean_cue_twomin.csv"))
+cue.data <- read_csv("./shortTerm_exp/data/clean/clean_cue_fivemin.csv")
+
+##Prepare data##
+#replace NAs with 0s 
+cue.data[is.na(cue.data)] <- 0
 
 #convert character columns to factors
-fivemin.cue.data[sapply(fivemin.cue.data, is.character)] <- lapply(fivemin.cue.data[sapply(fivemin.cue.data, is.character)], as.factor)
-twomin.cue.data[sapply(twomin.cue.data, is.character)] <- lapply(twomin.cue.data[sapply(twomin.cue.data, is.character)], as.factor)
+cue.data[sapply(cue.data, is.character)] <- lapply(cue.data[sapply(cue.data, is.character)], as.factor)
 
 #order factors
-fivemin.cue.data$time <- factor(fivemin.cue.data$time, levels=c('before', 'after'))
-twomin.cue.data$time <- factor(twomin.cue.data$time, levels=c('before', 'after'))
+cue.data$time <- factor(cue.data$time, levels=c('before', 'after'))
 
 #remove tank that doesnt have after data 
-fivemin.cue.data <- subset(fivemin.cue.data, tank != "ST2AC13")
-twomin.cue.data <- subset(twomin.cue.data, tank != "ST2AC13")
+cue.data <- subset(cue.data, tank != "ST2AC13")
 
 ## Calculate behavioural measurements ##
 #calculate time fish spent at bottom of tank (in Q5 or Q6)
-fivemin.cue.data$bottom_s <- (fivemin.cue.data$Q5_s + fivemin.cue.data$Q6_s)
-twomin.cue.data$bottom_s <- (twomin.cue.data$Q5_s + twomin.cue.data$Q6_s)
+cue.data$bottom_s <- (cue.data$Q5_s + cue.data$Q6_s)
 
-#calculate substate use (time at bottom of tank minus time spent foraging)
-fivemin.cue.data$subuse_s <- (fivemin.cue.data$bottom_s - fivemin.cue.data$feeding_s)
-twomin.cue.data$subuse_s <- (twomin.cue.data$bottom_s - twomin.cue.data$feeding_s)
+#calculate substrate use (time at bottom of tank minus time spent foraging)
+cue.data$subuse_s <- (cue.data$bottom_s - cue.data$feeding_s)
 
 #convert substrate use to a proportion
-fivemin.cue.data$subuse_prop <- fivemin.cue.data$subuse_s/fivemin.cue.data$length_obs_s
-twomin.cue.data$subuse_prop <- twomin.cue.data$subuse_s/twomin.cue.data$length_obs_s
+cue.data$subuse_prop <- cue.data$subuse_s/cue.data$length_obs_s
 
 #convert time frozen to proportion
-fivemin.cue.data$frozen_prop <- fivemin.cue.data$frozen_s/fivemin.cue.data$length_obs_s
-twomin.cue.data$frozen_prop <- twomin.cue.data$frozen_s/twomin.cue.data$length_obs_s
+cue.data$frozen_prop <- cue.data$frozen_s/cue.data$length_obs_s
 
 #combine mating data 
-fivemin.cue.data$matbehav_s <- fivemin.cue.data$sig_s + fivemin.cue.data$chasing_s
-twomin.cue.data$matbehav_s <- twomin.cue.data$sig_s + twomin.cue.data$chasing_s
+cue.data$matbehav_s <- cue.data$sig_s + cue.data$chasing_s
+
+#convert mating data to proportion
+cue.data$matbehav_prop <- cue.data$matbehav_s/cue.data$length_obs_s
 
 #calculate change in substrate use
-fivemin.diff.sub <- fivemin.cue.data %>% dcast(fish_ID ~ time, value.var = "subuse_prop", fill=0) %>%
+diff.sub <- cue.data %>% dcast(fish_ID ~ time, value.var = "subuse_prop", fill=0) %>%
   mutate(diff_sub_use = after - before) %>% select(fish_ID, diff_sub_use)
 
-twomin.diff.sub <- twomin.cue.data %>% dcast(fish_ID ~ time, value.var = "subuse_prop", fill=0) %>%
-  mutate(diff_sub_use = after - before) %>% select(fish_ID, diff_sub_use)
+#calculate change in mating behaviour
+diff.mating <- cue.data %>% dcast(fish_ID ~ time, value.var = "matbehav_prop", fill=0) %>%
+  mutate(diff_mating = after - before) %>% select(fish_ID, diff_mating)
 
-#need to add cue and back onto diff subuse dataframe 
-fivemin.diff.sub <- distinct(merge(fivemin.diff.sub, fivemin.cue.data[, c("fish_ID", "tank", "cue", "sex")], by = "fish_ID")) 
-twomin.diff.sub <- distinct(merge(twomin.diff.sub, fivemin.cue.data[, c("fish_ID", "tank", "cue", "sex")], by = "fish_ID")) 
+#calculate total mating behaviour and total trial time
+total.mating <- cue.data %>% dcast(fish_ID ~ time, value.var = "matbehav_s", fill=0) %>%
+  mutate(total_mating = after + before) %>% select(fish_ID, total_mating)
+
+total.trial <- cue.data %>% dcast(fish_ID ~ time, value.var = "length_obs_s", fill=0) %>%
+  mutate(total_trial = after + before) %>% select(fish_ID, total_trial)
+  
+#merge mating dataframes
+mating.data <- merge(diff.mating, total.mating, by = "fish_ID")
+mating.data <- merge(mating.data, total.trial, by = "fish_ID")
+
+#need to add cue and back onto new dataframes
+diff.sub <- distinct(merge(diff.sub, cue.data[, c("fish_ID", "tank", "cue", "sex")], by = "fish_ID")) 
+mating.data <- distinct(merge(mating.data, cue.data[, c("fish_ID", "tank", "cue", "sex")], by = "fish_ID")) 
+
+#remove females from mating data 
+mating.data <- subset(mating.data, sex == "male")
+
+#calculate prop total mating 
+mating.data$total_matingProp <- mating.data$total_mating/mating.data$total_trial
 
 ## Make plots ##
 #boxplot of proportion of substrate use
-##if I want to use these plots I will have to find a way to put lines between points overtop of the boxplots
-fivemin.prop.plot <- fivemin.cue.data %>% ggplot(aes(x=cue, y=subuse_prop, fill=time)) + 
-  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + 
+subuse.prop.plot <- cue.data %>% ggplot(aes(x=time, y=subuse_prop, fill=time)) + 
+  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + geom_point() + geom_line(aes(group = fish_ID)) +
   scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + 
   theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  scale_fill_discrete(labels = c("Before cue", "After cue")) 
-
-twomin.prop.plot <- twomin.cue.data %>% ggplot(aes(x=cue, y=subuse_prop, fill=time)) + 
-  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + 
-  scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  scale_fill_discrete(labels = c("Before cue", "After cue")) 
-
-#make sex specific
-fem.fivemin.prop.plot <- subset(fivemin.cue.data, sex == "female") %>% ggplot(aes(x=cue, y=subuse_prop, fill=time)) + 
-  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + 
-  scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  scale_fill_discrete(labels = c("Before cue", "After cue")) 
-
-mal.fivemin.prop.plot <- subset(fivemin.cue.data, sex == "male") %>% ggplot(aes(x=cue, y=subuse_prop, fill=time)) + 
-  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + 
-  scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  scale_fill_discrete(labels = c("Before cue", "After cue")) 
-
-fem.twomin.prop.plot <- subset(twomin.cue.data, sex == "female") %>% ggplot(aes(x=cue, y=subuse_prop, fill=time)) + 
-  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + 
-  scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  scale_fill_discrete(labels = c("Before cue", "After cue")) 
-
-mal.twomin.prop.plot <- subset(twomin.cue.data, sex == "male") %>% ggplot(aes(x=cue, y=subuse_prop, fill=time)) + 
-  geom_boxplot() + labs(y="Proportion of trial spent near substrate", x="Cue") + 
-  scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  scale_fill_discrete(labels = c("Before cue", "After cue")) 
+  scale_fill_discrete(labels = c("Before cue", "After cue")) + facet_wrap(~ cue)
+#messy so use change in sub use plot 
 
 #boxplot of change in substrate use
 #across all tanks
-fivemin.subusediff.plot <- fivemin.diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use)) + 
-  geom_boxplot() + labs(y="Difference in substrate use", x="Cue") + 
+subusediff.plot <- diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use)) + theme_bw() +
+  geom_boxplot(fill = c("#E14D2A", "#31C6D4")) + labs(y="Difference in substrate use", x="Cue") +
   scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
   theme(legend.position = "none", axis.text = element_text(size=12), axis.title = element_text(size=15)) 
 
-twomin.subusediff.plot <- twomin.diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use)) + 
-  geom_boxplot() + labs(y="Difference in substrate use", x="Cue") + 
-  scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
-  theme(legend.position = "none", axis.text = element_text(size=12), axis.title = element_text(size=15))
+subusediff.plot
+
+ggsave("subuseDiff_plot.tiff", plot = subusediff.plot, device = "tiff", width = 4, height = 4, units = "in")
 
 #with p-val
 pval.fivemin.subusediff.plot <- fivemin.diff.sub %>% ggplot(aes(x=sex, y=diff_sub_use, fill=cue)) + 
@@ -145,102 +129,58 @@ pval.twomin.subusediff.plot <- twomin.diff.sub %>% ggplot(aes(x=sex, y=diff_sub_
   scale_fill_discrete(name = "Cue", labels = c("Alarm","Control"))
 
 #per tank
-per.fivemin.subusediff.plot <- fivemin.diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use, fill=tank)) + 
+tank.subusediff.plot <- diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use, fill=tank)) + 
   geom_boxplot() + labs(y="Difference in substrate use", x="Cue") + 
   scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
   theme(legend.position = "none", axis.text = element_text(size=12), axis.title = element_text(size=15))
 
-per.twomin.subusediff.plot <- twomin.diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use, fill=tank)) + 
-   geom_boxplot() + labs(y="Difference in substrate use", x="Cue") + 
-   scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
-   theme(legend.position = "none", axis.text = element_text(size=12), axis.title = element_text(size=15))
-
 #per tank look at mating behaviour
-per.fivemin.matbehav.plot <- fivemin.cue.data %>% ggplot(aes(x=cue, y=matbehav_s, fill=tank)) + 
-  geom_boxplot() + labs(y="Time male spent engaging in mating behaviour (s)", x="Cue") + 
+tank.matbehav.plot <- mating.data %>% ggplot(aes(x=cue, y=total_matingProp)) + 
+  geom_boxplot() + labs(y="Proportion of time with mating attempts", x="Cue") + 
   scale_x_discrete(labels=c("alarm" = "Alarm cue", "control" = "Control cue")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
   theme(legend.position = "none", axis.text = element_text(size=12), axis.title = element_text(size=15))
-
-## Export plots and data ##
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "fivemin.prop.plot.jpg"), plot = fivemin.prop.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "twomin.prop.plot.jpg"), plot = twomin.prop.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "fem.fivemin.prop.plot.jpg"), plot = fem.fivemin.prop.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "mal.fivemin.prop.plot.jpg"), plot = mal.fivemin.prop.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "fem.twomin.prop.plot.jpg"), plot = fem.twomin.prop.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "mal.twomin.prop.plot.jpg"), plot = fem.twomin.prop.plot)
-
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "all.tank.fivemin.subusediff.plot.jpg"), plot = fivemin.subusediff.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "all.tank.twomin.subusediff.plot.jpg"), plot = twomin.subusediff.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "per.tank.fivemin.subusediff.plot.jpg"), plot = per.fivemin.subusediff.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "per.tank.twomin.subusediff.plot.jpg"), plot = per.twomin.subusediff.plot)
-
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "pval.tank.fivemin.subusediff.plot.jpg"), plot = pval.fivemin.subusediff.plot)
-ggsave(here("gup_cue_exp", "plots", "cue_exp", "pval.tank.twomin.subusediff.plot.jpg"), plot = pval.twomin.subusediff.plot)
-
-write_csv(fivemin.diff.sub, file(here("gup_cue_exp", "data", "metadata", "cue_diffsub_fivemin_metadata.csv")))
-write_csv(twomin.diff.sub, file(here("gup_cue_exp", "data", "metadata", "cue_diffsub_twomin_metadata.csv")))
-
-write_csv(fivemin.cue.data, file(here("gup_cue_exp", "data", "metadata", "cue_fivemin_metadata.csv")))
-write_csv(twomin.cue.data, file(here("gup_cue_exp", "data", "metadata", "cue_twomin_metadata.csv")))
 
 ## Statistical Analyses ##
 #t-test on change in sub use between sexes within cues to see if there is any reason to include sex in analysis 
 #test assumption of equal variance 
-var.test(diff_sub_use ~ sex, subset(fivemin.diff.sub, cue == "alarm"))
-var.test(diff_sub_use ~ sex, subset(fivemin.diff.sub, cue == "control"))
-var.test(diff_sub_use ~ sex, subset(twomin.diff.sub, cue == "alarm"))
-var.test(diff_sub_use ~ sex, subset(twomin.diff.sub, cue == "control"))
+var.test(diff_sub_use ~ sex, subset(diff.sub, cue == "alarm"))
+var.test(diff_sub_use ~ sex, subset(diff.sub, cue == "control"))
 
-alarm.test.t <- t.test(diff_sub_use ~ sex, subset(fivemin.diff.sub, cue == "alarm"))
+alarm.test.t <- t.test(diff_sub_use ~ sex, subset(diff.sub, cue == "alarm"))
 alarm.test.t
-control.test.t <- t.test(diff_sub_use ~ sex, subset(fivemin.diff.sub, cue == "control"))
+control.test.t <- t.test(diff_sub_use ~ sex, subset(diff.sub, cue == "control"))
 control.test.t
-alarm.test.t <- t.test(diff_sub_use ~ sex, subset(twomin.diff.sub, cue == "alarm"))
-alarm.test.t
-control.test.t <- t.test(diff_sub_use ~ sex, subset(twomin.diff.sub, cue == "control"))
-control.test.t
-#no differences from sex so do not include in further analysis
+#no differences from sex 
 
-#do t.test within sex to test between treatments 
-var.test(diff_sub_use ~ cue, subset(fivemin.diff.sub, sex == "female"))
-fivemin.test.t <- t.test(diff_sub_use ~ cue, subset(fivemin.diff.sub, sex == "female"))
-fivemin.test.t
+#run lmm
+lmm <- lmer(diff_sub_use ~ cue + sex + (1|tank), diff.sub, REML = TRUE)
 
-var.test(diff_sub_use ~ cue, subset(twomin.diff.sub, sex == "female"))
-twomin.test.t <- t.test(diff_sub_use ~ cue, subset(twomin.diff.sub, sex == "female"))
-twomin.test.t
-
-var.test(diff_sub_use ~ cue, subset(fivemin.diff.sub, sex == "male"))
-fivemin.test.t <- t.test(diff_sub_use ~ cue, subset(fivemin.diff.sub, sex == "male"))
-fivemin.test.t
-
-var.test(diff_sub_use ~ cue, subset(twomin.diff.sub, sex == "male"))
-twomin.test.t <- t.test(diff_sub_use ~ cue, subset(twomin.diff.sub, sex == "male"))
-twomin.test.t
-
-#run lmms
-five.lmm <- lmer(diff_sub_use ~ cue + (1|tank), fivemin.diff.sub)
-two.lmm <- lmer(diff_sub_use ~ cue + (1|tank), twomin.diff.sub)
-
-#run simulation to determine if variance between tanks is significant
-exactRLRT(five.lmm)
-exactRLRT(two.lmm)
-
-summary(five.lmm)
-summary(two.lmm)
-
-#check assumptions
+#model validation
+#homogeneity of variance
 par(mar = c(4, 4, 0.5, 0.5))
-#homogenous dispersion of residuals
-plot(resid(five.lmm) ~ fitted(five.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
+plot(resid(lmm) ~ fitted(lmm), xlab = "Predicted values", ylab = "Normalized residuals")
 abline(h = 0, lty = 2)
-#independence of the model residuals with each co-variate
-par(mfrow = c(1, 2), mar = c(4, 4, 0.5, 0.5))
-boxplot(resid(five.lmm) ~ cue, data = fivemin.diff.sub, xlab = "Cue",
+
+#independence of model residuals
+boxplot(resid(lmm) ~ diff.sub$cue, xlab = "Cue",
         ylab = "Normalized residuals")
 abline(h = 0, lty = 2)
-boxplot(resid(five.lmm) ~ tank, data = fivemin.diff.sub, xlab = "Tank", ylab = "Normalized residuals")
+
+boxplot(resid(lmm) ~ diff.sub$sex, xlab = "Sex",
+        ylab = "Normalized residuals")
 abline(h = 0, lty = 2)
+
 #normality of residuals
-hist(resid(five.lmm))
+hist(resid(lmm))
+
+#run signficiance tests
+ranova(lmm)
+
+summary(lmm)
+
+car::Anova(lmm, type = 2)
+
+#t-test for difference in mating behaviour
+mating.test.t <- t.test(total_matingProp ~ cue, mating.data)
+mating.test.t
 
