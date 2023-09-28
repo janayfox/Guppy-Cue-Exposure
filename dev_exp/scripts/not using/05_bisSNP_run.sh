@@ -12,6 +12,8 @@
 #######################################
 
 #need to edit in cpu_cores_number I think? 
+module load StdEnv/2020
+module load java/17.0.2
 
 #run bisSNP
 for i in *.recal.bam; do
