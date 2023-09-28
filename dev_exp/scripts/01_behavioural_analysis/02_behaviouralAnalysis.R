@@ -330,6 +330,34 @@ ranova(shelter.lmm.2)
 #calculate partial R2 
 shelter.R2 <- r2beta(shelter.lmm.2, partial = TRUE,  method = 'sgv')
 
+##Correct p values 
+dist.cue.p <- car::Anova(dist.lmm, type = 3)["cue", "Pr(>Chisq)"]
+outer.cue.p <- car::Anova(outer.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
+frozen.cue.p <- car::Anova(frozen.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
+shelter.cue.p <- car::Anova(shelter.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
+
+cue.p.unadj <- c(dist.cue.p,frozen.cue.p,outer.cue.p,shelter.cue.p)
+cue.p.hommel <- p.adjust(cue.p.unadj, method = "hommel")
+cue.p.hommel
+
+dist.sex.p <- car::Anova(dist.lmm, type = 3)["sex", "Pr(>Chisq)"]
+outer.sex.p <- car::Anova(outer.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
+frozen.sex.p <- car::Anova(frozen.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
+shelter.sex.p <- car::Anova(shelter.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
+
+sex.p.unadj <- c(dist.sex.p,frozen.sex.p,outer.sex.p,shelter.sex.p)
+sex.p.hommel <- p.adjust(sex.p.unadj, method = "hommel")
+sex.p.hommel
+
+dist.weight.p <- car::Anova(dist.lmm, type = 3)["weight", "Pr(>Chisq)"]
+outer.weight.p <- car::Anova(outer.lmm.2, type = 2)["weight", "Pr(>Chisq)"]
+frozen.weight.p <- car::Anova(frozen.lmm.2, type = 2)["weight", "Pr(>Chisq)"]
+shelter.weight.p <- car::Anova(shelter.lmm.2, type = 2)["weight", "Pr(>Chisq)"]
+
+weight.p.unadj <- c(dist.weight.p,frozen.weight.p,outer.weight.p,shelter.weight.p)
+weight.p.hommel <- p.adjust(weight.p.unadj, method = "hommel")
+weight.p.hommel
+
 ## Analysis of shoaling test data ##
 #calculate time differences for shoal vs empty container
 sh.data$tight_diff_s <- sh.data$tight_shoal_s - sh.data$tight_emp_s
@@ -442,6 +470,66 @@ ranova(loose.lmm.2)
 
 #calculate partial R2 
 loose.R2 <- r2beta(loose.lmm.2, partial = TRUE,  method = 'sgv')
+
+#correct p values
+loose.cue.p <- car::Anova(loose.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
+tight.cue.p <- car::Anova(tight.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
+
+cue.p.unadj <- c(loose.cue.p,tight.cue.p)
+cue.p.hommel <- p.adjust(cue.p.unadj, method = "hommel")
+cue.p.hommel
+
+loose.sex.p <- car::Anova(loose.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
+tight.sex.p <- car::Anova(tight.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
+
+sex.p.unadj <- c(loose.sex.p,tight.sex.p)
+sex.p.hommel <- p.adjust(sex.p.unadj, method = "hommel")
+sex.p.hommel
+
+#try running model with both measuerments of shoaling combined 
+#combine data and recalculate preference
+sh.data$combined_shoal_s <- sh.data$tight_shoal_s + sh.data$lse_shoal_s
+sh.data$combined_emp_s <- sh.data$tight_emp_s + sh.data$lse_emp_s
+sh.data$combined_diff_s <- sh.data$combined_shoal_s - sh.data$combined_emp_s
+
+#run lmm
+combined.lmm <- lmer(combined_diff_s ~ cue * sex + (1|tank), data = sh.data, REML = TRUE)
+
+#model validation
+#homogeneity of variance
+plot(resid(combined.lmm) ~ fitted(combined.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
+abline(h = 0, lty = 2)
+
+#independence of model residuals
+boxplot(resid(combined.lmm) ~ sh.data$cue, xlab = "Cue",
+        ylab = "Normalized residuals")
+abline(h = 0, lty = 2)
+
+boxplot(resid(combined.lmm) ~ sh.data$sex, xlab = "Sex",
+        ylab = "Normalized residuals")
+abline(h = 0, lty = 2)
+
+#normality of residuals
+hist(resid(combined.lmm))
+
+#interpret results 
+summary(combined.lmm)
+
+#calculate stats with car package 
+car::Anova(combined.lmm, type = 3)
+
+#rerun without interactions 
+combined.lmm.2 <- lmer(combined_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
+
+#interpret results 
+summary(combined.lmm.2)
+car::Anova(combined.lmm.2, type = 2)
+
+#calulate signifcance of random effects 
+ranova(combined.lmm.2)
+
+#calculate partial R2 
+r2beta(combined.lmm.2, partial = TRUE,  method = 'sgv')
 
 ## Make panels ##
 of.panel <- ggarrange(dist.plot, frozen.plot, shelt.plot, edge.plot, labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
