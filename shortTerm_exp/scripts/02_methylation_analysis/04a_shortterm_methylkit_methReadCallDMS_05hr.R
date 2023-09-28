@@ -16,37 +16,38 @@ library("S4Vectors", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("IRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
+library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/guppyWGBS_shortterm/05h/")
+setwd("/scratch/janayfox/guppyWGBS/methylKit/st/05h")
 
 ## Prepare tabix files
 #create lists of file locations
-file.list.05h = list("../mergedCov/st/ST2AC10F.CpG_merged.cov",
-                     "../mergedCov/st/ST2AC10M.CpG_merged.cov",
-                     "../mergedCov/st/ST2AC16F.CpG_merged.cov",
-                     "../mergedCov/st/ST2AC16M.CpG_merged.cov",
-                     "../mergedCov/st/ST2AC3F.CpG_merged.cov",
-                     "../mergedCov/st/ST2AC3M.CpG_merged.cov",
-                     "../mergedCov/st/ST2C10F.CpG_merged.cov",
-                     "../mergedCov/st/ST2C10M.CpG_merged.cov",
-                     "../mergedCov/st/ST2C13F.CpG_merged.cov",
-                     "../mergedCov/st/ST2C13M.CpG_merged.cov",
-                     "../mergedCov/st/ST2C2F.CpG_merged.cov",
-                     "../mergedCov/st/ST2C2M.CpG_merged.cov")
+file.list.05h = list("../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2C10F.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2C10M.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2C13F.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2C13M.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2C2F.CpG_merged.cov",
+                     "../../../mergedCov/st/ST2C2M.CpG_merged.cov")
 
-file.list.05h.fem = list("../mergedCov/st/ST2AC10F.CpG_merged.cov",
-                         "../mergedCov/st/ST2AC16F.CpG_merged.cov",
-                         "../mergedCov/st/ST2AC3F.CpG_merged.cov",
-                         "../mergedCov/st/ST2C10F.CpG_merged.cov",
-                         "../mergedCov/st/ST2C13F.CpG_merged.cov",
-                         "../mergedCov/st/ST2C2F.CpG_merged.cov")
+file.list.05h.fem = list("../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2C10F.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2C13F.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2C2F.CpG_merged.cov")
 
-file.list.05h.mal = list("../mergedCov/st/ST2AC10M.CpG_merged.cov",
-                         "../mergedCov/st/ST2AC16M.CpG_merged.cov",
-                         "../mergedCov/st/ST2AC3M.CpG_merged.cov",
-                         "../mergedCov/st/ST2C10M.CpG_merged.cov",
-                         "../mergedCov/st/ST2C13M.CpG_merged.cov",
-                         "../mergedCov/st/ST2C2M.CpG_merged.cov")
+file.list.05h.mal = list("../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2C10M.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2C13M.CpG_merged.cov",
+                         "../../../mergedCov/st/ST2C2M.CpG_merged.cov")
 
 #create tabix file
 myobj.05h=methRead(file.list.05h,
@@ -59,7 +60,7 @@ myobj.05h=methRead(file.list.05h,
                    context="CpG",
                    mincov = 1,
                    dbtype = "tabix",
-                   dbdir = "shortterm_05h_DB"
+                   dbdir = "shortterm_05h_DB_merged"
 )
 
 myobj.05h.fem=methRead(file.list.05h.fem,
@@ -72,7 +73,7 @@ myobj.05h.fem=methRead(file.list.05h.fem,
                        context="CpG",
                        mincov = 1,
                        dbtype = "tabix",
-                       dbdir = "shortterm_05hF_DB"
+                       dbdir = "shortterm_05hF_DB_merged"
 )
 
 myobj.05h.mal=methRead(file.list.05h.mal,
@@ -85,16 +86,21 @@ myobj.05h.mal=methRead(file.list.05h.mal,
                        context="CpG",
                        mincov = 1,
                        dbtype = "tabix",
-                       dbdir = "shortterm_05hM_DB"
+                       dbdir = "shortterm_05hM_DB_merged"
 )
+
+#get coverage stats 
+getCoverageStats(myobj.05h[[2]], both.strands = FALSE)
+getCoverageStats(myobj.05h.fem[[2]], both.strands = FALSE)
+getCoverageStats(myobj.05h.mal[[2]], both.strands = FALSE)
 
 #filter out sites in the 99.9th percentile of coverage (PCR bias) 
 myobj.05h.5X=filterByCoverage(myobj.05h,lo.count=5,lo.perc=NULL,
-                                hi.count=NULL, hi.perc=99.9, suffix = "filt")
+                               hi.count=NULL, hi.perc=99.9, suffix = "05h_5X_merged")
 myobj.05h.fem.5X=filterByCoverage(myobj.05h.fem,lo.count=5,lo.perc=NULL,
-                                    hi.count=NULL, hi.perc=99.9, suffix = "filt")
-myobj.5h.mal.5X=filterByCoverage(myobj.05h.mal,lo.count=5,lo.perc=NULL,
-                                    hi.count=NULL, hi.perc=99.9, suffix = "filt")
+                                   hi.count=NULL, hi.perc=99.9, suffix = "05h_5X_fem_merged")
+myobj.05h.mal.5X=filterByCoverage(myobj.05h.mal,lo.count=5,lo.perc=NULL,
+                                   hi.count=NULL, hi.perc=99.9, suffix = "05h_5X_mal_merged")
 
 #normalize by median coverage
 norm.myobj.05h.5X=normalizeCoverage(myobj.05h.5X, method="median")
@@ -142,18 +148,40 @@ seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
                               30788009,22026651,28470737,26385442,25773841,
                               25248790,18084596)
 
-#remove sex chr (LG12) and unplaced scaffolds
+##Find DMS##
+#unite sites 
 myobj.05h.subset <- selectByOverlap(norm.myobj.05h.5X, keep.chr.noXY)
 myobj.05h.fem.subset <- selectByOverlap(norm.myobj.05h.fem.5X, keep.chr.allchr)
 myobj.05h.mal.subset <- selectByOverlap(norm.myobj.05h.mal.5X, keep.chr.allchr)
 
-## Find DMS ##
+##Find DMS##
 #unite sites 
-DMS.meth.05h.5X=unite(myobj.05h.subset, destrand=TRUE, min.per.group = 6L, save.db = TRUE, suffix = "DMS_unite_05h")
-DMS.meth.05h.fem.5X=unite(myobj.05h.fem.subset, destrand=TRUE, min.per.group = 3L, save.db = TRUE, suffix = "DMS_unite_05h_fem")
-DMS.meth.05h.mal.5X=unite(myobj.05h.mal.subset, destrand=TRUE, min.per.group = 3L, save.db = TRUE, suffix = "DMS_unite_05h_mal")
+DMS.meth.05h.5X=unite(myobj.05h.subset, min.per.group = 6L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h")
+DMS.meth.05h.fem.5X=unite(myobj.05h.fem.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h_fem")
+DMS.meth.05h.mal.5X=unite(myobj.05h.mal.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h_mal")
 
-#Check number of CpGs 
+#filter out low variation sites 
+pm.05h.5x <- percMethylation(DMS.meth.05h.5X) #get percent methylation matrix
+sds.05h.5x <- matrixStats::rowSds(pm.05h.5x) #calculate standard deviation of CpGs 
+DMS.meth.05h.5X <- DMS.meth.05h.5X[sds.05h.5x > 2]
+
+pm.05h.fem.5x <- percMethylation(DMS.meth.05h.fem.5X) #get percent methylation matrix
+sds.05h.fem.5x <- matrixStats::rowSds(pm.05h.fem.5x) #calculate standard deviation of CpGs 
+DMS.meth.05h.fem.5X <- DMS.meth.05h.fem.5X[sds.05h.fem.5x > 2]
+
+pm.05h.mal.5x <- percMethylation(DMS.meth.05h.mal.5X) #get percent methylation matrix
+sds.05h.mal.5x <- matrixStats::rowSds(pm.05h.mal.5x) #calculate standard deviation of CpGs 
+DMS.meth.05h.mal.5X <- DMS.meth.05h.mal.5X[sds.05h.mal.5x > 2]
+
+#filter out SNPs
+snp <- read.table("../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
+snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
+
+DMS.meth.05h.5X <- DMS.meth.05h.5X[!as(DMS.meth.05h.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
+DMS.meth.05h.fem.5X <- DMS.meth.05h.fem.5X[!as(DMS.meth.05h.fem.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
+DMS.meth.05h.mal.5X <- DMS.meth.05h.mal.5X[!as(DMS.meth.05h.mal.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
+
+# Check number of CpGs 
 DMS.meth.05h.5X
 DMS.meth.05h.fem.5X
 DMS.meth.05h.mal.5X
@@ -166,26 +194,26 @@ covariates.05h <- data.frame(tank=c("AC10","AC10","AC16","AC16","AC3","AC3",
                              stringsAsFactors = TRUE)
 
 #calculate differential methylation
-DMS.myDiff.05h.5X <- calculateDiffMeth(DMS.meth.05h.5X, covariates=covariates.05h, mc.cores=1, save.db = TRUE, suffix = "DMS_myDiff_05h")
-DMS.myDiff.05h.fem.5X <- calculateDiffMeth(DMS.meth.05h.fem.5X, mc.cores=1, save.db = TRUE, suffix = "DMS_myDiff_05h_fem")
-DMS.myDiff.05h.mal.5X <- calculateDiffMeth(DMS.meth.05h.mal.5X, mc.cores=1, save.db = TRUE, suffix = "DMS_myDiff_05h_mal")
+DMS.myDiff.05h.5X <- calculateDiffMeth(DMS.meth.05h.5X, covariates=covariates.05h, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h")
+DMS.myDiff.05h.fem.5X <- calculateDiffMeth(DMS.meth.05h.fem.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h_fem")
+DMS.myDiff.05h.mal.5X <- calculateDiffMeth(DMS.meth.05h.mal.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h_mal")
 
 #call significant methylation
 DMS.diffMeth.05h.5X <- getMethylDiff(DMS.myDiff.05h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h")
-DMS.diffMeth.05h.fem.5X <- getMethylDiff(DMS.myDiff.05h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h.fem")
-DMS.diffMeth.05h.mal.5X <- getMethylDiff(DMS.myDiff.05h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h.mal")
+DMS.diffMeth.05h.fem.5X <- getMethylDiff(DMS.myDiff.05h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_fem")
+DMS.diffMeth.05h.mal.5X <- getMethylDiff(DMS.myDiff.05h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_mal")
 
-#Check number of significant DMS
+#check number of significant DMS
 DMS.diffMeth.05h.5X
 DMS.diffMeth.05h.fem.5X
 DMS.diffMeth.05h.mal.5X
 
 # Get meth per chromosome
-DMS.diffMethChr.05h.5X <- diffMethPerChr(DMS.myDiff.05h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
+DMS.diffMethChr.05h.5X <- diffMethPerChr(DMS.myDiff.05h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h")
 DMS.diffMethChr.05h.5X
-DMS.diffMethChr.05h.fem.5X <- diffMethPerChr(DMS.myDiff.05h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
+DMS.diffMethChr.05h.fem.5X <- diffMethPerChr(DMS.myDiff.05h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h_fem")
 DMS.diffMethChr.05h.fem.5X
-DMS.diffMethChr.05h.mal.5X <- diffMethPerChr(DMS.myDiff.05h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
+DMS.diffMethChr.05h.mal.5X <- diffMethPerChr(DMS.myDiff.05h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h_mal")
 DMS.diffMethChr.05h.mal.5X
 
 ## Save R objects ##

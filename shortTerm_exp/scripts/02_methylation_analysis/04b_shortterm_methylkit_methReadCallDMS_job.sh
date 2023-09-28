@@ -10,4 +10,4 @@
 module load StdEnv/2020
 module load r/4.3.1
 
-Rscript 03a_shortterm_methylkit_methReadCallDMS_1hr.R
+Rscript 04a_shortterm_methylkit_methReadCallDMS_1hr.R
