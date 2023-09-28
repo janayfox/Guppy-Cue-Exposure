@@ -34,19 +34,19 @@ file.list.1h = list("../mergedCov/st/ST2AC14F.CpG_merged.cov",
                     "../mergedCov/st/ST2C9F.CpG_merged.cov",
                     "../mergedCov/st/ST2C9M.CpG_merged.cov")
 
-file.list.1h.fem = list("../mergedCov/st/ST2AC14F.CpG_merged.cov",
-                        "../mergedCov/st/ST2AC2F.CpG_merged.cov",
-                        "../mergedCov/st/ST2AC9F.CpG_merged.cov",
-                        "../mergedCov/st/ST2C14F.CpG_merged.cov",
-                        "../mergedCov/st/ST2C3F.CpG_merged.cov",
-                        "../mergedCov/st/ST2C9F.CpG_merged.cov")
-
-file.list.1h.mal = list("../mergedCov/st/ST2AC14M.CpG_merged.cov",
-                        "../mergedCov/st/ST2AC2M.CpG_merged.cov",
-                        "../mergedCov/st/ST2AC9M.CpG_merged.cov",
-                        "../mergedCov/st/ST2C14M.CpG_merged.cov",
-                        "../mergedCov/st/ST2C3M.CpG_merged.cov",
-                        "../mergedCov/st/ST2C9M.CpG_merged.cov")
+file.list.1h.v2 = list("../results/bismark_methylation_calls/stranded_CpG_report/ST2AC14F.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2AC14M.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2AC2F.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2AC2M.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2AC9F.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2AC9M.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2C14F.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2C14M.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2C3F.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2C3M.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2C9F.CpG_report.txt.gz",
+                    "../results/bismark_methylation_calls/stranded_CpG_report/ST2C9M.CpG_report.txt.gz")
+                 
 
 #create tabix file
 myobj.1h=methRead(file.list.1h,
@@ -59,47 +59,36 @@ myobj.1h=methRead(file.list.1h,
                   context="CpG",
                   mincov = 1,
                   dbtype = "tabix",
-                  dbdir = "shortterm_1h_DB"
+                  dbdir = "shortterm_1h_DB_merged"
 )
 
-myobj.1h.fem=methRead(file.list.1h.fem,
-                      sample.id=list("ST2AC14F","ST2AC2F","ST2AC9F",
-                                     "ST2C14F","ST2C3F","ST2C9F"),
-                      assembly="guppyWGBS_shortterm",
-                      pipeline="bismarkCoverage",
-                      treatment=c(1,1,1,
-                                  0,0,0),
-                      context="CpG",
-                      mincov = 1,
-                      dbtype = "tabix",
-                      dbdir = "shortterm_1hF_DB"
+myobj.1h.v2=methRead(file.list.1h.v2,
+                  sample.id=list("ST2AC14F","ST2AC14M","ST2AC2F","ST2AC2M","ST2AC9F","ST2AC9M",
+                                 "ST2C14F","ST2C14M","ST2C3F","ST2C3M","ST2C9F", "ST2C9M"),
+                  assembly="guppyWGBS_shortterm",
+                  pipeline="bismarkCytosineReport",
+                  treatment=c(1,1,1,1,1,1,
+                              0,0,0,0,0,0),
+                  context="CpG",
+                  mincov = 1,
+                  dbtype = "tabix",
+                  dbdir = "shortterm_1h_DB_not_merged"
 )
 
-myobj.1h.mal=methRead(file.list.1h.mal,
-                      sample.id=list("ST2AC14M","ST2AC2M","ST2AC9M",
-                                     "ST2C14M","ST2C3M","ST2C9M"),
-                      assembly="guppyWGBS_shortterm",
-                      pipeline="bismarkCoverage",
-                      treatment=c(1,1,1,
-                                  0,0,0),
-                      context="CpG",
-                      mincov = 1,
-                      dbtype = "tabix",
-                      dbdir = "shortterm_1hM_DB"
-)
+#get coverage stats 
+getCoverageStats(myobj.1h[[2]], both.strands = FALSE)
+getCoverageStats(myobj.1h.v2[[2]], both.strands = TRUE)
 
 #filter out sites in the 99.9th percentile of coverage (PCR bias) 
 myobj.1h.5X=filterByCoverage(myobj.1h,lo.count=5,lo.perc=NULL,
                                hi.count=NULL, hi.perc=99.9, suffix = "5X")
-myobj.1h.fem.5X=filterByCoverage(myobj.1h.fem,lo.count=5,lo.perc=NULL,
-                                   hi.count=NULL, hi.perc=99.9, suffix = "5X")
-myobj.1h.mal.5X=filterByCoverage(myobj.1h.mal,lo.count=5,lo.perc=NULL,
-                                   hi.count=NULL, hi.perc=99.9, suffix = "5X")
+
+myobj.1h.5X.v2=filterByCoverage(myobj.1h.v2,lo.count=5,lo.perc=NULL,
+                               hi.count=NULL, hi.perc=99.9, suffix = "5X")
 
 #normalize by median coverage
 norm.myob.1h.5X=normalizeCoverage(myobj.1h.5X, method="median")
-norm.myob.1h.fem.5X=normalizeCoverage(myobj.1h.fem.5X, method="median")
-norm.myob.1h.mal.5X=normalizeCoverage(myobj.1h.mal.5X, method="median")
+norm.myob.1h.5X.v2=normalizeCoverage(myobj.1h.5X.v2, method="median")
 
 #prepare GRanges object for chromosomes to keep 
 #to remove unplaced scaffolds and sex chromosomes
@@ -143,19 +132,16 @@ seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
                               25248790,18084596)
 
 myobj.1h.subset <- selectByOverlap(norm.myobj.1h.5X, keep.chr.noXY)
-myobj.1h.fem.subset <- selectByOverlap(norm.myobj.1h.fem.filt, keep.chr.allchr)
-myobj.1h.mal.subset <- selectByOverlap(norm.myobj.1h.mal.filt, keep.chr.allchr)
+myobj.1h.subset.v2 <- selectByOverlap(norm.myobj.1h.5X.v2, keep.chr.noXY)
 
 ##Find DMS##
 #unite sites 
-DMS.meth.1h.5X=unite(myobj.1h.subset, min.per.group = 6L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_1h")
-DMS.meth.1h.fem.5X=unite(myobj.1h.fem.subset, min.per.group = 3L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_1h_fem")
-DMS.meth.1h.mal.5X=unite(myobj.1h.mal.subset, min.per.group = 3L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_1h_mal")
+DMS.meth.1h.5X=unite(myobj.1h.subset, min.per.group = 2L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_1h")
+DMS.meth.1h.5X.v2=unite(myobj.1h.subset.v2, min.per.group = 2L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_1h_v2")
 
 # Check number of CpGs 
 DMSmeth.1h.5X
-DMSmeth.1h.fem.5X
-DMSmeth.1h.mal.5X
+DMSmeth.1h.5X.v2
 
 #enter covariates 
 covariates.1h <- data.frame(tank=c("AC14","AC14","AC2","AC2","AC9","AC9",
@@ -166,48 +152,14 @@ covariates.1h <- data.frame(tank=c("AC14","AC14","AC2","AC2","AC9","AC9",
 
 #calculate differential methylation
 DMS.myDiff.1h.5X <- calculateDiffMeth(DMS.meth.1h.5X, covariates=covariates.1h, mc.cores=2, overdispersion="MN", test="Chisq", save.db = TRUE, suffix = "myDiff")
-DMS.myDiff.1h.fem.5X <- calculateDiffMeth(DMS.meth.1h.fem.5X, mc.cores=2, overdispersion="MN", test="Chisq", save.db = TRUE, suffix = "myDiff")
-DMS.myDiff.1h.mal.5X <- calculateDiffMeth(DMS.meth.1h.mal.5X, mc.cores=2, overdispersion="MN", test="Chisq", save.db = TRUE, suffix = "myDiff")
+DMS.myDiff.1h.5X.v2 <- calculateDiffMeth(DMS.meth.1h.5X.v2, covariates=covariates.1h, mc.cores=2, overdispersion="MN", test="Chisq", save.db = TRUE, suffix = "myDiff")
 
 #call significant methylation
 DMS.diffMeth.1h.5X <- getMethylDiff(DMS.myDiff.1h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth")
-DMS.diffMeth.1h.fem.5X <- getMethylDiff(DMS.myDiff.1h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth")
-DMS.diffMeth.1h.mal.5X <- getMethylDiff(DMS.myDiff.1h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth")
+DMS.diffMeth.1h.5X.v2 <- getMethylDiff(DMS.myDiff.1h.5X.v2, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth")
 
 #check number of significant DMS
 DMS.diffMeth.1h.5X
-DMS.diffMeth.1h.fem.5X
-DMS.diffMeth.1h.mal.5X
+DMS.diffMeth.1h.5X.v2
 
-# Get meth per chromosome
-DMS.diffMethChr.1h.5X <- diffMethPerChr(DMS.myDiff.1h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
-DMS.diffMethChr.1h.5X
-DMS.diffMethChr.1h.fem.5X <- diffMethPerChr(DMS.myDiff.1h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
-DMS.diffMethChr.1h.fem.5X
-DMS.diffMethChr.1h.mal.5X <- diffMethPerChr(DMS.myDiff.1h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr")
-DMS.diffMethChr.1h.mal.5X
 
-## Save R objects ##
-saveRDS(myobj.1h.subset, file = "./shortterm_myObj_1h_5X.RDS")
-saveRDS(myobj.1h.fem.subset, file = "./shortterm_myObj_1h_fem_5X.RDS")
-saveRDS(myobj.1h.mal.subset, file = "./shortterm_myObj_1h_mal_5X.RDS")
-
-saveRDS(DMS.meth.1h.5X, file = "./shortterm_DMSmeth_1h_5X.RDS")
-saveRDS(DMS.meth.1h.fem.5X, file = "./shortterm_DMSmeth_1h_fem_5X.RDS")
-saveRDS(DMS.meth.1h.mal.5X, file = "./shortterm_DMSmeth_1h_mal_5X.RDS")
-
-saveRDS(DMS.myDiff.1h.5X, file = "./shortterm_DMSmyDiff_1h_5X.RDS")
-saveRDS(DMS.myDiff.1h.fem.5X, file = "./shortterm_DMSmyDiff_1h_fem_5X.RDS")
-saveRDS(DMS.myDiff.1h.mal.5X, file = "./shortterm_DMSmyDiff_1h_mal_5X.RDS")
-
-saveRDS(DMS.diffMeth.1h.5X, file = "./shortterm_DMSDiffMeth_1h_5X.RDS")
-saveRDS(DMS.diffMeth.1h.fem.5X, file = "./shortterm_DMSDiffMeth_1h_fem_5X.RDS")
-saveRDS(DMS.diffMeth.1h.mal.5X, file = "./shortterm_DMSDiffMeth_1h_mal_5X.RDS")
-
-saveRDS(getData(DMS.diffMeth.1h.5X), file = "./shortterm_DMSDiffMeth_1h_5X_getData.RDS")
-saveRDS(getData(DMS.diffMeth.1h.fem.5X), file = "./shortterm_DMSDiffMeth_1h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.diffMeth.1h.mal.5X), file = "./shortterm_DMSDiffMeth_1h_mal_5X_getData.RDS")
-
-saveRDS(getData(DMS.myDiff.1h.5X), file = "./shortterm_DMSmyDiff_1h_5X_getData.RDS")
-saveRDS(getData(DMS.myDiff.1h.fem.5X), file = "./shortterm_DMSmyDiff_1h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.myDiff.1h.mal.5X), file = "./shortterm_DMSmyDiff_1h_mal_5X_getData.RDS")
