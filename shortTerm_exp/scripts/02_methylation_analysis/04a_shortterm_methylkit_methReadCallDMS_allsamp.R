@@ -268,9 +268,9 @@ myobj.all.mal.subset <- selectByOverlap(norm.myobj.all.mal.5X, keep.chr.allchr)
 
 ##Find DMS##
 #unite sites 
-DMS.meth.all.5X=unite(myobj.all.subset, min.per.group = 60L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_all")
-DMS.meth.all.fem.5X=unite(myobj.all.fem.subset, min.per.group = 30L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_all_fem")
-DMS.meth.all.mal.5X=unite(myobj.all.mal.subset, min.per.group = 30L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_all_mal")
+DMS.meth.all.5X=unite(myobj.all.subset, min.per.group = 60L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_all")
+DMS.meth.all.fem.5X=unite(myobj.all.fem.subset, min.per.group = 30L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_all_fem")
+DMS.meth.all.mal.5X=unite(myobj.all.mal.subset, min.per.group = 30L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_all_mal")
 
 #filter out low variation sites 
 pm.all.5x <- percMethylation(DMS.meth.all.5X) #get percent methylation matrix
@@ -286,7 +286,7 @@ sds.all.mal.5x <- matrixStats::rowSds(pm.all.mal.5x) #calculate standard deviati
 DMS.meth.all.mal.5X <- DMS.meth.all.mal.5X[sds.all.mal.5x > 2]
 
 #filter out SNPs
-snp <- read.table("../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
+snp <- read.csv("../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
 snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
 
 DMS.meth.all.5X <- DMS.meth.all.5X[!as(DMS.meth.all.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap

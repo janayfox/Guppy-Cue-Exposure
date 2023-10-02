@@ -125,7 +125,7 @@ myobj=methRead(file.list.dev,
 #get coverage stats 
 getCoverageStats(myobj[[2]], both.strands = FALSE)
 
-#filter out sites in the 99.9th percentile of coverage (PCR bias) and 3x/5x/10X coverage
+#filter out sites in the 99.9th percentile of coverage (PCR bias) and 5x coverage
 myobj.5X=filterByCoverage(myobj,lo.count=5,lo.perc=NULL,
                           hi.count=NULL, hi.perc=99.9, suffix = "5X_merged")
 
@@ -165,7 +165,7 @@ sds <- matrixStats::rowSds(pm) #calculate standard deviation of CpGs
 DMSmeth5X_21L <- DMSmeth5X_21L[sds > 2]
 
 #filter out SNPs
-snp <- read.table("../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
+snp <- read.csv("../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
 snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
 DMSmeth5X_21L <- DMSmeth5X_21L[!as(DMSmeth5X_21L, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
 
