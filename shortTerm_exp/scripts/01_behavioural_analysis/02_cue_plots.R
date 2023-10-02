@@ -20,7 +20,6 @@
 #load packaes
 library(ggplot2)
 library(dplyr)
-library(here)
 library(forcats)
 library(reshape2)
 library(tidyverse)
@@ -112,21 +111,6 @@ subusediff.plot <- diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use)) + theme_bw() 
 subusediff.plot
 
 ggsave("subuseDiff_plot.tiff", plot = subusediff.plot, device = "tiff", width = 4, height = 4, units = "in")
-
-#with p-val
-pval.fivemin.subusediff.plot <- fivemin.diff.sub %>% ggplot(aes(x=sex, y=diff_sub_use, fill=cue)) + 
-  geom_boxplot() + labs(y="Difference in substrate use", x="Sex") + 
-  scale_x_discrete(labels=c("F" = "Females", "M" = "Males")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
-  theme(axis.text = element_text(size=12), legend.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  stat_compare_means(method="t.test", label = "p.signif", size = 12) + 
-  scale_fill_discrete(name = "Cue", labels = c("Alarm","Control"))
-
-pval.twomin.subusediff.plot <- twomin.diff.sub %>% ggplot(aes(x=sex, y=diff_sub_use, fill=cue)) + 
-  geom_boxplot() + labs(y="Difference in substrate use", x="Sex") + 
-  scale_x_discrete(labels=c("F" = "Females", "M" = "Males")) + geom_hline(yintercept=0, linetype='dashed', size = 1) +
-  theme(axis.text = element_text(size=12), legend.text = element_text(size=12), axis.title = element_text(size=15)) + 
-  stat_compare_means(method="t.test", label = "p.signif", size = 12) + 
-  scale_fill_discrete(name = "Cue", labels = c("Alarm","Control"))
 
 #per tank
 tank.subusediff.plot <- diff.sub %>% ggplot(aes(x=cue, y=diff_sub_use, fill=tank)) + 
