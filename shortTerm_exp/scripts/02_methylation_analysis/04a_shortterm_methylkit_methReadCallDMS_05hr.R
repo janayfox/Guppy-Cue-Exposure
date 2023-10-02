@@ -156,9 +156,9 @@ myobj.05h.mal.subset <- selectByOverlap(norm.myobj.05h.mal.5X, keep.chr.allchr)
 
 ##Find DMS##
 #unite sites 
-DMS.meth.05h.5X=unite(myobj.05h.subset, min.per.group = 6L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_05h")
-DMS.meth.05h.fem.5X=unite(myobj.05h.fem.subset, min.per.group = 3L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_05h_fem")
-DMS.meth.05h.mal.5X=unite(myobj.05h.mal.subset, min.per.group = 3L, destrand=TRUE, save.db = TRUE, suffix = "DMS_unite_05h_mal")
+DMS.meth.05h.5X=unite(myobj.05h.subset, min.per.group = 6L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h")
+DMS.meth.05h.fem.5X=unite(myobj.05h.fem.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h_fem")
+DMS.meth.05h.mal.5X=unite(myobj.05h.mal.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h_mal")
 
 #filter out low variation sites 
 pm.05h.5x <- percMethylation(DMS.meth.05h.5X) #get percent methylation matrix
