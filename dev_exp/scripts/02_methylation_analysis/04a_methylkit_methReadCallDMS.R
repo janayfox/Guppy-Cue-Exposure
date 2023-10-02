@@ -157,7 +157,7 @@ myobj5X.subset <- selectByOverlap(norm.myobj.5X, keep.chr.noXY)
 
 ## Find DMSs ## 
 # Unite methylation calls
-DMSmeth5X_21L <- unite(myobj5X.subset, min.per.group=21L, destrand=TRUE, save.db = TRUE, suffix = "DMSunite5X_21L")
+DMSmeth5X_21L <- unite(myobj5X.subset, min.per.group=21L, destrand=FALSE, save.db = TRUE, suffix = "DMSunite5X_21L")
 
 #filter out low variation sites 
 pm <- percMethylation(DMSmeth5X_21L) #get percent methylation matrix
