@@ -65,7 +65,7 @@ dist.plot <-of.data %>% ggplot(aes(x=cue, y=dist_cm, fill=sex)) + theme_bw() +
   geom_boxplot() + labs(y="Distance travelled (cm)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
   theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(name = "Sex", values = c("f" = "#FFE17B", "#9d4edd")) 
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c( "#FFE17B", "#9d4edd")) 
 dist.plot
 
 #Time in shelter plot
