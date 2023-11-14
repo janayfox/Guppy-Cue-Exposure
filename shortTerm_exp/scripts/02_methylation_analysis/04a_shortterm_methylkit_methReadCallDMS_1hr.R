@@ -160,6 +160,11 @@ DMS.meth.1h.5X=unite(myobj.1h.subset, min.per.group = 6L, destrand=FALSE, save.d
 DMS.meth.1h.fem.5X=unite(myobj.1h.fem.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_1h_fem")
 DMS.meth.1h.mal.5X=unite(myobj.1h.mal.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_1h_mal")
 
+#convert to non DB object 
+DMS.meth.1h.5X <- as(DMS.meth.1h.5X, "methylBase")
+DMS.meth.1h.fem.5X <- as(DMS.meth.1h.fem.5X, "methylBase")
+DMS.meth.1h.mal.5X <- as(DMS.meth.1h.mal.5X, "methylBase")
+
 #filter out low variation sites 
 pm.1h.5x <- percMethylation(DMS.meth.1h.5X) #get percent methylation matrix
 sds.1h.5x <- matrixStats::rowSds(pm.1h.5x) #calculate standard deviation of CpGs 
@@ -232,6 +237,10 @@ saveRDS(DMS.myDiff.1h.mal.5X, file = "./shortterm_DMSmyDiff_1h_mal_5X.RDS")
 saveRDS(DMS.diffMeth.1h.5X, file = "./shortterm_DMSDiffMeth_1h_5X.RDS")
 saveRDS(DMS.diffMeth.1h.fem.5X, file = "./shortterm_DMSDiffMeth_1h_fem_5X.RDS")
 saveRDS(DMS.diffMeth.1h.mal.5X, file = "./shortterm_DMSDiffMeth_1h_mal_5X.RDS")
+
+saveRDS(getData(DMS.meth.1h.5X), file = "./shortterm_meth_1h_5X_getData.RDS")
+saveRDS(getData(DMS.meth.1h.fem.5X), file = "./shortterm_meth_1h_fem_5X_getData.RDS")
+saveRDS(getData(DMS.meth.1h.mal.5X), file = "./shortterm_meth_1h_mal_5X_getData.RDS")
 
 saveRDS(getData(DMS.diffMeth.1h.5X), file = "./shortterm_DMSDiffMeth_1h_5X_getData.RDS")
 saveRDS(getData(DMS.diffMeth.1h.fem.5X), file = "./shortterm_DMSDiffMeth_1h_fem_5X_getData.RDS")

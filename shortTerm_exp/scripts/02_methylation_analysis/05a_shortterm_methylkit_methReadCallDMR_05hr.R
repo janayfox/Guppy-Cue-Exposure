@@ -1,8 +1,8 @@
-#####################################################################################################################
-### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation
+###########################################################################################
+### Goal: Remove sex chr and unplaced scaffolds and methylation calling for DMRs and DMSs 
 ### Author: Janay Fox
 ### R script
-#####################################################################################################################
+###########################################################################################
 
 ## Set up  ##
 #install packages 
@@ -153,43 +153,7 @@ myobj.05h.subset <- selectByOverlap(norm.myobj.05h.5X, keep.chr.noXY)
 myobj.05h.fem.subset <- selectByOverlap(norm.myobj.05h.fem.5X, keep.chr.allchr)
 myobj.05h.mal.subset <- selectByOverlap(norm.myobj.05h.mal.5X, keep.chr.allchr)
 
-##Find DMS##
-#unite sites 
-DMS.meth.05h.5X=unite(myobj.05h.subset, min.per.group = 6L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h")
-DMS.meth.05h.fem.5X=unite(myobj.05h.fem.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h_fem")
-DMS.meth.05h.mal.5X=unite(myobj.05h.mal.subset, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMS_unite_05h_mal")
-
-#convert to non DB object 
-DMS.meth.05h.5X <- as(DMS.meth.05h.5X, "methylBase")
-DMS.meth.05h.fem.5X <- as(DMS.meth.05h.fem.5X, "methylBase")
-DMS.meth.05h.mal.5X <- as(DMS.meth.05h.mal.5X, "methylBase")
-
-#filter out low variation sites 
-pm.05h.5x <- percMethylation(DMS.meth.05h.5X) #get percent methylation matrix
-sds.05h.5x <- matrixStats::rowSds(pm.05h.5x) #calculate standard deviation of CpGs 
-DMS.meth.05h.5X <- DMS.meth.05h.5X[sds.05h.5x > 2]
-
-pm.05h.fem.5x <- percMethylation(DMS.meth.05h.fem.5X) #get percent methylation matrix
-sds.05h.fem.5x <- matrixStats::rowSds(pm.05h.fem.5x) #calculate standard deviation of CpGs 
-DMS.meth.05h.fem.5X <- DMS.meth.05h.fem.5X[sds.05h.fem.5x > 2]
-
-pm.05h.mal.5x <- percMethylation(DMS.meth.05h.mal.5X) #get percent methylation matrix
-sds.05h.mal.5x <- matrixStats::rowSds(pm.05h.mal.5x) #calculate standard deviation of CpGs 
-DMS.meth.05h.mal.5X <- DMS.meth.05h.mal.5X[sds.05h.mal.5x > 2]
-
-#filter out SNPs
-snp <- read.csv("../../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
-snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
-
-DMS.meth.05h.5X <- DMS.meth.05h.5X[!as(DMS.meth.05h.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-DMS.meth.05h.fem.5X <- DMS.meth.05h.fem.5X[!as(DMS.meth.05h.fem.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-DMS.meth.05h.mal.5X <- DMS.meth.05h.mal.5X[!as(DMS.meth.05h.mal.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-
-# Check number of CpGs 
-DMS.meth.05h.5X
-DMS.meth.05h.fem.5X
-DMS.meth.05h.mal.5X
-
+## Find DMRs ##
 #enter covariates 
 covariates.05h <- data.frame(tank=c("AC10","AC10","AC16","AC16","AC3","AC3",
                                     "C10","C10","C13","C13","C3","C3"), 
@@ -197,55 +161,130 @@ covariates.05h <- data.frame(tank=c("AC10","AC10","AC16","AC16","AC3","AC3",
                                    "F","M","F","M","F","M"), 
                              stringsAsFactors = TRUE)
 
-#calculate differential methylation
-DMS.myDiff.05h.5X <- calculateDiffMeth(DMS.meth.05h.5X, covariates=covariates.05h, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h")
-DMS.myDiff.05h.fem.5X <- calculateDiffMeth(DMS.meth.05h.fem.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h_fem")
-DMS.myDiff.05h.mal.5X <- calculateDiffMeth(DMS.meth.05h.mal.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h_mal")
+#tile into 100 bp windows with min coverage 10X and 5X
+tiles.05h.10X <- tileMethylCounts(myobj.05h.subset, win.size = 100, step.size = 100, cov.bases = 10)
+tiles.05h.fem.10X <- tileMethylCounts(myobj.05h.fem.subset, win.size = 100, step.size = 100, cov.bases = 10)
+tiles.05h.mal.10X <- tileMethylCounts(myobj.05h.mal.subset, win.size = 100, step.size = 100, cov.bases = 10)
+
+tiles.05h.5X <- tileMethylCounts(myobj.05h.subset, win.size = 100, step.size = 100, cov.bases = 5)
+tiles.05h.fem.5X <- tileMethylCounts(myobj.05h.fem.subset, win.size = 100, step.size = 100, cov.bases = 5)
+tiles.05h.mal.5X <- tileMethylCounts(myobj.05h.mal.subset, win.size = 100, step.size = 100, cov.bases = 5)
+
+#check number of tiles 
+tiles.05h.10X
+tiles.05h.fem.10X
+tiles.05h.mal.10X
+
+tiles.05h.5X
+tiles.05h.fem.5X
+tiles.05h.mal.5X
+
+#unite calls
+DMR.meth.05h.10X <- unite(tiles.05h.10X, min.per.group = 6L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_10X")
+DMR.meth.05h.fem.10X <- unite(tiles.05h.fem.10X, min.per.group = myobj.3XL, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_fem_10X")
+DMR.meth.05h.mal.10X <- unite(tiles.05h.mal.10X, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_mal_10X")
+
+DMR.meth.05h.5X <- unite(tiles.05h.5X, destrand=FALSE, min.per.group = 6L, save.db = TRUE, suffix = "DMR_unite_05h_5X")
+DMR.meth.05h.fem.5X <- unite(tiles.05h.fem.5X, destrand=FALSE, min.per.group = 3L, save.db = TRUE, suffix = "DMR_unite_05h_fem_5X")
+DMR.meth.05h.mal.5X <- unite(tiles.05h.mal.5X, destrand=FALSE, min.per.group = 3L, save.db = TRUE, suffix = "DMR_unite_05h_mal_5X")
+
+#check number of regions retained 
+DMR.meth.05h.10X
+DMR.meth.05h.fem.10X
+DMR.meth.05h.mal.10X
+
+DMR.meth.05h.5X
+DMR.meth.05h.fem.5X
+DMR.meth.05h.mal.5X
+
+#calculate differential methylation 
+DMR.myDiff.05h.10X <- calculateDiffMeth(DMR.meth.05h.10X, mc.cores=2, test="Chisq", covariates=covariates.05h, save.db = TRUE, suffix = "DMR_myDiff_05h_10X")
+DMR.myDiff.05h.fem.10X <- calculateDiffMeth(DMR.meth.05h.fem.10X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMR_myDiff_05h_fem_10X")
+DMR.myDiff.05h.mal.10X <- calculateDiffMeth(DMR.meth.05h.mal.10X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMR_myDiff_05h_mal_10X")
+
+DMR.myDiff.05h.5X <- calculateDiffMeth(DMR.meth.05h.5X, mc.cores=2, test="Chisq", covariates=covariates.05h, save.db = TRUE, suffix = "DMR_myDiff_05h_5X")
+DMR.myDiff.05h.fem.5X <- calculateDiffMeth(DMR.meth.05h.fem.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMR_myDiff_05h_fem_5X")
+DMR.myDiff.05h.mal.5X <- calculateDiffMeth(DMR.meth.05h.mal.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMR_myDiff_05h_mal_5X")
 
 #call significant methylation
-DMS.diffMeth.05h.5X <- getMethylDiff(DMS.myDiff.05h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h")
-DMS.diffMeth.05h.fem.5X <- getMethylDiff(DMS.myDiff.05h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_fem")
-DMS.diffMeth.05h.mal.5X <- getMethylDiff(DMS.myDiff.05h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_mal")
+DMR.diffMeth.05h.10X <- getMethylDiff(DMR.myDiff.05h.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_05h_10X")
+DMR.diffMeth.05h.fem.10X <- getMethylDiff(DMR.myDiff.05h.fem.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_05h_fem_10X")
+DMR.diffMeth.05h.mal.10X <- getMethylDiff(DMR.myDiff.05h.mal.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_05h_mal_10X")
 
-#check number of significant DMS
-DMS.diffMeth.05h.5X
-DMS.diffMeth.05h.fem.5X
-DMS.diffMeth.05h.mal.5X
+DMR.diffMeth.05h.5X <- getMethylDiff(DMR.myDiff.05h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_05h_5X")
+DMR.diffMeth.05h.fem.5X <- getMethylDiff(DMR.myDiff.05h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_05h_fem_5X")
+DMR.diffMeth.05h.mal.5X <- getMethylDiff(DMR.myDiff.05h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_05h_mal_5X")
 
-# Get meth per chromosome
-DMS.diffMethChr.05h.5X <- diffMethPerChr(DMS.myDiff.05h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h")
-DMS.diffMethChr.05h.5X
-DMS.diffMethChr.05h.fem.5X <- diffMethPerChr(DMS.myDiff.05h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h_fem")
-DMS.diffMethChr.05h.fem.5X
-DMS.diffMethChr.05h.mal.5X <- diffMethPerChr(DMS.myDiff.05h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h_mal")
-DMS.diffMethChr.05h.mal.5X
+#check number of DMRs 
+DMR.diffMeth.05h.10X
+DMR.diffMeth.05h.fem.10X
+DMR.diffMeth.05h.mal.10X
+
+DMR.diffMeth.05h.5X
+DMR.diffMeth.05h.fem.5X
+DMR.diffMeth.05h.mal.5X
+
+#get meth per chromosome 
+DMR.diffMeth.05h.10X.chr <- diffMethPerChr(DMR.diffMeth.05h.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_05h_10X")
+DMR.diffMeth.05h.10X.chr
+DMR.diffMeth.05h.fem.10X.chr <- diffMethPerChr(DMR.diffMeth.05h.fem.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_05h_fem_10X")
+DMR.diffMeth.05h.fem.10X.chr
+DMR.diffMeth.05h.mal.10X.chr <- diffMethPerChr(DMR.diffMeth.05h.mal.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_05h_mal_10X")
+DMR.diffMeth.05h.mal.10X.chr
+
+DMR.diffMeth.05h.5X.chr <- diffMethPerChr(DMR.diffMeth.05h.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_05h_5X")
+DMR.diffMeth.05h.5X.chr
+DMR.diffMeth.05h.fem.5X.chr <- diffMethPerChr(DMR.diffMeth.05h.fem.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_05h_fem_5X")
+DMR.diffMeth.05h.fem.5X.chr
+DMR.diffMeth.05h.mal.5X.chr <- diffMethPerChr(DMR.diffMeth.05h.mal.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_05h_mal_5X")
+DMR.diffMeth.05h.mal.5X.chr
 
 ## Save R objects ##
-saveRDS(myobj.05h.subset, file = "./shortterm_myObj_05h_5X.RDS")
-saveRDS(myobj.05h.fem.subset, file = "./shortterm_myObj_05h_fem_5X.RDS")
-saveRDS(myobj.05h.mal.subset, file = "./shortterm_myObj_05h_mal_5X.RDS")
+saveRDS(DMR.meth.05h.10X, file = "./DMRmeth_05h_10X.RDS")
+saveRDS(DMR.meth.05h.fem.10X, file = "./DMRmeth_05h_fem_10X.RDS")
+saveRDS(DMR.meth.05h.mal.10X, file = "./DMRmeth_05h_mal_10X.RDS")
+saveRDS(DMR.meth.05h.5X, file = "./DMRmeth_05h_5X.RDS")
+saveRDS(DMR.meth.05h.fem.5X, file = "./DMRmeth_05h_fem_5X.RDS")
+saveRDS(DMR.meth.05h.mal.5X, file = "./DMRmeth_05h_mal_5X.RDS")
 
-saveRDS(DMS.meth.05h.5X, file = "./shortterm_DMSmeth_05h_5X.RDS")
-saveRDS(DMS.meth.05h.fem.5X, file = "./shortterm_DMSmeth_05h_fem_5X.RDS")
-saveRDS(DMS.meth.05h.mal.5X, file = "./shortterm_DMSmeth_05h_mal_5X.RDS")
+saveRDS(getData(DMR.meth.05h.10X), file = "./DMRmeth_05h_10X_data.RDS")
+saveRDS(getData(DMR.meth.05h.fem.10X), file = "./DMRmeth_05h_fem_10X_data.RDS")
+saveRDS(getData(DMR.meth.05h.mal.10X), file = "./DMRmeth_05h_mal_10X_data.RDS")
+saveRDS(getData(DMR.meth.05h.5X), file = "./DMRmeth_05h_5X_data.RDS")
+saveRDS(getData(DMR.meth.05h.fem.5X), file = "./DMRmeth_05h_fem_5X_data.RDS")
+saveRDS(getData(DMR.meth.05h.mal.5X), file = "./DMRmeth_05h_mal_5X_data.RDS")
 
-saveRDS(DMS.myDiff.05h.5X, file = "./shortterm_DMSmyDiff_05h_5X.RDS")
-saveRDS(DMS.myDiff.05h.fem.5X, file = "./shortterm_DMSmyDiff_05h_fem_5X.RDS")
-saveRDS(DMS.myDiff.05h.mal.5X, file = "./shortterm_DMSmyDiff_05h_mal_5X.RDS")
+saveRDS(DMR.myDiff.05h.10X, file = "./DMRmyDiff_05h_10X.RDS")
+saveRDS(DMR.myDiff.05h.fem.10X, file = "./DMRmyDiff_05h_fem_10X.RDS")
+saveRDS(DMR.myDiff.05h.mal.10X, file = "./DMRmyDiff_05h_mal_10X.RDS")
+saveRDS(DMR.myDiff.05h.5X, file = "./DMRmyDiff_05h_5X.RDS")
+saveRDS(DMR.myDiff.05h.fem.5X, file = "./DMRmyDiff_05h_fem_5X.RDS")
+saveRDS(DMR.myDiff.05h.mal.5X, file = "./DMRmyDiff_05h_mal_5X.RDS")
 
-saveRDS(DMS.diffMeth.05h.5X, file = "./shortterm_DMSDiffMeth_05h_5X.RDS")
-saveRDS(DMS.diffMeth.05h.fem.5X, file = "./shortterm_DMSDiffMeth_05h_fem_5X.RDS")
-saveRDS(DMS.diffMeth.05h.mal.5X, file = "./shortterm_DMSDiffMeth_05h_mal_5X.RDS")
+saveRDS(getData(DMR.myDiff.05h.10X), file = "./DMRmyDiff_05h_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.05h.fem.10X), file = "./DMRmyDiff_05h_fem_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.05h.mal.10X), file = "./DMRmyDiff_05h_mal_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.05h.5X), file = "./DMRmyDiff_05h_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.05h.fem.5X), file = "./DMRmyDiff_05h_fem_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.05h.mal.5X), file = "./DMRmyDiff_05h_mal_5X_data.RDS")
 
-saveRDS(getData(DMS.meth.05h.5X), file = "./shortterm_meth_05h_5X_getData.RDS")
-saveRDS(getData(DMS.meth.05h.fem.5X), file = "./shortterm_meth_05h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.meth.05h.mal.5X), file = "./shortterm_meth_05h_mal_5X_getData.RDS")
+saveRDS(DMR.diffMeth.05h.10X, file = "./DMRdiffMeth_05h_10X.RDS")
+saveRDS(DMR.diffMeth.05h.fem.10X, file = "./DMRdiffMeth_05h_fem_10X.RDS")
+saveRDS(DMR.diffMeth.05h.mal.10X, file = "./DMRdiffMeth_05h_mal_10X.RDS")
+saveRDS(DMR.diffMeth.05h.5X, file = "./DMRdiffMeth_05h_5X.RDS")
+saveRDS(DMR.diffMeth.05h.fem.5X, file = "./DMRdiffMeth_05h_fem_5X.RDS")
+saveRDS(DMR.diffMeth.05h.mal.5X, file = "./DMRdiffMeth_05h_mal_5X.RDS")
 
-saveRDS(getData(DMS.diffMeth.05h.5X), file = "./shortterm_DMSDiffMeth_05h_5X_getData.RDS")
-saveRDS(getData(DMS.diffMeth.05h.fem.5X), file = "./shortterm_DMSDiffMeth_05h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.diffMeth.05h.mal.5X), file = "./shortterm_DMSDiffMeth_05h_mal_5X_getData.RDS")
+saveRDS(getData(DMR.diffMeth.05h.10X), file = "./DMRdiffMeth_05h_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.05h.fem.10X), file = "./DMRdiffMeth_05h_fem_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.05h.mal.10X), file = "./DMRdiffMeth_05h_mal_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.05h.5X), file = "./DMRdiffMeth_05h_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.05h.fem.5X), file = "./DMRdiffMeth_05h_fem_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.05h.mal.5X), file = "./DMRdiffMeth_05h_mal_5X_data.RDS")
 
-saveRDS(getData(DMS.myDiff.05h.5X), file = "./shortterm_DMSmyDiff_05h_5X_getData.RDS")
-saveRDS(getData(DMS.myDiff.05h.fem.5X), file = "./shortterm_DMSmyDiff_05h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.myDiff.05h.mal.5X), file = "./shortterm_DMSmyDiff_05h_mal_5X_getData.RDS")
-
+saveRDS(DMR.diffMeth.05h.10X.chr, file = "./DMRdiffMethChr_05h_10X.RDS")
+saveRDS(DMR.diffMeth.05h.fem.10X.chr, file = "./DMRdiffMethChr_05h_fem_10X.RDS")
+saveRDS(DMR.diffMeth.05h.mal.10X.chr, file = "./DMRdiffMethChr_05h_mal_10X.RDS")
+saveRDS(DMR.diffMeth.05h.5X.chr, file = "./DMRdiffMethChr_05h_5X.RDS")
+saveRDS(DMR.diffMeth.05h.fem.5X.chr, file = "./DMRdiffMethChr_05h_fem_5X.RDS")
+saveRDS(DMR.diffMeth.05h.mal.5X.chr, file = "./DMRdiffMethChr_05h_mal_5X.RDS")
