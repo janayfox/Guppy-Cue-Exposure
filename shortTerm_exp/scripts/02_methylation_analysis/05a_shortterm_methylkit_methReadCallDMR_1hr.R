@@ -183,7 +183,7 @@ tiles.1h.mal.5X
 
 #unite calls
 DMR.meth.1h.10X <- unite(tiles.1h.10X, min.per.group = 6L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_1h_10X")
-DMR.meth.1h.fem.10X <- unite(tiles.1h.fem.10X, min.per.group = myobj.3XL, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_1h_fem_10X")
+DMR.meth.1h.fem.10X <- unite(tiles.1h.fem.10X, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_1h_fem_10X")
 DMR.meth.1h.mal.10X <- unite(tiles.1h.mal.10X, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_1h_mal_10X")
 
 DMR.meth.1h.5X <- unite(tiles.1h.5X, destrand=FALSE, min.per.group = 6L, save.db = TRUE, suffix = "DMR_unite_1h_5X")
