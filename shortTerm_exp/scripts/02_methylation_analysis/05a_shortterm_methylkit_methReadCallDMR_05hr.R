@@ -95,17 +95,17 @@ getCoverageStats(myobj.05h.fem[[2]], both.strands = FALSE)
 getCoverageStats(myobj.05h.mal[[2]], both.strands = FALSE)
 
 #filter out sites in the 99.9th percentile of coverage (PCR bias) 
-myobj.05h.5X=filterByCoverage(myobj.05h,lo.count=5,lo.perc=NULL,
+myobj.05h.3X=filterByCoverage(myobj.05h,lo.count=3,lo.perc=NULL,
                                hi.count=NULL, hi.perc=99.9, suffix = "05h_5X_merged")
-myobj.05h.fem.5X=filterByCoverage(myobj.05h.fem,lo.count=5,lo.perc=NULL,
+myobj.05h.fem.3X=filterByCoverage(myobj.05h.fem,lo.count=3,lo.perc=NULL,
                                    hi.count=NULL, hi.perc=99.9, suffix = "05h_5X_fem_merged")
-myobj.05h.mal.5X=filterByCoverage(myobj.05h.mal,lo.count=5,lo.perc=NULL,
+myobj.05h.mal.3X=filterByCoverage(myobj.05h.mal,lo.count=3,lo.perc=NULL,
                                    hi.count=NULL, hi.perc=99.9, suffix = "05h_5X_mal_merged")
 
 #normalize by median coverage
-norm.myobj.05h.5X=normalizeCoverage(myobj.05h.5X, method="median")
-norm.myobj.05h.fem.5X=normalizeCoverage(myobj.05h.fem.5X, method="median")
-norm.myobj.05h.mal.5X=normalizeCoverage(myobj.05h.mal.5X, method="median")
+norm.myobj.05h.3X=normalizeCoverage(myobj.05h.3X, method="median")
+norm.myobj.05h.fem.3X=normalizeCoverage(myobj.05h.fem.3X, method="median")
+norm.myobj.05h.mal.3X=normalizeCoverage(myobj.05h.mal.3X, method="median")
 
 ## Remove sex chromosomes and unplacex scaffolds ##
 #prepare GRanges object for chromosomes to keep 
@@ -149,9 +149,9 @@ seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
                               25248790,18084596)
 
 #remove sex chromosomes and unplaced scaffolds
-myobj.05h.subset <- selectByOverlap(norm.myobj.05h.5X, keep.chr.noXY)
-myobj.05h.fem.subset <- selectByOverlap(norm.myobj.05h.fem.5X, keep.chr.allchr)
-myobj.05h.mal.subset <- selectByOverlap(norm.myobj.05h.mal.5X, keep.chr.allchr)
+myobj.05h.subset <- selectByOverlap(norm.myobj.05h.3X, keep.chr.noXY)
+myobj.05h.fem.subset <- selectByOverlap(norm.myobj.05h.fem.3X, keep.chr.allchr)
+myobj.05h.mal.subset <- selectByOverlap(norm.myobj.05h.mal.3X, keep.chr.allchr)
 
 ## Find DMRs ##
 #enter covariates 
@@ -181,7 +181,7 @@ tiles.05h.mal.5X
 
 #unite calls
 DMR.meth.05h.10X <- unite(tiles.05h.10X, min.per.group = 6L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_10X")
-DMR.meth.05h.fem.10X <- unite(tiles.05h.fem.10X, min.per.group = myobj.3XL, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_fem_10X")
+DMR.meth.05h.fem.10X <- unite(tiles.05h.fem.10X, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_fem_10X")
 DMR.meth.05h.mal.10X <- unite(tiles.05h.mal.10X, min.per.group = 3L, destrand=FALSE, save.db = TRUE, suffix = "DMR_unite_05h_mal_10X")
 
 DMR.meth.05h.5X <- unite(tiles.05h.5X, destrand=FALSE, min.per.group = 6L, save.db = TRUE, suffix = "DMR_unite_05h_5X")
