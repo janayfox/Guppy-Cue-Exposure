@@ -1,8 +1,8 @@
-#####################################################################################################################
-### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation, call DMS
+###########################################################################################
+### Goal: Run DMR analysis
 ### Author: Janay Fox
 ### R script
-#####################################################################################################################
+###########################################################################################
 
 ## Set up  ##
 #install packages 
@@ -125,12 +125,12 @@ myobj=methRead(file.list.dev,
 #get coverage stats 
 getCoverageStats(myobj[[2]], both.strands = FALSE)
 
-#filter out sites in the 99.9th percentile of coverage (PCR bias) and 5x coverage
-myobj.5X=filterByCoverage(myobj,lo.count=5,lo.perc=NULL,
+#filter out sites in the 99.9th percentile of coverage (PCR bias) and 3x coverage
+myobj.3X=filterByCoverage(myobj,lo.count=3,lo.perc=NULL,
                           hi.count=NULL, hi.perc=99.9, suffix = "5X_merged")
 
 #normalize by median coverage
-norm.myobj.5X=normalizeCoverage(myobj.5X, method="median")
+norm.myobj.3X=normalizeCoverage(myobj.3X, method="median")
 
 ## Remove sex chromosomes and unplacex scaffolds ##
 #prepare GRanges object for chromosomes to keep 
@@ -153,25 +153,9 @@ seqlengths(keep.chr.noXY)=c(34115677,46286544,35265442,31497199,33908744,
                             30788009,22026651,28470737,26385442,25773841,
                             25248790,18084596)
 
-myobj5X.subset <- selectByOverlap(norm.myobj.5X, keep.chr.noXY)
+myobj3X.subset <- selectByOverlap(norm.myobj.3X, keep.chr.noXY)
 
-## Find DMSs ## 
-# Unite methylation calls
-DMSmeth5X_21L <- unite(myobj5X.subset, min.per.group=21L, destrand=FALSE, save.db = FALSE)
-
-#filter out low variation sites 
-pm <- percMethylation(DMSmeth5X_21L) #get percent methylation matrix
-sds <- matrixStats::rowSds(pm, na.rm = TRUE) #calculate standard deviation of CpGs 
-DMSmeth5X_21L <- DMSmeth5X_21L[sds > 2]
-
-#filter out SNPs
-snp <- read.csv("../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
-snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
-DMSmeth5X_21L <- DMSmeth5X_21L[!as(DMSmeth5X_21L, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-
-#check number of cpgs
-DMSmeth5X_21L
-
+## Find DMRs ##
 #read in tank covariate data
 covariates <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3","AC3",
                                 "AC3","AC4","AC4","AC4","AC4","AC4",
@@ -200,25 +184,59 @@ covariates <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3","AC3",
                               "M","M","M","M","M"),
                          stringsAsFactors = TRUE)
 
-# Calculate differential methylation
-DMSmyDiff5X_21L <- calculateDiffMeth(DMSmeth5X_21L, mc.cores=2, covariates=covariates, test="Chisq", save.db = TRUE, suffix = "myDiff_merged")
+#tile into 100 bp windows with min coverage 10X and 5X
+tiles.10X <- tileMethylCounts(myobj3X.subset, win.size = 100, step.size = 100, cov.bases = 10)
+tiles.5X <- tileMethylCounts(myobj3X.subset, win.size = 100, step.size = 100, cov.bases = 5)
 
-# Call significant methylation
-DMSdiffMeth5X_21L <- getMethylDiff(DMSmyDiff5X_21L, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth_merged")
+#check number of tiles 
+tiles.10X
+tiles.5X
 
-# Check number of significant DMS
-DMSdiffMeth5X_21L
+#unite calls for 60% of samples
+DMRmeth10X <- unite(tiles.10X, min.per.group=21L, save.db = FALSE)
+DMRmeth5X <- unite(tiles.5X, min.per.group=21L, save.db = FALSE)
 
-# Get meth per chromosome
-DMSdiffMethChr5X_21L <- diffMethPerChr(DMSmyDiff5X_21L, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr_merged")
-DMSdiffMethChr5X_21L
+#check number of regions retained 
+DMRmeth10X
+DMRmeth5X
+
+#calculate differential methylation 
+DMRmyDiff10X <- calculateDiffMeth(DMRmeth10X, mc.cores=2,test="Chisq", covariates=covariates, save.db = TRUE, suffix = "myDiffDMR10X")
+DMRmyDiff5X <- calculateDiffMeth(DMRmeth5X, mc.cores=2, test="Chisq", covariates=covariates, save.db = TRUE, suffix = "myDiffDMR5X")
+ 
+#call significant methylation
+DMRdiffMeth10X <- getMethylDiff(DMRmyDiff10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMethDMR10X")
+DMRdiffMeth5X <- getMethylDiff(DMRmyDiff5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMethDMR5X")
+
+#check number of DMRs
+DMRdiffMeth10X
+DMRdiffMeth5X
+
+#get meth per chromosome
+DMRdiffMethChr10X <- diffMethPerChr(DMRmyDiff10X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR10X")
+DMRdiffMethChr10X
+DMRdiffMethChr5X <- diffMethPerChr(DMRmyDiff5X, plot=FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR5X")
+DMRdiffMethChr5X
 
 ## Save R objects ##
-saveRDS(myobj5X.subset, file = "./myObj5X.RDS")
-saveRDS(DMSmeth5X_21L, file = "./DMSmeth5x_21L.RDS")
-saveRDS(DMSmyDiff5X_21L, file = "./DMSmyDiff5X_21L.RDS")
-saveRDS(DMSdiffMeth5X_21L, file = "./DMSdiffmeth5X_21L.RDS")
-saveRDS(DMSdiffMethChr5X_21L, file = "./DMSdiffMethChr5x_21L.RDS")
-saveRDS(getData(DMSmeth5X_21L), file = "./DMSmeth5X_getData.RDS")
-saveRDS(getData(DMSdiffMeth5X_21L), file = "./DMSdiffMeth5X_25Ldata.RDS")
-saveRDS(getData(DMSmyDiff5X_25L), file = "./DMSmyDiff5X_21Ldata.RDS")
+saveRDS(DMRmeth10X, file = "./DMRmeth10X.RDS")
+saveRDS(DMRmeth5X, file = "./DMRmeth5X.RDS")
+saveRDS(DMRmyDiff10X, file = "./DMRmyDiff10X.RDS")
+saveRDS(DMRmyDiff5X, file = "./DMRmyDiff5X.RDS")
+saveRDS(DMRdiffMeth10X, file = "./DMRdiffMeth10X.RDS")
+saveRDS(DMRdiffMeth5X, file = "./DMRdiffMeth5X.RDS")
+saveRDS(DMRdiffMethChr10X, file = "./DMRdiffMethChr10X.RDS")
+saveRDS(DMRdiffMethChr5X, file = "./DMRdiffMethChr5X.RDS")
+saveRDS(getData(DMRmeth10X), file = "./DMRmeth10Xdata.RDS")
+saveRDS(getData(DMRmeth5X), file = "./DMRmeth5Xdata.RDS")
+saveRDS(getData(DMRmyDiff10X), file = "./DMRmyDiff10X.RDS")
+saveRDS(getData(DMRmyDiff5X), file = "./DMRmyDiff5X.RDS")
+saveRDS(getData(DMRdiffMeth10X), file = "./DMRdiffMeth10X.RDS")
+saveRDS(getData(DMRdiffMeth5X), file = "./DMRdiffMeth5X.RDS")
+
+
+
+
+
+
+
