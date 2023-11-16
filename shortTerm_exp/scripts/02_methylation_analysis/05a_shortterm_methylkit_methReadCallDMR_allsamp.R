@@ -17,132 +17,132 @@ library("IRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/guppyWGBS/methylKit/st/all/")
+setwd("/scratch/janayfox/guppyWGBS/methylKit/st/perc20/all/")
 
 ## Prepare tabix files
 #create lists of file locations
-file.list.all = list("../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC11F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC11M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC13F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC13M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC14F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC14M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC1F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC1M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC2F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC2M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC5F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC5M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC6F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC6M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC7F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC7M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC9F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC9M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C10F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C10M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C11F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C11M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C12F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C12M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C13F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C13M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C14F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C14M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C15F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C15M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C1F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C1M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C2F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C2M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C3F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C3M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C4F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C4M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C5F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C5M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C6F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C6M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C7F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C7M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C8F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C8M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C9F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C9M.CpG_merged.cov")
+file.list.all = list("../../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC11F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC11M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC13F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC13M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC14F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC14M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC1F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC1M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC2F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC2M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC5F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC5M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC6F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC6M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC7F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC7M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC9F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC9M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C10F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C10M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C11F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C11M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C12F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C12M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C13F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C13M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C14F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C14M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C15F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C15M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C1F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C1M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C2F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C2M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C3F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C3M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C4F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C4M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C5F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C5M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C6F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C6M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C7F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C7M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C8F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C8M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C9F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C9M.CpG_merged.cov")
 
-file.list.all.fem = list("../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC11F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC13F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC14F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC1F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC2F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC5F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC6F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC7F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC9F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C10F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C11F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C12F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C13F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C14F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C15F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C1F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C2F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C3F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C4F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C5F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C6F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C7F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C8F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C9F.CpG_merged.cov")
+file.list.all.fem = list("../../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC11F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC13F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC14F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC1F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC2F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC5F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC6F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC7F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC9F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C10F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C11F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C12F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C13F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C14F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C15F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C1F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C2F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C3F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C4F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C5F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C6F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C7F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C8F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C9F.CpG_merged.cov")
 
-file.list.all.mal = list("../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC11M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC13M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC14M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC1M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC2M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC5M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC6M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC7M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC9M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C10M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C11M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C12M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C13M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C14M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C15M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C1M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C2M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C3M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C4M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C5M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C6M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C7M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C8M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C9M.CpG_merged.cov")
+file.list.all.mal = list("../../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC11M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC13M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC14M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC1M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC2M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC5M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC6M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC7M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC9M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C10M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C11M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C12M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C13M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C14M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C15M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C1M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C2M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C3M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C4M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C5M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C6M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C7M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C8M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C9M.CpG_merged.cov")
 
 #create tabix file
 myobj.all=methRead(file.list.all,
@@ -340,13 +340,13 @@ DMR.myDiff.all.fem.5X <- calculateDiffMeth(DMR.meth.all.fem.5X, mc.cores=2, test
 DMR.myDiff.all.mal.5X <- calculateDiffMeth(DMR.meth.all.mal.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMR_myDiff_all_mal_5X")
 
 #call significant methylation
-DMR.diffMeth.all.10X <- getMethylDiff(DMR.myDiff.all.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_10X")
-DMR.diffMeth.all.fem.10X <- getMethylDiff(DMR.myDiff.all.fem.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_fem_10X")
-DMR.diffMeth.all.mal.10X <- getMethylDiff(DMR.myDiff.all.mal.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_mal_10X")
+DMR.diffMeth.all.10X <- getMethylDiff(DMR.myDiff.all.10X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_10X")
+DMR.diffMeth.all.fem.10X <- getMethylDiff(DMR.myDiff.all.fem.10X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_fem_10X")
+DMR.diffMeth.all.mal.10X <- getMethylDiff(DMR.myDiff.all.mal.10X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_mal_10X")
 
-DMR.diffMeth.all.5X <- getMethylDiff(DMR.myDiff.all.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_5X")
-DMR.diffMeth.all.fem.5X <- getMethylDiff(DMR.myDiff.all.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_fem_5X")
-DMR.diffMeth.all.mal.5X <- getMethylDiff(DMR.myDiff.all.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_mal_5X")
+DMR.diffMeth.all.5X <- getMethylDiff(DMR.myDiff.all.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_5X")
+DMR.diffMeth.all.fem.5X <- getMethylDiff(DMR.myDiff.all.fem.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_fem_5X")
+DMR.diffMeth.all.mal.5X <- getMethylDiff(DMR.myDiff.all.mal.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_all_mal_5X")
 
 #check number of DMRs 
 DMR.diffMeth.all.10X
@@ -358,66 +358,66 @@ DMR.diffMeth.all.fem.5X
 DMR.diffMeth.all.mal.5X
 
 #get meth per chromosome 
-DMR.diffMeth.all.10X.chr <- diffMethPerChr(DMR.diffMeth.all.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_all_10X")
+DMR.diffMeth.all.10X.chr <- diffMethPerChr(DMR.diffMeth.all.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_all_10X")
 DMR.diffMeth.all.10X.chr
-DMR.diffMeth.all.fem.10X.chr <- diffMethPerChr(DMR.diffMeth.all.fem.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_all_fem_10X")
+DMR.diffMeth.all.fem.10X.chr <- diffMethPerChr(DMR.diffMeth.all.fem.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_all_fem_10X")
 DMR.diffMeth.all.fem.10X.chr
-DMR.diffMeth.all.mal.10X.chr <- diffMethPerChr(DMR.diffMeth.all.mal.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_all_mal_10X")
+DMR.diffMeth.all.mal.10X.chr <- diffMethPerChr(DMR.diffMeth.all.mal.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_all_mal_10X")
 DMR.diffMeth.all.mal.10X.chr
 
-DMR.diffMeth.all.5X.chr <- diffMethPerChr(DMR.diffMeth.all.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_all_5X")
+DMR.diffMeth.all.5X.chr <- diffMethPerChr(DMR.diffMeth.all.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_all_5X")
 DMR.diffMeth.all.5X.chr
-DMR.diffMeth.all.fem.5X.chr <- diffMethPerChr(DMR.diffMeth.all.fem.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_all_fem_5X")
+DMR.diffMeth.all.fem.5X.chr <- diffMethPerChr(DMR.diffMeth.all.fem.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_all_fem_5X")
 DMR.diffMeth.all.fem.5X.chr
-DMR.diffMeth.all.mal.5X.chr <- diffMethPerChr(DMR.diffMeth.all.mal.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_all_mal_5X")
+DMR.diffMeth.all.mal.5X.chr <- diffMethPerChr(DMR.diffMeth.all.mal.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_all_mal_5X")
 DMR.diffMeth.all.mal.5X.chr
 
 ## Save R objects ##
-saveRDS(DMR.meth.all.10X, file = "./DMRmeth_all_10X.RDS")
-saveRDS(DMR.meth.all.fem.10X, file = "./DMRmeth_all_fem_10X.RDS")
-saveRDS(DMR.meth.all.mal.10X, file = "./DMRmeth_all_mal_10X.RDS")
-saveRDS(DMR.meth.all.5X, file = "./DMRmeth_all_5X.RDS")
-saveRDS(DMR.meth.all.fem.5X, file = "./DMRmeth_all_fem_5X.RDS")
-saveRDS(DMR.meth.all.mal.5X, file = "./DMRmeth_all_mal_5X.RDS")
+saveRDS(DMR.meth.all.10X, file = "./DMR_res/DMRmeth_all_10X.RDS")
+saveRDS(DMR.meth.all.fem.10X, file = "./DMR_res/DMRmeth_all_fem_10X.RDS")
+saveRDS(DMR.meth.all.mal.10X, file = "./DMR_res/DMRmeth_all_mal_10X.RDS")
+saveRDS(DMR.meth.all.5X, file = "./DMR_res/DMRmeth_all_5X.RDS")
+saveRDS(DMR.meth.all.fem.5X, file = "./DMR_res/DMRmeth_all_fem_5X.RDS")
+saveRDS(DMR.meth.all.mal.5X, file = "./DMR_res/DMRmeth_all_mal_5X.RDS")
 
-saveRDS(getData(DMR.meth.all.10X), file = "./DMRmeth_all_10X_data.RDS")
-saveRDS(getData(DMR.meth.all.fem.10X), file = "./DMRmeth_all_fem_10X_data.RDS")
-saveRDS(getData(DMR.meth.all.mal.10X), file = "./DMRmeth_all_mal_10X_data.RDS")
-saveRDS(getData(DMR.meth.all.5X), file = "./DMRmeth_all_5X_data.RDS")
-saveRDS(getData(DMR.meth.all.fem.5X), file = "./DMRmeth_all_fem_5X_data.RDS")
-saveRDS(getData(DMR.meth.all.mal.5X), file = "./DMRmeth_all_mal_5X_data.RDS")
+saveRDS(getData(DMR.meth.all.10X), file = "./DMR_res/DMRmeth_all_10X_data.RDS")
+saveRDS(getData(DMR.meth.all.fem.10X), file = "./DMR_res/DMRmeth_all_fem_10X_data.RDS")
+saveRDS(getData(DMR.meth.all.mal.10X), file = "./DMR_res/DMRmeth_all_mal_10X_data.RDS")
+saveRDS(getData(DMR.meth.all.5X), file = "./DMR_res/DMRmeth_all_5X_data.RDS")
+saveRDS(getData(DMR.meth.all.fem.5X), file = "./DMR_res/DMRmeth_all_fem_5X_data.RDS")
+saveRDS(getData(DMR.meth.all.mal.5X), file = "./DMR_res/DMRmeth_all_mal_5X_data.RDS")
 
-saveRDS(DMR.myDiff.all.10X, file = "./DMRmyDiff_all_10X.RDS")
-saveRDS(DMR.myDiff.all.fem.10X, file = "./DMRmyDiff_all_fem_10X.RDS")
-saveRDS(DMR.myDiff.all.mal.10X, file = "./DMRmyDiff_all_mal_10X.RDS")
-saveRDS(DMR.myDiff.all.5X, file = "./DMRmyDiff_all_5X.RDS")
-saveRDS(DMR.myDiff.all.fem.5X, file = "./DMRmyDiff_all_fem_5X.RDS")
-saveRDS(DMR.myDiff.all.mal.5X, file = "./DMRmyDiff_all_mal_5X.RDS")
+saveRDS(DMR.myDiff.all.10X, file = "./DMR_res/DMRmydiff_all_10X.RDS")
+saveRDS(DMR.myDiff.all.fem.10X, file = "./DMR_res/DMRmydiff_all_fem_10X.RDS")
+saveRDS(DMR.myDiff.all.mal.10X, file = "./DMR_res/DMRmydiff_all_mal_10X.RDS")
+saveRDS(DMR.myDiff.all.5X, file = "./DMR_res/DMRmydiff_all_5X.RDS")
+saveRDS(DMR.myDiff.all.fem.5X, file = "./DMR_res/DMRmydiff_all_fem_5X.RDS")
+saveRDS(DMR.myDiff.all.mal.5X, file = "./DMR_res/DMRmydiff_all_mal_5X.RDS")
 
-saveRDS(getData(DMR.myDiff.all.10X), file = "./DMRmyDiff_all_10X_data.RDS")
-saveRDS(getData(DMR.myDiff.all.fem.10X), file = "./DMRmyDiff_all_fem_10X_data.RDS")
-saveRDS(getData(DMR.myDiff.all.mal.10X), file = "./DMRmyDiff_all_mal_10X_data.RDS")
-saveRDS(getData(DMR.myDiff.all.5X), file = "./DMRmyDiff_all_5X_data.RDS")
-saveRDS(getData(DMR.myDiff.all.fem.5X), file = "./DMRmyDiff_all_fem_5X_data.RDS")
-saveRDS(getData(DMR.myDiff.all.mal.5X), file = "./DMRmyDiff_all_mal_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.all.10X), file = "./DMR_res/DMRmydiff_all_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.all.fem.10X), file = "./DMR_res/DMRmydiff_all_fem_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.all.mal.10X), file = "./DMR_res/DMRmydiff_all_mal_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.all.5X), file = "./DMR_res/DMRmydiff_all_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.all.fem.5X), file = "./DMR_res/DMRmydiff_all_fem_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.all.mal.5X), file = "./DMR_res/DMRmydiff_all_mal_5X_data.RDS")
 
-saveRDS(DMR.diffMeth.all.10X, file = "./DMRdiffMeth_all_10X.RDS")
-saveRDS(DMR.diffMeth.all.fem.10X, file = "./DMRdiffMeth_all_fem_10X.RDS")
-saveRDS(DMR.diffMeth.all.mal.10X, file = "./DMRdiffMeth_all_mal_10X.RDS")
-saveRDS(DMR.diffMeth.all.5X, file = "./DMRdiffMeth_all_5X.RDS")
-saveRDS(DMR.diffMeth.all.fem.5X, file = "./DMRdiffMeth_all_fem_5X.RDS")
-saveRDS(DMR.diffMeth.all.mal.5X, file = "./DMRdiffMeth_all_mal_5X.RDS")
+saveRDS(DMR.diffMeth.all.10X, file = "./DMR_res/DMRdiffmeth_all_10X.RDS")
+saveRDS(DMR.diffMeth.all.fem.10X, file = "./DMR_res/DMRdiffmeth_all_fem_10X.RDS")
+saveRDS(DMR.diffMeth.all.mal.10X, file = "./DMR_res/DMRdiffmeth_all_mal_10X.RDS")
+saveRDS(DMR.diffMeth.all.5X, file = "./DMR_res/DMRdiffmeth_all_5X.RDS")
+saveRDS(DMR.diffMeth.all.fem.5X, file = "./DMR_res/DMRdiffmeth_all_fem_5X.RDS")
+saveRDS(DMR.diffMeth.all.mal.5X, file = "./DMR_res/DMRdiffmeth_all_mal_5X.RDS")
 
-saveRDS(getData(DMR.diffMeth.all.10X), file = "./DMRdiffMeth_all_10X_data.RDS")
-saveRDS(getData(DMR.diffMeth.all.fem.10X), file = "./DMRdiffMeth_all_fem_10X_data.RDS")
-saveRDS(getData(DMR.diffMeth.all.mal.10X), file = "./DMRdiffMeth_all_mal_10X_data.RDS")
-saveRDS(getData(DMR.diffMeth.all.5X), file = "./DMRdiffMeth_all_5X_data.RDS")
-saveRDS(getData(DMR.diffMeth.all.fem.5X), file = "./DMRdiffMeth_all_fem_5X_data.RDS")
-saveRDS(getData(DMR.diffMeth.all.mal.5X), file = "./DMRdiffMeth_all_mal_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.all.10X), file = "./DMR_res/DMRdiffmeth_all_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.all.fem.10X), file = "./DMR_res/DMRdiffmeth_all_fem_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.all.mal.10X), file = "./DMR_res/DMRdiffmeth_all_mal_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.all.5X), file = "./DMR_res/DMRdiffmeth_all_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.all.fem.5X), file = "./DMR_res/DMRdiffmeth_all_fem_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.all.mal.5X), file = "./DMR_res/DMRdiffmeth_all_mal_5X_data.RDS")
 
-saveRDS(DMR.diffMeth.all.10X.chr, file = "./DMRdiffMethChr_all_10X.RDS")
-saveRDS(DMR.diffMeth.all.fem.10X.chr, file = "./DMRdiffMethChr_all_fem_10X.RDS")
-saveRDS(DMR.diffMeth.all.mal.10X.chr, file = "./DMRdiffMethChr_all_mal_10X.RDS")
-saveRDS(DMR.diffMeth.all.5X.chr, file = "./DMRdiffMethChr_all_5X.RDS")
-saveRDS(DMR.diffMeth.all.fem.5X.chr, file = "./DMRdiffMethChr_all_fem_5X.RDS")
-saveRDS(DMR.diffMeth.all.mal.5X.chr, file = "./DMRdiffMethChr_all_mal_5X.RDS")
+saveRDS(DMR.diffMeth.all.10X.chr, file = "./DMR_res/DMRdiffmethchr_all_10X.RDS")
+saveRDS(DMR.diffMeth.all.fem.10X.chr, file = "./DMR_res/DMRdiffmethchr_all_fem_10X.RDS")
+saveRDS(DMR.diffMeth.all.mal.10X.chr, file = "./DMR_res/DMRdiffnethchr_all_mal_10X.RDS")
+saveRDS(DMR.diffMeth.all.5X.chr, file = "./DMR_res/DMRdiffmethchr_all_5X.RDS")
+saveRDS(DMR.diffMeth.all.fem.5X.chr, file = "./DMR_res/DMRdiffmethchr_all_fem_5X.RDS")
+saveRDS(DMR.diffMeth.all.mal.5X.chr, file = "./DMR_res/DMRdiffmethchr_all_mal_5X.RDS")

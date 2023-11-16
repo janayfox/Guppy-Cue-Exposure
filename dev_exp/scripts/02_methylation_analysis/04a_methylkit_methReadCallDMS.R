@@ -18,85 +18,85 @@ library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("data.table", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/guppyWGBS/methylKit/dev")
+setwd("/scratch/janayfox/guppyWGBS/methylKit/dev/perc20")
 
 ## Prepare tabix files
 #create list of file locations
-file.list.dev = list("../../mergedCov/dev/DAC2F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC2F5.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC2F6.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC3F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC3F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC3M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC3M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC4F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC4F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC4F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC4F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC4F5.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5F5.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5M3.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC5M4.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC6F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC6F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC6F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC6M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC6M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC6M3.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7F5.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7F6.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DAC7M3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC2F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC2F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC2M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC2M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC3F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC3F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC3F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC3M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC3M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC3M4.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4F5.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC4M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5F5.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC5M3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6F4.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC6M4.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7F1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7F2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7F3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7M1.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7M2.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7M3.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7M4.CpG_merged.cov",
-                     "../../mergedCov/dev/DC7M5.CpG_merged.cov")
+file.list.dev = list("../../../mergedCov/dev/DAC2F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC2F5.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC2F6.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC3F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC3F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC3M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC3M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC4F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC4F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC4F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC4F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC4F5.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5F5.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5M3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC5M4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC6F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC6F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC6F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC6M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC6M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC6M3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7F5.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7F6.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DAC7M3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC2F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC2F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC2M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC2M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC3F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC3F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC3F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC3M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC3M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC3M4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4F5.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC4M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5F5.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC5M3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6F4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC6M4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7F1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7F2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7F3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7M1.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7M2.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7M3.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7M4.CpG_merged.cov",
+                     "../../../mergedCov/dev/DC7M5.CpG_merged.cov")
 
 #create tabix file
 myobj=methRead(file.list.dev,
@@ -204,21 +204,21 @@ covariates <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3","AC3",
 DMSmyDiff5X_21L <- calculateDiffMeth(DMSmeth5X_21L, mc.cores=2, covariates=covariates, test="Chisq", save.db = TRUE, suffix = "myDiff_merged")
 
 # Call significant methylation
-DMSdiffMeth5X_21L <- getMethylDiff(DMSmyDiff5X_21L, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth_merged")
+DMSdiffMeth5X_21L <- getMethylDiff(DMSmyDiff5X_21L, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth_merged")
 
 # Check number of significant DMS
 DMSdiffMeth5X_21L
 
 # Get meth per chromosome
-DMSdiffMethChr5X_21L <- diffMethPerChr(DMSmyDiff5X_21L, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "chr_merged")
+DMSdiffMethChr5X_21L <- diffMethPerChr(DMSmyDiff5X_21L, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "chr_merged")
 DMSdiffMethChr5X_21L
 
 ## Save R objects ##
 saveRDS(myobj5X.subset, file = "./myObj5X.RDS")
-saveRDS(DMSmeth5X_21L, file = "./DMSmeth5x_21L.RDS")
-saveRDS(DMSmyDiff5X_21L, file = "./DMSmyDiff5X_21L.RDS")
-saveRDS(DMSdiffMeth5X_21L, file = "./DMSdiffmeth5X_21L.RDS")
-saveRDS(DMSdiffMethChr5X_21L, file = "./DMSdiffMethChr5x_21L.RDS")
+saveRDS(DMSmeth5X_21L, file = "./DMSmeth5x.RDS")
+saveRDS(DMSmyDiff5X_21L, file = "./DMSmydiff5X.RDS")
+saveRDS(DMSdiffMeth5X_21L, file = "./DMSdiffmeth5X.RDS")
+saveRDS(DMSdiffMethChr5X_21L, file = "./DMSdiffmethchr5x.RDS")
 saveRDS(getData(DMSmeth5X_21L), file = "./DMSmeth5X_getData.RDS")
-saveRDS(getData(DMSdiffMeth5X_21L), file = "./DMSdiffMeth5X_25Ldata.RDS")
-saveRDS(getData(DMSmyDiff5X_25L), file = "./DMSmyDiff5X_21Ldata.RDS")
+saveRDS(getData(DMSdiffMeth5X_21L), file = "./DMSdiffmeth5X_data.RDS")
+saveRDS(getData(DMSmyDiff5X_25L), file = "./DMSmydiff5X_data.RDS")

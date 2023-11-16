@@ -18,36 +18,36 @@ library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/guppyWGBS/methylKit/st/05h")
+setwd("/scratch/janayfox/guppyWGBS/methylKit/st/perc20/05h")
 
 ## Prepare tabix files
 #create lists of file locations
-file.list.05h = list("../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C10F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C10M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C13F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C13M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C2F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C2M.CpG_merged.cov")
+file.list.05h = list("../../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C10F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C10M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C13F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C13M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C2F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C2M.CpG_merged.cov")
 
-file.list.05h.fem = list("../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C10F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C13F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C2F.CpG_merged.cov")
+file.list.05h.fem = list("../../../../mergedCov/st/ST2AC10F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC16F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC3F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C10F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C13F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C2F.CpG_merged.cov")
 
-file.list.05h.mal = list("../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C10M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C13M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C2M.CpG_merged.cov")
+file.list.05h.mal = list("../../../../mergedCov/st/ST2AC10M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC16M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC3M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C10M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C13M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C2M.CpG_merged.cov")
 
 #create tabix file
 myobj.05h=methRead(file.list.05h,
@@ -203,9 +203,9 @@ DMS.myDiff.05h.fem.5X <- calculateDiffMeth(DMS.meth.05h.fem.5X, mc.cores=2, test
 DMS.myDiff.05h.mal.5X <- calculateDiffMeth(DMS.meth.05h.mal.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMS_myDiff_05h_mal")
 
 #call significant methylation
-DMS.diffMeth.05h.5X <- getMethylDiff(DMS.myDiff.05h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h")
-DMS.diffMeth.05h.fem.5X <- getMethylDiff(DMS.myDiff.05h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_fem")
-DMS.diffMeth.05h.mal.5X <- getMethylDiff(DMS.myDiff.05h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_mal")
+DMS.diffMeth.05h.5X <- getMethylDiff(DMS.myDiff.05h.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h")
+DMS.diffMeth.05h.fem.5X <- getMethylDiff(DMS.myDiff.05h.fem.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_fem")
+DMS.diffMeth.05h.mal.5X <- getMethylDiff(DMS.myDiff.05h.mal.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMS_diffMeth_05h_mal")
 
 #check number of significant DMS
 DMS.diffMeth.05h.5X
@@ -213,39 +213,39 @@ DMS.diffMeth.05h.fem.5X
 DMS.diffMeth.05h.mal.5X
 
 # Get meth per chromosome
-DMS.diffMethChr.05h.5X <- diffMethPerChr(DMS.myDiff.05h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h")
+DMS.diffMethChr.05h.5X <- diffMethPerChr(DMS.myDiff.05h.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "DMS_chr_05h")
 DMS.diffMethChr.05h.5X
-DMS.diffMethChr.05h.fem.5X <- diffMethPerChr(DMS.myDiff.05h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h_fem")
+DMS.diffMethChr.05h.fem.5X <- diffMethPerChr(DMS.myDiff.05h.fem.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "DMS_chr_05h_fem")
 DMS.diffMethChr.05h.fem.5X
-DMS.diffMethChr.05h.mal.5X <- diffMethPerChr(DMS.myDiff.05h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=15, save.db = TRUE, suffix = "DMS_chr_05h_mal")
+DMS.diffMethChr.05h.mal.5X <- diffMethPerChr(DMS.myDiff.05h.mal.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "DMS_chr_05h_mal")
 DMS.diffMethChr.05h.mal.5X
 
 ## Save R objects ##
-saveRDS(myobj.05h.subset, file = "./shortterm_myObj_05h_5X.RDS")
-saveRDS(myobj.05h.fem.subset, file = "./shortterm_myObj_05h_fem_5X.RDS")
-saveRDS(myobj.05h.mal.subset, file = "./shortterm_myObj_05h_mal_5X.RDS")
+saveRDS(myobj.05h.subset, file = "./DMS_res/myobj_05h_5X.RDS")
+saveRDS(myobj.05h.fem.subset, file = "./DMS_res/myobj_05h_fem_5X.RDS")
+saveRDS(myobj.05h.mal.subset, file = "./DMS_res/myobj_05h_mal_5X.RDS")
 
-saveRDS(DMS.meth.05h.5X, file = "./shortterm_DMSmeth_05h_5X.RDS")
-saveRDS(DMS.meth.05h.fem.5X, file = "./shortterm_DMSmeth_05h_fem_5X.RDS")
-saveRDS(DMS.meth.05h.mal.5X, file = "./shortterm_DMSmeth_05h_mal_5X.RDS")
+saveRDS(DMS.meth.05h.5X, file = "./DMS_res/DMSmeth_05h_5X.RDS")
+saveRDS(DMS.meth.05h.fem.5X, file = "./DMS_res/DMSmeth_05h_fem_5X.RDS")
+saveRDS(DMS.meth.05h.mal.5X, file = "./DMS_res/DMSmeth_05h_mal_5X.RDS")
 
-saveRDS(DMS.myDiff.05h.5X, file = "./shortterm_DMSmyDiff_05h_5X.RDS")
-saveRDS(DMS.myDiff.05h.fem.5X, file = "./shortterm_DMSmyDiff_05h_fem_5X.RDS")
-saveRDS(DMS.myDiff.05h.mal.5X, file = "./shortterm_DMSmyDiff_05h_mal_5X.RDS")
+saveRDS(DMS.myDiff.05h.5X, file = "./DMS_res/DMSmydiff_05h_5X.RDS")
+saveRDS(DMS.myDiff.05h.fem.5X, file = "./DMS_res/DMSmydiff_05h_fem_5X.RDS")
+saveRDS(DMS.myDiff.05h.mal.5X, file = "./DMS_res/DMSmydiff_05h_mal_5X.RDS")
 
-saveRDS(DMS.diffMeth.05h.5X, file = "./shortterm_DMSDiffMeth_05h_5X.RDS")
-saveRDS(DMS.diffMeth.05h.fem.5X, file = "./shortterm_DMSDiffMeth_05h_fem_5X.RDS")
-saveRDS(DMS.diffMeth.05h.mal.5X, file = "./shortterm_DMSDiffMeth_05h_mal_5X.RDS")
+saveRDS(DMS.diffMeth.05h.5X, file = "./DMS_res/DMSdiffmeth_05h_5X.RDS")
+saveRDS(DMS.diffMeth.05h.fem.5X, file = "./DMS_res/DMSdiffmeth_05h_fem_5X.RDS")
+saveRDS(DMS.diffMeth.05h.mal.5X, file = "./DMS_res/DMSdiffmeth_05h_mal_5X.RDS")
 
-saveRDS(getData(DMS.meth.05h.5X), file = "./shortterm_meth_05h_5X_getData.RDS")
-saveRDS(getData(DMS.meth.05h.fem.5X), file = "./shortterm_meth_05h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.meth.05h.mal.5X), file = "./shortterm_meth_05h_mal_5X_getData.RDS")
+saveRDS(getData(DMS.meth.05h.5X), file = "./DMS_res/meth_05h_5X_data.RDS")
+saveRDS(getData(DMS.meth.05h.fem.5X), file = "./DMS_res/meth_05h_fem_5X_data.RDS")
+saveRDS(getData(DMS.meth.05h.mal.5X), file = "./DMS_res/meth_05h_mal_5X_data.RDS")
 
-saveRDS(getData(DMS.diffMeth.05h.5X), file = "./shortterm_DMSDiffMeth_05h_5X_getData.RDS")
-saveRDS(getData(DMS.diffMeth.05h.fem.5X), file = "./shortterm_DMSDiffMeth_05h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.diffMeth.05h.mal.5X), file = "./shortterm_DMSDiffMeth_05h_mal_5X_getData.RDS")
+saveRDS(getData(DMS.diffMeth.05h.5X), file = "./DMS_res/DMSdiffmeth_05h_5X_data.RDS")
+saveRDS(getData(DMS.diffMeth.05h.fem.5X), file = "./DMS_res/DMSdiffmeth_05h_fem_5X_data.RDS")
+saveRDS(getData(DMS.diffMeth.05h.mal.5X), file = "./DMS_res/DMSdiffmeth_05h_mal_5X_data.RDS")
 
-saveRDS(getData(DMS.myDiff.05h.5X), file = "./shortterm_DMSmyDiff_05h_5X_getData.RDS")
-saveRDS(getData(DMS.myDiff.05h.fem.5X), file = "./shortterm_DMSmyDiff_05h_fem_5X_getData.RDS")
-saveRDS(getData(DMS.myDiff.05h.mal.5X), file = "./shortterm_DMSmyDiff_05h_mal_5X_getData.RDS")
+saveRDS(getData(DMS.myDiff.05h.5X), file = "./DMS_res/DMSmydiff_05h_5X_data.RDS")
+saveRDS(getData(DMS.myDiff.05h.fem.5X), file = "./DMS_res/DMSmydiff_05h_fem_5X_data.RDS")
+saveRDS(getData(DMS.myDiff.05h.mal.5X), file = "./DMS_res/DMSmydiff_05h_mal_5X_data.RDS")
 
