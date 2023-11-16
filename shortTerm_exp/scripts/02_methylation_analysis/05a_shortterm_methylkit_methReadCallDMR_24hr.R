@@ -18,36 +18,36 @@ library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/guppyWGBS/methylKit/st/24h")
+setwd("/scratch/janayfox/guppyWGBS/methylKit/st/perc20/24h")
 
 ## Prepare tabix files
 #create lists of file locations
-file.list.24h = list("../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C15F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C15M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C4F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C4M.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C8F.CpG_merged.cov",
-                     "../../../mergedCov/st/ST2C8M.CpG_merged.cov")
+file.list.24h = list("../../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C15F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C15M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C4F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C4M.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C8F.CpG_merged.cov",
+                     "../../../../mergedCov/st/ST2C8M.CpG_merged.cov")
 
-file.list.24h.fem = list("../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C15F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C4F.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C8F.CpG_merged.cov")
+file.list.24h.fem = list("../../../../mergedCov/st/ST2AC15F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC4F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC8F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C15F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C4F.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C8F.CpG_merged.cov")
 
-file.list.24h.mal = list("../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C15M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C4M.CpG_merged.cov",
-                         "../../../mergedCov/st/ST2C8M.CpG_merged.cov")
+file.list.24h.mal = list("../../../../mergedCov/st/ST2AC15M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC4M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2AC8M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C15M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C4M.CpG_merged.cov",
+                         "../../../../mergedCov/st/ST2C8M.CpG_merged.cov")
 
 #create tabix file
 myobj.24h=methRead(file.list.24h,
@@ -207,13 +207,13 @@ DMR.myDiff.24h.fem.5X <- calculateDiffMeth(DMR.meth.24h.fem.5X, mc.cores=2, test
 DMR.myDiff.24h.mal.5X <- calculateDiffMeth(DMR.meth.24h.mal.5X, mc.cores=2, test="Chisq", save.db = TRUE, suffix = "DMR_myDiff_24h_mal_5X")
 
 #call significant methylation
-DMR.diffMeth.24h.10X <- getMethylDiff(DMR.myDiff.24h.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_10X")
-DMR.diffMeth.24h.fem.10X <- getMethylDiff(DMR.myDiff.24h.fem.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_fem_10X")
-DMR.diffMeth.24h.mal.10X <- getMethylDiff(DMR.myDiff.24h.mal.10X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_mal_10X")
+DMR.diffMeth.24h.10X <- getMethylDiff(DMR.myDiff.24h.10X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_10X")
+DMR.diffMeth.24h.fem.10X <- getMethylDiff(DMR.myDiff.24h.fem.10X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_fem_10X")
+DMR.diffMeth.24h.mal.10X <- getMethylDiff(DMR.myDiff.24h.mal.10X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_mal_10X")
 
-DMR.diffMeth.24h.5X <- getMethylDiff(DMR.myDiff.24h.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_5X")
-DMR.diffMeth.24h.fem.5X <- getMethylDiff(DMR.myDiff.24h.fem.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_fem_5X")
-DMR.diffMeth.24h.mal.5X <- getMethylDiff(DMR.myDiff.24h.mal.5X, difference = 15, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_mal_5X")
+DMR.diffMeth.24h.5X <- getMethylDiff(DMR.myDiff.24h.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_5X")
+DMR.diffMeth.24h.fem.5X <- getMethylDiff(DMR.myDiff.24h.fem.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_fem_5X")
+DMR.diffMeth.24h.mal.5X <- getMethylDiff(DMR.myDiff.24h.mal.5X, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "DMR_diffMeth_24h_mal_5X")
 
 #check number of DMRs 
 DMR.diffMeth.24h.10X
@@ -225,66 +225,66 @@ DMR.diffMeth.24h.fem.5X
 DMR.diffMeth.24h.mal.5X
 
 #get meth per chromosome 
-DMR.diffMeth.24h.10X.chr <- diffMethPerChr(DMR.diffMeth.24h.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_24h_10X")
+DMR.diffMeth.24h.10X.chr <- diffMethPerChr(DMR.diffMeth.24h.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_24h_10X")
 DMR.diffMeth.24h.10X.chr
-DMR.diffMeth.24h.fem.10X.chr <- diffMethPerChr(DMR.diffMeth.24h.fem.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_24h_fem_10X")
+DMR.diffMeth.24h.fem.10X.chr <- diffMethPerChr(DMR.diffMeth.24h.fem.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_24h_fem_10X")
 DMR.diffMeth.24h.fem.10X.chr
-DMR.diffMeth.24h.mal.10X.chr <- diffMethPerChr(DMR.diffMeth.24h.mal.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_24h_mal_10X")
+DMR.diffMeth.24h.mal.10X.chr <- diffMethPerChr(DMR.diffMeth.24h.mal.10X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_24h_mal_10X")
 DMR.diffMeth.24h.mal.10X.chr
 
-DMR.diffMeth.24h.5X.chr <- diffMethPerChr(DMR.diffMeth.24h.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_24h_5X")
+DMR.diffMeth.24h.5X.chr <- diffMethPerChr(DMR.diffMeth.24h.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_24h_5X")
 DMR.diffMeth.24h.5X.chr
-DMR.diffMeth.24h.fem.5X.chr <- diffMethPerChr(DMR.diffMeth.24h.fem.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_24h_fem_5X")
+DMR.diffMeth.24h.fem.5X.chr <- diffMethPerChr(DMR.diffMeth.24h.fem.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_24h_fem_5X")
 DMR.diffMeth.24h.fem.5X.chr
-DMR.diffMeth.24h.mal.5X.chr <- diffMethPerChr(DMR.diffMeth.24h.mal.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=15, save.db =  TRUE, suffix = "chrDMR_24h_mal_5X")
+DMR.diffMeth.24h.mal.5X.chr <- diffMethPerChr(DMR.diffMeth.24h.mal.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db =  TRUE, suffix = "chrDMR_24h_mal_5X")
 DMR.diffMeth.24h.mal.5X.chr
 
 ## Save R objects ##
-saveRDS(DMR.meth.24h.10X, file = "./DMRmeth_24h_10X.RDS")
-saveRDS(DMR.meth.24h.fem.10X, file = "./DMRmeth_24h_fem_10X.RDS")
-saveRDS(DMR.meth.24h.mal.10X, file = "./DMRmeth_24h_mal_10X.RDS")
-saveRDS(DMR.meth.24h.5X, file = "./DMRmeth_24h_5X.RDS")
-saveRDS(DMR.meth.24h.fem.5X, file = "./DMRmeth_24h_fem_5X.RDS")
-saveRDS(DMR.meth.24h.mal.5X, file = "./DMRmeth_24h_mal_5X.RDS")
+saveRDS(DMR.meth.24h.10X, file = "./DMR_res/DMRmeth_24h_10X.RDS")
+saveRDS(DMR.meth.24h.fem.10X, file = "./DMR_res/DMRmeth_24h_fem_10X.RDS")
+saveRDS(DMR.meth.24h.mal.10X, file = "./DMR_res/DMRmeth_24h_mal_10X.RDS")
+saveRDS(DMR.meth.24h.5X, file = "./DMR_res/DMRmeth_24h_5X.RDS")
+saveRDS(DMR.meth.24h.fem.5X, file = "./DMR_res/DMRmeth_24h_fem_5X.RDS")
+saveRDS(DMR.meth.24h.mal.5X, file = "./DMR_res/DMRmeth_24h_mal_5X.RDS")
 
-saveRDS(getData(DMR.meth.24h.10X), file = "./DMRmeth_24h_10X_data.RDS")
-saveRDS(getData(DMR.meth.24h.fem.10X), file = "./DMRmeth_24h_fem_10X_data.RDS")
-saveRDS(getData(DMR.meth.24h.mal.10X), file = "./DMRmeth_24h_mal_10X_data.RDS")
-saveRDS(getData(DMR.meth.24h.5X), file = "./DMRmeth_24h_5X_data.RDS")
-saveRDS(getData(DMR.meth.24h.fem.5X), file = "./DMRmeth_24h_fem_5X_data.RDS")
-saveRDS(getData(DMR.meth.24h.mal.5X), file = "./DMRmeth_24h_mal_5X_data.RDS")
+saveRDS(getData(DMR.meth.24h.10X), file = "./DMR_res/DMRmeth_24h_10X_data.RDS")
+saveRDS(getData(DMR.meth.24h.fem.10X), file = "./DMR_res/DMRmeth_24h_fem_10X_data.RDS")
+saveRDS(getData(DMR.meth.24h.mal.10X), file = "./DMR_res/DMRmeth_24h_mal_10X_data.RDS")
+saveRDS(getData(DMR.meth.24h.5X), file = "./DMR_res/DMRmeth_24h_5X_data.RDS")
+saveRDS(getData(DMR.meth.24h.fem.5X), file = "./DMR_res/DMRmeth_24h_fem_5X_data.RDS")
+saveRDS(getData(DMR.meth.24h.mal.5X), file = "./DMR_res/DMRmeth_24h_mal_5X_data.RDS")
 
-saveRDS(DMR.myDiff.24h.10X, file = "./DMRmyDiff_24h_10X.RDS")
-saveRDS(DMR.myDiff.24h.fem.10X, file = "./DMRmyDiff_24h_fem_10X.RDS")
-saveRDS(DMR.myDiff.24h.mal.10X, file = "./DMRmyDiff_24h_mal_10X.RDS")
-saveRDS(DMR.myDiff.24h.5X, file = "./DMRmyDiff_24h_5X.RDS")
-saveRDS(DMR.myDiff.24h.fem.5X, file = "./DMRmyDiff_24h_fem_5X.RDS")
-saveRDS(DMR.myDiff.24h.mal.5X, file = "./DMRmyDiff_24h_mal_5X.RDS")
+saveRDS(DMR.myDiff.24h.10X, file = "./DMR_res/DMRmydiff_24h_10X.RDS")
+saveRDS(DMR.myDiff.24h.fem.10X, file = "./DMR_res/DMRmydiff_24h_fem_10X.RDS")
+saveRDS(DMR.myDiff.24h.mal.10X, file = "./DMR_res/DMRmydiff_24h_mal_10X.RDS")
+saveRDS(DMR.myDiff.24h.5X, file = "./DMR_res/DMRmydiff_24h_5X.RDS")
+saveRDS(DMR.myDiff.24h.fem.5X, file = "./DMR_res/DMRmydiff_24h_fem_5X.RDS")
+saveRDS(DMR.myDiff.24h.mal.5X, file = "./DMR_res/DMRmydiff_24h_mal_5X.RDS")
 
-saveRDS(getData(DMR.myDiff.24h.10X), file = "./DMRmyDiff_24h_10X_data.RDS")
-saveRDS(getData(DMR.myDiff.24h.fem.10X), file = "./DMRmyDiff_24h_fem_10X_data.RDS")
-saveRDS(getData(DMR.myDiff.24h.mal.10X), file = "./DMRmyDiff_24h_mal_10X_data.RDS")
-saveRDS(getData(DMR.myDiff.24h.5X), file = "./DMRmyDiff_24h_5X_data.RDS")
-saveRDS(getData(DMR.myDiff.24h.fem.5X), file = "./DMRmyDiff_24h_fem_5X_data.RDS")
-saveRDS(getData(DMR.myDiff.24h.mal.5X), file = "./DMRmyDiff_24h_mal_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.24h.10X), file = "./DMR_res/DMRmydiff_24h_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.24h.fem.10X), file = "./DMR_res/DMRmydiff_24h_fem_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.24h.mal.10X), file = "./DMR_res/DMRmydiff_24h_mal_10X_data.RDS")
+saveRDS(getData(DMR.myDiff.24h.5X), file = "./DMR_res/DMRmydiff_24h_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.24h.fem.5X), file = "./DMR_res/DMRmydiff_24h_fem_5X_data.RDS")
+saveRDS(getData(DMR.myDiff.24h.mal.5X), file = "./DMR_res/DMRmydiff_24h_mal_5X_data.RDS")
 
-saveRDS(DMR.diffMeth.24h.10X, file = "./DMRdiffMeth_24h_10X.RDS")
-saveRDS(DMR.diffMeth.24h.fem.10X, file = "./DMRdiffMeth_24h_fem_10X.RDS")
-saveRDS(DMR.diffMeth.24h.mal.10X, file = "./DMRdiffMeth_24h_mal_10X.RDS")
-saveRDS(DMR.diffMeth.24h.5X, file = "./DMRdiffMeth_24h_5X.RDS")
-saveRDS(DMR.diffMeth.24h.fem.5X, file = "./DMRdiffMeth_24h_fem_5X.RDS")
-saveRDS(DMR.diffMeth.24h.mal.5X, file = "./DMRdiffMeth_24h_mal_5X.RDS")
+saveRDS(DMR.diffMeth.24h.10X, file = "./DMR_res/DMRdiffmeth_24h_10X.RDS")
+saveRDS(DMR.diffMeth.24h.fem.10X, file = "./DMR_res/DMRdiffmeth_24h_fem_10X.RDS")
+saveRDS(DMR.diffMeth.24h.mal.10X, file = "./DMR_res/DMRdiffmeth_24h_mal_10X.RDS")
+saveRDS(DMR.diffMeth.24h.5X, file = "./DMR_res/DMRdiffmeth_24h_5X.RDS")
+saveRDS(DMR.diffMeth.24h.fem.5X, file = "./DMR_res/DMRdiffmeth_24h_fem_5X.RDS")
+saveRDS(DMR.diffMeth.24h.mal.5X, file = "./DMR_res/DMRdiffmeth_24h_mal_5X.RDS")
 
-saveRDS(getData(DMR.diffMeth.24h.10X), file = "./DMRdiffMeth_24h_10X_data.RDS")
-saveRDS(getData(DMR.diffMeth.24h.fem.10X), file = "./DMRdiffMeth_24h_fem_10X_data.RDS")
-saveRDS(getData(DMR.diffMeth.24h.mal.10X), file = "./DMRdiffMeth_24h_mal_10X_data.RDS")
-saveRDS(getData(DMR.diffMeth.24h.5X), file = "./DMRdiffMeth_24h_5X_data.RDS")
-saveRDS(getData(DMR.diffMeth.24h.fem.5X), file = "./DMRdiffMeth_24h_fem_5X_data.RDS")
-saveRDS(getData(DMR.diffMeth.24h.mal.5X), file = "./DMRdiffMeth_24h_mal_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.24h.10X), file = "./DMR_res/DMRdiffmeth_24h_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.24h.fem.10X), file = "./DMR_res/DMRdiffmeth_24h_fem_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.24h.mal.10X), file = "./DMR_res/DMRdiffmeth_24h_mal_10X_data.RDS")
+saveRDS(getData(DMR.diffMeth.24h.5X), file = "./DMR_res/DMRdiffmeth_24h_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.24h.fem.5X), file = "./DMR_res/DMRdiffmeth_24h_fem_5X_data.RDS")
+saveRDS(getData(DMR.diffMeth.24h.mal.5X), file = "./DMR_res/DMRdiffmeth_24h_mal_5X_data.RDS")
 
-saveRDS(DMR.diffMeth.24h.10X.chr, file = "./DMRdiffMethChr_24h_10X.RDS")
-saveRDS(DMR.diffMeth.24h.fem.10X.chr, file = "./DMRdiffMethChr_24h_fem_10X.RDS")
-saveRDS(DMR.diffMeth.24h.mal.10X.chr, file = "./DMRdiffMethChr_24h_mal_10X.RDS")
-saveRDS(DMR.diffMeth.24h.5X.chr, file = "./DMRdiffMethChr_24h_5X.RDS")
-saveRDS(DMR.diffMeth.24h.fem.5X.chr, file = "./DMRdiffMethChr_24h_fem_5X.RDS")
-saveRDS(DMR.diffMeth.24h.mal.5X.chr, file = "./DMRdiffMethChr_24h_mal_5X.RDS")
+saveRDS(DMR.diffMeth.24h.10X.chr, file = "./DMR_res/DMRdiffmethchr_24h_10X.RDS")
+saveRDS(DMR.diffMeth.24h.fem.10X.chr, file = "./DMR_res/DMRdiffmethchr_24h_fem_10X.RDS")
+saveRDS(DMR.diffMeth.24h.mal.10X.chr, file = "./DMR_res/DMRdiffmethchr_24h_mal_10X.RDS")
+saveRDS(DMR.diffMeth.24h.5X.chr, file = "./DMR_res/DMRdiffmethchr_24h_5X.RDS")
+saveRDS(DMR.diffMeth.24h.fem.5X.chr, file = "./DMR_res/DMRdiffmethchr_24h_fem_5X.RDS")
+saveRDS(DMR.diffMeth.24h.mal.5X.chr, file = "./DMR_res/DMRdiffmethchr_24h_mal_5X.RDS")

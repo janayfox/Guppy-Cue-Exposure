@@ -19,13 +19,13 @@ library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/guppyWGBS/methylKit/dev")
+setwd("/scratch/janayfox/guppyWGBS/methylKit/dev/perc20")
 
 ## Load in data and reformat ##
 ref.anno <- readTranscriptFeatures("/scratch/janayfox/guppyWGBS/annotation/guppy.sorted.bed", unique.prom = FALSE, up.flank = 1500, down.flank = 500)
-DMR.diffmeth <- readRDS("./DMR_res/DMRdiffMeth5X.RDS")
-DMS.diffmeth <- readRDS("./DMS_res/DMSdiffmeth5X_21L.RDS")
-CpG <- readRDS("./DMS_res/DMSmyDiff5X_21L.RDS")
+DMR.diffmeth <- readRDS("./DMR_res/DMRdiffmeth5X.RDS")
+DMS.diffmeth <- readRDS("./DMS_res/DMSdiffmeth5X.RDS")
+CpG <- readRDS("./DMS_res/DMSmydiff5X.RDS")
 
 #convert to GRanges
 DMR.diffmeth.gr <- as(DMR.diffmeth, "GRanges") 
