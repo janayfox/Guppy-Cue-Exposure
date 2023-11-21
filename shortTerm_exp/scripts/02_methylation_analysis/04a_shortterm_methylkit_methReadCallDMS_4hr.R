@@ -178,7 +178,7 @@ sds.4h.mal.5x <- matrixStats::rowSds(pm.4h.mal.5x) #calculate standard deviation
 DMS.meth.4h.mal.5X <- DMS.meth.4h.mal.5X[sds.4h.mal.5x > 2]
 
 #filter out SNPs
-snp <- read.csv("../../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
+snp <- read.csv("../../../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
 snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
 
 DMS.meth.4h.5X <- DMS.meth.4h.5X[!as(DMS.meth.4h.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
