@@ -87,6 +87,27 @@ CpG.24h.mal <- readRDS("./24h/DMS_res_24h/DMSmydiff_24h_mal_5X.RDS")
 CpG.72h.mal <- readRDS("./72h/DMS_res_72h/DMSmydiff_72h_mal_5X.RDS")
 CpG.all.mal <- readRDS("./all/DMS_res_all/DMSmydiff_all_mal_5X.RDS")
 
+regions.05h <- readRDS("./05h/DMR_res_05h/DMRmydiff_05h_5X.RDS")
+regions.1h <- readRDS("./1h/DMR_res_1h/DMRmydiff_1h_5X.RDS")
+regions.4h <- readRDS("./4h/DMR_res_4h/DMRmydiff_4h_5X.RDS")
+regions.24h <- readRDS("./24h/DMR_res_24h/DMRmydiff_24h_5X.RDS")
+regions.72h <- readRDS("./72h/DMR_res_72h/DMRmydiff_72h_5X.RDS")
+regions.all <- readRDS("./all/DMR_res_all/DMRmydiff_all_5X.RDS")
+
+regions.05h.fem <- readRDS("./05h/DMR_res_05h/DMRmydiff_05h_fem_5X.RDS")
+regions.1h.fem <- readRDS("./1h/DMR_res_1h/DMRmydiff_1h_fem_5X.RDS")
+regions.4h.fem <- readRDS("./4h/DMR_res_4h/DMRmydiff_4h_fem_5X.RDS")
+regions.24h.fem <- readRDS("./24h/DMR_res_24h/DMRmydiff_24h_fem_5X.RDS")
+regions.72h.fem <- readRDS("./72h/DMR_res_72h/DMRmydiff_72h_fem_5X.RDS")
+regions.all.fem <- readRDS("./all/DMR_res_all/DMRmydiff_all_fem_5X.RDS")
+
+regions.05h.mal <- readRDS("./05h/DMR_res_05h/DMRmydiff_05h_mal_5X.RDS")
+regions.1h.mal <- readRDS("./1h/DMR_res_1h/DMRmydiff_1h_mal_5X.RDS")
+regions.4h.mal <- readRDS("./4h/DMR_res_4h/DMRmydiff_4h_mal_5X.RDS")
+regions.24h.mal <- readRDS("./24h/DMR_res_24h/DMRmydiff_24h_mal_5X.RDS")
+regions.72h.mal <- readRDS("./72h/DMR_res_72h/DMRmydiff_72h_mal_5X.RDS")
+regions.all.mal <- readRDS("./all/DMR_res_all/DMRmydiff_all_mal_5X.RDS")
+
 #change chromosome names to match 
 #create function that renames chromosomes and converts to G ranges 
 renameChr <- function(obj) {
@@ -186,151 +207,417 @@ CpG.24h.mal.gr.rename <- renameChr(CpG.24h.mal)
 CpG.72h.mal.gr.rename <- renameChr(CpG.72h.mal)
 CpG.all.mal.gr.rename <- renameChr(CpG.all.mal)
 
+regions.05h.gr.rename <- renameChr.noXY(regions.05h)
+regions.1h.gr.rename <- renameChr.noXY(regions.1h)
+regions.4h.gr.rename <- renameChr.noXY(regions.4h)
+regions.24h.gr.rename <- renameChr.noXY(regions.24h)
+regions.72h.gr.rename <- renameChr.noXY(regions.72h)
+regions.all.gr.rename <- renameChr.noXY(regions.all)
+
+regions.05h.fem.gr.rename <- renameChr(regions.05h.fem)
+regions.1h.fem.gr.rename <- renameChr(regions.1h.fem)
+regions.4h.fem.gr.rename <- renameChr(regions.4h.fem)
+regions.24h.fem.gr.rename <- renameChr(regions.24h.fem)
+regions.72h.fem.gr.rename <- renameChr(regions.72h.fem)
+regions.all.fem.gr.rename <- renameChr(regions.all.fem)
+
+regions.05h.mal.gr.rename <- renameChr(regions.05h.mal)
+regions.1h.mal.gr.rename <- renameChr(regions.1h.mal)
+regions.4h.mal.gr.rename <- renameChr(regions.4h.mal)
+regions.24h.mal.gr.rename <- renameChr(regions.24h.mal)
+regions.72h.mal.gr.rename <- renameChr(regions.72h.mal)
+regions.all.mal.gr.rename <- renameChr(regions.all.mal)
+
+# get lists of hypo and hyper methylation
+DMR.diffmeth.05h.gr.rename.hyper <- subset(DMR.diffmeth.05h.gr.rename, meth.diff > 0)
+DMR.diffmeth.1h.gr.rename.hyper <- subset(DMR.diffmeth.1h.gr.rename, meth.diff > 0)
+DMR.diffmeth.4h.gr.rename.hyper <- subset(DMR.diffmeth.4h.gr.rename, meth.diff > 0)
+DMR.diffmeth.24h.gr.rename.hyper <- subset(DMR.diffmeth.24h.gr.rename, meth.diff > 0)
+DMR.diffmeth.72h.gr.rename.hyper <- subset(DMR.diffmeth.72h.gr.rename, meth.diff > 0)
+DMR.diffmeth.all.gr.rename.hyper <- subset(DMR.diffmeth.all.gr.rename, meth.diff > 0)
+
+DMR.diffmeth.05h.fem.gr.rename.hyper <- subset(DMR.diffmeth.05h.fem.gr.rename, meth.diff > 0)
+DMR.diffmeth.1h.fem.gr.rename.hyper <- subset(DMR.diffmeth.1h.fem.gr.rename, meth.diff > 0)
+DMR.diffmeth.4h.fem.gr.rename.hyper <- subset(DMR.diffmeth.4h.fem.gr.rename, meth.diff > 0)
+DMR.diffmeth.24h.fem.gr.rename.hyper <- subset(DMR.diffmeth.24h.fem.gr.rename, meth.diff > 0)
+DMR.diffmeth.72h.fem.gr.rename.hyper <- subset(DMR.diffmeth.72h.fem.gr.rename, meth.diff > 0)
+DMR.diffmeth.all.fem.gr.rename.hyper <- subset(DMR.diffmeth.all.fem.gr.rename, meth.diff > 0)
+
+DMR.diffmeth.05h.mal.gr.rename.hyper <- subset(DMR.diffmeth.05h.mal.gr.rename, meth.diff > 0)
+DMR.diffmeth.1h.mal.gr.rename.hyper <- subset(DMR.diffmeth.1h.mal.gr.rename, meth.diff > 0)
+DMR.diffmeth.4h.mal.gr.rename.hyper <- subset(DMR.diffmeth.4h.mal.gr.rename, meth.diff > 0)
+DMR.diffmeth.24h.mal.gr.rename.hyper <- subset(DMR.diffmeth.24h.mal.gr.rename, meth.diff > 0)
+DMR.diffmeth.72h.mal.gr.rename.hyper <- subset(DMR.diffmeth.72h.mal.gr.rename, meth.diff > 0)
+DMR.diffmeth.all.mal.gr.rename.hyper <- subset(DMR.diffmeth.all.mal.gr.rename, meth.diff > 0)
+
+DMS.diffmeth.05h.gr.rename.hyper <- subset(DMS.diffmeth.05h.gr.rename, meth.diff > 0)
+DMS.diffmeth.1h.gr.rename.hyper <- subset(DMS.diffmeth.1h.gr.rename, meth.diff > 0)
+DMS.diffmeth.4h.gr.rename.hyper <- subset(DMS.diffmeth.4h.gr.rename, meth.diff > 0)
+DMS.diffmeth.24h.gr.rename.hyper <- subset(DMS.diffmeth.24h.gr.rename, meth.diff > 0)
+DMS.diffmeth.72h.gr.rename.hyper <- subset(DMS.diffmeth.72h.gr.rename, meth.diff > 0)
+DMS.diffmeth.all.gr.rename.hyper <- subset(DMS.diffmeth.all.gr.rename, meth.diff > 0)
+
+DMS.diffmeth.05h.fem.gr.rename.hyper <- subset(DMS.diffmeth.05h.fem.gr.rename, meth.diff > 0)
+DMS.diffmeth.1h.fem.gr.rename.hyper <- subset(DMS.diffmeth.1h.fem.gr.rename, meth.diff > 0)
+DMS.diffmeth.4h.fem.gr.rename.hyper <- subset(DMS.diffmeth.4h.fem.gr.rename, meth.diff > 0)
+DMS.diffmeth.24h.fem.gr.rename.hyper <- subset(DMS.diffmeth.24h.fem.gr.rename, meth.diff > 0)
+DMS.diffmeth.72h.fem.gr.rename.hyper <- subset(DMS.diffmeth.72h.fem.gr.rename, meth.diff > 0)
+DMS.diffmeth.all.fem.gr.rename.hyper <- subset(DMS.diffmeth.all.fem.gr.rename, meth.diff > 0)
+
+DMS.diffmeth.05h.mal.gr.rename.hyper <- subset(DMS.diffmeth.05h.mal.gr.rename, meth.diff > 0)
+DMS.diffmeth.1h.mal.gr.rename.hyper <- subset(DMS.diffmeth.1h.mal.gr.rename, meth.diff > 0)
+DMS.diffmeth.4h.mal.gr.rename.hyper <- subset(DMS.diffmeth.4h.mal.gr.rename, meth.diff > 0)
+DMS.diffmeth.24h.mal.gr.rename.hyper <- subset(DMS.diffmeth.24h.mal.gr.rename, meth.diff > 0)
+DMS.diffmeth.72h.mal.gr.rename.hyper <- subset(DMS.diffmeth.72h.mal.gr.rename, meth.diff > 0)
+DMS.diffmeth.all.mal.gr.rename.hyper <- subset(DMS.diffmeth.all.mal.gr.rename, meth.diff > 0)
+
+# get hypo methyaltion 
+DMR.diffmeth.05h.gr.rename.hypo <- subset(DMR.diffmeth.05h.gr.rename, meth.diff < 0)
+DMR.diffmeth.1h.gr.rename.hypo <- subset(DMR.diffmeth.1h.gr.rename, meth.diff < 0)
+DMR.diffmeth.4h.gr.rename.hypo <- subset(DMR.diffmeth.4h.gr.rename, meth.diff < 0)
+DMR.diffmeth.24h.gr.rename.hypo <- subset(DMR.diffmeth.24h.gr.rename, meth.diff < 0)
+DMR.diffmeth.72h.gr.rename.hypo <- subset(DMR.diffmeth.72h.gr.rename, meth.diff < 0)
+DMR.diffmeth.all.gr.rename.hypo <- subset(DMR.diffmeth.all.gr.rename, meth.diff < 0)
+
+DMR.diffmeth.05h.fem.gr.rename.hypo <- subset(DMR.diffmeth.05h.fem.gr.rename, meth.diff < 0)
+DMR.diffmeth.1h.fem.gr.rename.hypo <- subset(DMR.diffmeth.1h.fem.gr.rename, meth.diff < 0)
+DMR.diffmeth.4h.fem.gr.rename.hypo <- subset(DMR.diffmeth.4h.fem.gr.rename, meth.diff < 0)
+DMR.diffmeth.24h.fem.gr.rename.hypo <- subset(DMR.diffmeth.24h.fem.gr.rename, meth.diff < 0)
+DMR.diffmeth.72h.fem.gr.rename.hypo <- subset(DMR.diffmeth.72h.fem.gr.rename, meth.diff < 0)
+DMR.diffmeth.all.fem.gr.rename.hypo <- subset(DMR.diffmeth.all.fem.gr.rename, meth.diff < 0)
+
+DMR.diffmeth.05h.mal.gr.rename.hypo <- subset(DMR.diffmeth.05h.mal.gr.rename, meth.diff < 0)
+DMR.diffmeth.1h.mal.gr.rename.hypo <- subset(DMR.diffmeth.1h.mal.gr.rename, meth.diff < 0)
+DMR.diffmeth.4h.mal.gr.rename.hypo <- subset(DMR.diffmeth.4h.mal.gr.rename, meth.diff < 0)
+DMR.diffmeth.24h.mal.gr.rename.hypo <- subset(DMR.diffmeth.24h.mal.gr.rename, meth.diff < 0)
+DMR.diffmeth.72h.mal.gr.rename.hypo <- subset(DMR.diffmeth.72h.mal.gr.rename, meth.diff < 0)
+DMR.diffmeth.all.mal.gr.rename.hypo <- subset(DMR.diffmeth.all.mal.gr.rename, meth.diff < 0)
+
+DMS.diffmeth.05h.gr.rename.hypo <- subset(DMS.diffmeth.05h.gr.rename, meth.diff < 0)
+DMS.diffmeth.1h.gr.rename.hypo <- subset(DMS.diffmeth.1h.gr.rename, meth.diff < 0)
+DMS.diffmeth.4h.gr.rename.hypo <- subset(DMS.diffmeth.4h.gr.rename, meth.diff < 0)
+DMS.diffmeth.24h.gr.rename.hypo <- subset(DMS.diffmeth.24h.gr.rename, meth.diff < 0)
+DMS.diffmeth.72h.gr.rename.hypo <- subset(DMS.diffmeth.72h.gr.rename, meth.diff < 0)
+DMS.diffmeth.all.gr.rename.hypo <- subset(DMS.diffmeth.all.gr.rename, meth.diff < 0)
+
+DMS.diffmeth.05h.fem.gr.rename.hypo <- subset(DMS.diffmeth.05h.fem.gr.rename, meth.diff < 0)
+DMS.diffmeth.1h.fem.gr.rename.hypo <- subset(DMS.diffmeth.1h.fem.gr.rename, meth.diff < 0)
+DMS.diffmeth.4h.fem.gr.rename.hypo <- subset(DMS.diffmeth.4h.fem.gr.rename, meth.diff < 0)
+DMS.diffmeth.24h.fem.gr.rename.hypo <- subset(DMS.diffmeth.24h.fem.gr.rename, meth.diff < 0)
+DMS.diffmeth.72h.fem.gr.rename.hypo <- subset(DMS.diffmeth.72h.fem.gr.rename, meth.diff < 0)
+DMS.diffmeth.all.fem.gr.rename.hypo <- subset(DMS.diffmeth.all.fem.gr.rename, meth.diff < 0)
+
+DMS.diffmeth.05h.mal.gr.rename.hypo <- subset(DMS.diffmeth.05h.mal.gr.rename, meth.diff < 0)
+DMS.diffmeth.1h.mal.gr.rename.hypo <- subset(DMS.diffmeth.1h.mal.gr.rename, meth.diff < 0)
+DMS.diffmeth.4h.mal.gr.rename.hypo <- subset(DMS.diffmeth.4h.mal.gr.rename, meth.diff < 0)
+DMS.diffmeth.24h.mal.gr.rename.hypo <- subset(DMS.diffmeth.24h.mal.gr.rename, meth.diff < 0)
+DMS.diffmeth.72h.mal.gr.rename.hypo <- subset(DMS.diffmeth.72h.mal.gr.rename, meth.diff < 0)
+DMS.diffmeth.all.mal.gr.rename.hypo <- subset(DMS.diffmeth.all.mal.gr.rename, meth.diff < 0)
+
 ## Annotate ##
-anno.func <- function(DMR, DMS, CpG, 
-                      DMR_anno_name, DMS_anno_name, CpG_anno_name,
-                      DMR_perc_name, DMS_perc_name, CpG_perc_name,
-                      DMR_num_name, DMS_num_name, CpG_num_name,
-                      DMR_tss_name, DMS_tss_name) {
+anno.func <- function(DMR, DMR.hyper, DMR.hypo, DMS, DMS.hyper, DMS.hypo, CpG, regions,
+                      DMR_anno_name, DMR_hyper_anno_name, DMR_hypo_anno_name, 
+                      DMS_anno_name, DMS_hyper_anno_name, DMS_hypo_anno_name,
+                      CpG_anno_name, regions_anno_name,
+                      DMR_perc_name, DMS_perc_name, CpG_perc_name, regions_perc_name,
+                      DMR_num_name, DMS_num_name, CpG_num_name, regions_num_name,
+                      DMR_tss_name, DMR_hyper_tss_name, DMR_hypo_tss_name,
+                      DMS_tss_name, DMS_hyper_tss_name, DMS_hypo_tss_name) {
+
   #annotate with gene parts 
   DMR.anno <- annotateWithGeneParts(DMR, ref.anno)
-  DMS.anno <- annotateWithGeneParts(DMS, ref.anno)
-  CpG.anno <- annotateWithGeneParts(CpG, ref.anno)
+  DMR.hyper.anno <- annotateWithGeneParts(DMR.hyper, ref.anno)
+  DMR.hypo.anno <- annotateWithGeneParts(DMR.hypo, ref.anno)
 
+  DMS.anno <- annotateWithGeneParts(DMS, ref.anno)
+  DMS.hyper.anno <- annotateWithGeneParts(DMS.hyper, ref.anno)
+  DMS.hypo.anno <- annotateWithGeneParts(DMS.hypo, ref.anno)  
+  
+  CpG.anno <- annotateWithGeneParts(CpG, ref.anno)
+  regions.anno <- annotateWithGeneParts(regions, ref.anno)
+  
   #get percentage of DMRs that overlap with different features 
   DMR.ann.stats.perc <- getTargetAnnotationStats(DMR.anno, percentage = TRUE, precedence = TRUE)
   DMS.ann.stats.perc <- getTargetAnnotationStats(DMS.anno, percentage = TRUE, precedence = TRUE)
   CpG.ann.stats.perc <- getTargetAnnotationStats(CpG.anno, percentage = TRUE, precedence = TRUE)
+  regions.ann.stats.perc <- getTargetAnnotationStats(regions.anno, percentage = TRUE, precedence = TRUE)
 
   DMR.ann.stats.num <- getTargetAnnotationStats(DMR.anno, percentage = FALSE, precedence = TRUE)
   DMS.ann.stats.num <- getTargetAnnotationStats(DMS.anno, percentage = FALSE, precedence = TRUE)
   CpG.ann.stats.num <- getTargetAnnotationStats(CpG.anno, percentage = FALSE, precedence = TRUE)
-  
+  regions.ann.stats.num <- getTargetAnnotationStats(regions.anno, percentage = FALSE, precedence = TRUE)
+ 
   #get nearest TSS for DMS and DMRs
   DMR.tss <- getAssociationWithTSS(DMR.anno)
+  DMR.hyper.tss <- getAssociationWithTSS(DMR.hyper.anno)
+  DMR.hypo.tss <- getAssociationWithTSS(DMR.hypo.anno)
+
   DMS.tss <- getAssociationWithTSS(DMS.anno)
+  DMS.hyper.tss <- getAssociationWithTSS(DMS.hyper.anno)
+  DMS.hypo.tss <- getAssociationWithTSS(DMS.hypo.anno)
 
   ## Save data ## 
   saveRDS(DMR.anno, file = DMR_anno_name)
+  saveRDS(DMR.hyper.anno, file = DMR_hyper_anno_name)
+  saveRDS(DMR.hypo.anno, file = DMR_hypo_anno_name)
+  
   saveRDS(DMS.anno, file = DMS_anno_name)
-  saveRDS(CpG.anno, file = CpG_anno_name)
+  saveRDS(DMS.hyper.anno, file = DMS_hyper_anno_name)
+  saveRDS(DMS.hypo.anno, file = DMS_hypo_anno_name)
 
+  saveRDS(CpG.anno, file = CpG_anno_name)
+  saveRDS(regions.anno, file = regions_anno_name)
+  
   saveRDS(DMR.ann.stats.perc, file = DMR_perc_name)
   saveRDS(DMS.ann.stats.perc, file = DMS_perc_name)
   saveRDS(CpG.ann.stats.perc, file = CpG_perc_name)
+  saveRDS(regions.ann.stats.perc, file = regions_perc_name)
 
   saveRDS(DMR.ann.stats.num, file = DMR_num_name)
   saveRDS(DMS.ann.stats.num, file = DMS_num_name)
   saveRDS(CpG.ann.stats.num, file = CpG_num_name)
+  saveRDS(regions.ann.stats.num, file = regions_num_name)
 
   saveRDS(DMR.tss, file = DMR_tss_name)
+  saveRDS(DMR.hyper.tss, file = DMR_hyper_tss_name)
+  saveRDS(DMR.hypo.tss, file = DMR_hypo_tss_name)
+
   saveRDS(DMS.tss, file = DMS_tss_name)
+  saveRDS(DMS.hyper.tss, file = DMS_hyper_tss_name)
+  saveRDS(DMS.hypo.tss, file = DMS_hypo_tss_name)
 }
 
-anno.func(DMR.diffmeth.05h.gr.rename, DMS.diffmeth.05h.gr.rename, CpG.05h.gr.rename,
-          "./05h/anno_res_05h/DMR_anno_05h.RDS", "./05h/anno_res_05h/DMS_anno_05h.RDS", "./05h/anno_res_05h/CpG_anno_05h.RDS",
-          "./05h/anno_res_05h/DMR_annStats_perc_05h.RDS", "./05h/anno_res_05h/DMS_annStats_perc_05h.RDS", "./05h/anno_res_05h/CpG_annStats_perc_05h.RDS",
-          "./05h/anno_res_05h/DMR_annStats_num_05h.RDS", "./05h/anno_res_05h/DMS_annStats_num_05h.RDS", "./05h/anno_res_05h/CpG_annStats_num_05h.RDS",
-          "./05h/anno_res_05h/DMR_TSS_05h.RDS", "./05h/anno_res_05h/DMS_TSS_05h.RDS")
+#run on all sites 
+anno.func(DMR.diffmeth.05h.gr.rename, DMR.diffmeth.05h.gr.rename.hyper, DMR.diffmeth.05h.gr.rename.hypo, 
+          DMS.diffmeth.05h.gr.rename, DMS.diffmeth.05h.gr.rename.hyper, DMS.diffmeth.05h.gr.rename.hypo,
+          CpG.05h.gr.rename, regions.05h.gr.rename,
+          "./05h/anno_res_05h/DMR_anno_05h.RDS", "./05h/anno_res_05h/DMR_anno_05h_hyper.RDS", "./05h/anno_res_05h/DMR_anno_05h_hypo.RDS",  
+          "./05h/anno_res_05h/DMS_anno_05h.RDS", "./05h/anno_res_05h/DMS_anno_05h_hyper.RDS", "./05h/anno_res_05h/DMS_anno_05h_hypo.RDS",  
+          "./05h/anno_res_05h/CpG_anno_05h.RDS", "./05h/anno_res_05h/regions_anno_05h.RDS",
+          "./05h/anno_res_05h/DMR_annStats_perc_05h.RDS", "./05h/anno_res_05h/DMS_annStats_perc_05h.RDS", 
+          "./05h/anno_res_05h/CpG_annStats_perc_05h.RDS", "./05h/anno_res_05h/regions_annStats_perc_05h.RDS",
+          "./05h/anno_res_05h/DMR_annStats_num_05h.RDS", "./05h/anno_res_05h/DMS_annStats_num_05h.RDS", 
+          "./05h/anno_res_05h/CpG_annStats_num_05h.RDS", "./05h/anno_res_05h/regions_annStats_num_05h.RDS",
+          "./05h/anno_res_05h/DMR_TSS_05h.RDS", "./05h/anno_res_05h/DMR_TSS_05h_hyper.RDS", "./05h/anno_res_05h/DMR_TSS_05h_hypo.RDS",
+          "./05h/anno_res_05h/DMS_TSS_05h.RDS", "./05h/anno_res_05h/DMS_TSS_05h_hyper.RDS", "./05h/anno_res_05h/DMS_TSS_05h_hypo.RDS")
 
-anno.func(DMR.diffmeth.05h.fem.gr.rename, DMS.diffmeth.05h.fem.gr.rename, CpG.05h.fem.gr.rename,
-          "./05h/anno_res_05h/DMR_anno_05h_fem.RDS", "./05h/anno_res_05h/DMS_anno_05h_fem.RDS", "./05h/anno_res_05h/CpG_anno_05h_fem.RDS",
-          "./05h/anno_res_05h/DMR_annStats_perc_05h_fem.RDS", "./05h/anno_res_05h/DMS_annStats_perc_05h_fem.RDS", "./05h/anno_res_05h/CpG_annStats_perc_05h_fem.RDS",
-          "./05h/anno_res_05h/DMR_annStats_num_05h_fem.RDS", "./05h/anno_res_05h/DMS_annStats_num_05h_fem.RDS", "./05h/anno_res_05h/CpG_annStats_num_05h_fem.RDS",
-          "./05h/anno_res_05h/DMR_TSS_05h_fem.RDS", "./05h/anno_res_05h/DMS_TSS_05h_fem.RDS")
+anno.func(DMR.diffmeth.05h.fem.gr.rename, DMR.diffmeth.05h.fem.gr.rename.hyper, DMR.diffmeth.05h.fem.gr.rename.hypo, 
+          DMS.diffmeth.05h.fem.gr.rename, DMS.diffmeth.05h.fem.gr.rename.hyper, DMS.diffmeth.05h.fem.gr.rename.hypo,
+          CpG.05h.fem.gr.rename, regions.05h.fem.gr.rename,
+          "./05h/anno_res_05h/DMR_anno_05h_fem.RDS", "./05h/anno_res_05h/DMR_anno_05h_fem_hyper.RDS", "./05h/anno_res_05h/DMR_anno_05h_fem_hypo.RDS", 
+          "./05h/anno_res_05h/DMS_anno_05h_fem.RDS", "./05h/anno_res_05h/DMS_anno_05h_fem_hyper.RDS", "./05h/anno_res_05h/DMS_anno_05h_fem_hypo.RDS",
+          "./05h/anno_res_05h/CpG_anno_05h_fem.RDS", "./05h/anno_res_05h/regions_anno_05h_fem.RDS",
+          "./05h/anno_res_05h/DMR_annStats_perc_05h_fem.RDS", "./05h/anno_res_05h/DMS_annStats_perc_05h_fem.RDS", 
+          "./05h/anno_res_05h/CpG_annStats_perc_05h_fem.RDS", "./05h/anno_res_05h/regions_annStats_perc_05h_fem.RDS", 
+          "./05h/anno_res_05h/DMR_annStats_num_05h_fem.RDS", "./05h/anno_res_05h/DMS_annStats_num_05h_fem.RDS", 
+          "./05h/anno_res_05h/CpG_annStats_num_05h_fem.RDS", "./05h/anno_res_05h/regions_annStats_num_05h_fem.RDS",
+          "./05h/anno_res_05h/DMR_TSS_05h_fem.RDS", "./05h/anno_res_05h/DMR_TSS_05h_fem_hyper.RDS", "./05h/anno_res_05h/DMR_TSS_05h_fem_hypo.RDS", 
+          "./05h/anno_res_05h/DMS_TSS_05h_fem.RDS", "./05h/anno_res_05h/DMS_TSS_05h_fem_hyper.RDS", "./05h/anno_res_05h/DMS_TSS_05h_fem_hypo.RDS")
 
-anno.func(DMR.diffmeth.05h.mal.gr.rename, DMS.diffmeth.05h.mal.gr.rename, CpG.05h.mal.gr.rename,
-          "./05h/anno_res_05h/DMR_anno_05h_mal.RDS", "./05h/anno_res_05h/DMS_anno_05h_mal.RDS", "./05h/anno_res_05h/CpG_anno_05h_mal.RDS",
-          "./05h/anno_res_05h/DMR_annStats_perc_05h_mal.RDS", "./05h/anno_res_05h/DMS_annStats_perc_05h_mal.RDS", "./05h/anno_res_05h/CpG_annStats_perc_05h_mal.RDS",
-          "./05h/anno_res_05h/DMR_annStats_num_05h_mal.RDS", "./05h/anno_res_05h/DMS_annStats_num_05h_mal.RDS", "./05h/anno_res_05h/CpG_annStats_num_05h_mal.RDS",
-          "./05h/anno_res_05h/DMR_TSS_05h_mal.RDS", "./05h/anno_res_05h/DMS_TSS_05h_mal.RDS")
+anno.func(DMR.diffmeth.05h.mal.gr.rename, DMR.diffmeth.05h.mal.gr.rename.hyper, DMR.diffmeth.05h.mal.gr.rename.hypo, 
+          DMS.diffmeth.05h.mal.gr.rename, DMS.diffmeth.05h.mal.gr.rename.hyper, DMS.diffmeth.05h.mal.gr.rename.hypo, 
+          CpG.05h.mal.gr.rename, regions.05h.mal.gr.rename,
+          "./05h/anno_res_05h/DMR_anno_05h_mal.RDS", "./05h/anno_res_05h/DMR_anno_05h_mal_hyper.RDS", "./05h/anno_res_05h/DMR_anno_05h_mal_hypo.RDS", 
+          "./05h/anno_res_05h/DMS_anno_05h_mal.RDS", "./05h/anno_res_05h/DMS_anno_05h_mal_hyper.RDS", "./05h/anno_res_05h/DMS_anno_05h_mal_hypo.RDS", 
+          "./05h/anno_res_05h/CpG_anno_05h_mal.RDS", "./05h/anno_res_05h/regions_anno_05h_mal.RDS",
+          "./05h/anno_res_05h/DMR_annStats_perc_05h_mal.RDS", "./05h/anno_res_05h/DMS_annStats_perc_05h_mal.RDS", 
+          "./05h/anno_res_05h/CpG_annStats_perc_05h_mal.RDS", "./05h/anno_res_05h/regions_annStats_perc_05h_mal.RDS",
+          "./05h/anno_res_05h/DMR_annStats_num_05h_mal.RDS", "./05h/anno_res_05h/DMS_annStats_num_05h_mal.RDS", 
+          "./05h/anno_res_05h/CpG_annStats_num_05h_mal.RDS", "./05h/anno_res_05h/regions_annStats_num_05h_mal.RDS",
+          "./05h/anno_res_05h/DMR_TSS_05h_mal.RDS", "./05h/anno_res_05h/DMR_TSS_05h_mal_hyper.RDS", "./05h/anno_res_05h/DMR_TSS_05h_mal_hypo.RDS", 
+          "./05h/anno_res_05h/DMS_TSS_05h_mal.RDS", "./05h/anno_res_05h/DMS_TSS_05h_mal_hyper.RDS", "./05h/anno_res_05h/DMS_TSS_05h_mal_hypo.RDS")
 
-anno.func(DMR.diffmeth.1h.gr.rename, DMS.diffmeth.1h.gr.rename, CpG.1h.gr.rename,
-          "./1h/anno_res_1h/DMR_anno_1h.RDS", "./1h/anno_res_1h/DMS_anno_1h.RDS", "./1h/anno_res_1h/CpG_anno_1h.RDS",
-          "./1h/anno_res_1h/DMR_annStats_perc_1h.RDS", "./1h/anno_res_1h/DMS_annStats_perc_1h.RDS", "./1h/anno_res_1h/CpG_annStats_perc_1h.RDS",
-          "./1h/anno_res_1h/DMR_annStats_num_1h.RDS", "./1h/anno_res_1h/DMS_annStats_num_1h.RDS", "./1h/anno_res_1h/CpG_annStats_num_1h.RDS",
-          "./1h/anno_res_1h/DMR_TSS_1h.RDS", "./1h/anno_res_1h/DMS_TSS_1h.RDS")
+# anno.func(DMR.diffmeth.1h.gr.rename, DMR.diffmeth.1h.gr.rename.hyper, DMR.diffmeth.1h.gr.rename.hypo, 
+#           DMS.diffmeth.1h.gr.rename, DMS.diffmeth.1h.gr.rename.hyper, DMS.diffmeth.1h.gr.rename.hypo, 
+#           CpG.1h.gr.rename, regions.1h.gr.rename,
+#           "./1h/anno_res_1h/DMR_anno_1h.RDS", "./1h/anno_res_1h/DMR_anno_1h_hyper.RDS", "./1h/anno_res_1h/DMR_anno_1h_hypo.RDS", 
+#           "./1h/anno_res_1h/DMS_anno_1h.RDS", "./1h/anno_res_1h/DMS_anno_1h_hyper.RDS", "./1h/anno_res_1h/DMS_anno_1h_hypo.RDS", 
+#           "./1h/anno_res_1h/CpG_anno_1h.RDS", "./1h/anno_res_1h/regions_anno_1h.RDS",
+#           "./1h/anno_res_1h/DMR_annStats_perc_1h.RDS", "./1h/anno_res_1h/DMS_annStats_perc_1h.RDS", 
+#           "./1h/anno_res_1h/CpG_annStats_perc_1h.RDS", "./1h/anno_res_1h/regions_annStats_perc_1h.RDS",
+#           "./1h/anno_res_1h/DMR_annStats_num_1h.RDS", "./1h/anno_res_1h/DMS_annStats_num_1h.RDS", 
+#           "./1h/anno_res_1h/CpG_annStats_num_1h.RDS", "./1h/anno_res_1h/regions_annStats_num_1h.RDS",
+#           "./1h/anno_res_1h/DMR_TSS_1h.RDS", "./1h/anno_res_1h/DMR_TSS_1h_hyper.RDS", "./1h/anno_res_1h/DMR_TSS_1h_hypo.RDS", 
+#           "./1h/anno_res_1h/DMS_TSS_1h.RDS", "./1h/anno_res_1h/DMS_TSS_1h_hyper.RDS", "./1h/anno_res_1h/DMS_TSS_1h_hypo.RDS")
 
-anno.func(DMR.diffmeth.1h.fem.gr.rename, DMS.diffmeth.1h.fem.gr.rename, CpG.1h.fem.gr.rename,
-          "./1h/anno_res_1h/DMR_anno_1h_fem.RDS", "./1h/anno_res_1h/DMS_anno_1h_fem.RDS", "./1h/anno_res_1h/CpG_anno_1h_fem.RDS",
-          "./1h/anno_res_1h/DMR_annStats_perc_1h_fem.RDS", "./1h/anno_res_1h/DMS_annStats_perc_1h_fem.RDS", "./1h/anno_res_1h/CpG_annStats_perc_1h_fem.RDS",
-          "./1h/anno_res_1h/DMR_annStats_num_1h_fem.RDS", "./1h/anno_res_1h/DMS_annStats_num_1h_fem.RDS", "./1h/anno_res_1h/CpG_annStats_num_1h_fem.RDS",
-          "./1h/anno_res_1h/DMR_TSS_1h_fem.RDS", "./1h/anno_res_1h/DMS_TSS_1h_fem.RDS")
+# anno.func(DMR.diffmeth.1h.fem.gr.rename, DMR.diffmeth.1h.fem.gr.rename.hyper, DMR.diffmeth.1h.fem.gr.rename.hypo, 
+#           DMS.diffmeth.1h.fem.gr.rename, DMS.diffmeth.1h.fem.gr.rename.hyper, DMS.diffmeth.1h.fem.gr.rename.hypo, 
+#           CpG.1h.fem.gr.rename, regions.1h.fem.gr.rename,
+#           "./1h/anno_res_1h/DMR_anno_1h_fem.RDS", "./1h/anno_res_1h/DMR_anno_1h_fem_hyper.RDS", "./1h/anno_res_1h/DMR_anno_1h_fem_hypo.RDS", 
+#           "./1h/anno_res_1h/DMS_anno_1h_fem.RDS", "./1h/anno_res_1h/DMS_anno_1h_fem_hyper.RDS", "./1h/anno_res_1h/DMS_anno_1h_fem_hypo.RDS", 
+#           "./1h/anno_res_1h/CpG_anno_1h_fem.RDS", "./1h/anno_res_1h/regions_anno_1h_fem.RDS",
+#           "./1h/anno_res_1h/DMR_annStats_perc_1h_fem.RDS", "./1h/anno_res_1h/DMS_annStats_perc_1h_fem.RDS", 
+#           "./1h/anno_res_1h/CpG_annStats_perc_1h_fem.RDS", "./1h/anno_res_1h/regions_annStats_perc_1h_fem.RDS",
+#           "./1h/anno_res_1h/DMR_annStats_num_1h_fem.RDS", "./1h/anno_res_1h/DMS_annStats_num_1h_fem.RDS", 
+#           "./1h/anno_res_1h/CpG_annStats_num_1h_fem.RDS", "./1h/anno_res_1h/regions_annStats_num_1h_fem.RDS",
+#           "./1h/anno_res_1h/DMR_TSS_1h_fem.RDS", "./1h/anno_res_1h/DMR_TSS_1h_fem_hyper.RDS", "./1h/anno_res_1h/DMR_TSS_1h_fem_hypo.RDS",
+#           "./1h/anno_res_1h/DMS_TSS_1h_fem.RDS", "./1h/anno_res_1h/DMS_TSS_1h_fem_hyper.RDS", "./1h/anno_res_1h/DMS_TSS_1h_fem_hypo.RDS")
 
-anno.func(DMR.diffmeth.1h.mal.gr.rename, DMS.diffmeth.1h.mal.gr.rename, CpG.1h.mal.gr.rename,
-          "./1h/anno_res_1h/DMR_anno_1h_mal.RDS", "./1h/anno_res_1h/DMS_anno_1h_mal.RDS", "./1h/anno_res_1h/CpG_anno_1h_mal.RDS",
-          "./1h/anno_res_1h/DMR_annStats_perc_1h_mal.RDS", "./1h/anno_res_1h/DMS_annStats_perc_1h_mal.RDS", "./1h/anno_res_1h/CpG_annStats_perc_1h_mal.RDS",
-          "./1h/anno_res_1h/DMR_annStats_num_1h_mal.RDS", "./1h/anno_res_1h/DMS_annStats_num_1h_mal.RDS", "./1h/anno_res_1h/CpG_annStats_num_1h_mal.RDS",
-          "./1h/anno_res_1h/DMR_TSS_1h_mal.RDS", "./1h/anno_res_1h/DMS_TSS_1h_mal.RDS")
+# anno.func(DMR.diffmeth.1h.mal.gr.rename, DMR.diffmeth.1h.mal.gr.rename.hyper, DMR.diffmeth.1h.mal.gr.rename.hypo, 
+#           DMS.diffmeth.1h.mal.gr.rename, DMS.diffmeth.1h.mal.gr.rename.hyper, DMS.diffmeth.1h.mal.gr.rename.hypo, 
+#           CpG.1h.mal.gr.rename, regions.1h.mal.gr.rename,
+#           "./1h/anno_res_1h/DMR_anno_1h_mal.RDS", "./1h/anno_res_1h/DMR_anno_1h_mal_hyper.RDS", "./1h/anno_res_1h/DMR_anno_1h_mal_hypo.RDS", 
+#           "./1h/anno_res_1h/DMS_anno_1h_mal.RDS", "./1h/anno_res_1h/DMS_anno_1h_mal_hyper.RDS", "./1h/anno_res_1h/DMS_anno_1h_mal_hypo.RDS", 
+#           "./1h/anno_res_1h/CpG_anno_1h_mal.RDS", "./1h/anno_res_1h/regions_anno_1h_mal.RDS",
+#           "./1h/anno_res_1h/DMR_annStats_perc_1h_mal.RDS", "./1h/anno_res_1h/DMS_annStats_perc_1h_mal.RDS", 
+#           "./1h/anno_res_1h/CpG_annStats_perc_1h_mal.RDS", "./1h/anno_res_1h/regions_annStats_perc_1h_mal.RDS",
+#           "./1h/anno_res_1h/DMR_annStats_num_1h_mal.RDS", "./1h/anno_res_1h/DMS_annStats_num_1h_mal.RDS", 
+#           "./1h/anno_res_1h/CpG_annStats_num_1h_mal.RDS", "./1h/anno_res_1h/regions_annStats_num_1h_mal.RDS",
+#           "./1h/anno_res_1h/DMR_TSS_1h_mal.RDS", "./1h/anno_res_1h/DMR_TSS_1h_mal_hyper.RDS", "./1h/anno_res_1h/DMR_TSS_1h_mal_hypo.RDS", 
+#           "./1h/anno_res_1h/DMS_TSS_1h_mal.RDS", "./1h/anno_res_1h/DMS_TSS_1h_mal_hyper.RDS", "./1h/anno_res_1h/DMS_TSS_1h_mal_hypo.RDS")
 
-anno.func(DMR.diffmeth.4h.gr.rename, DMS.diffmeth.4h.gr.rename, CpG.4h.gr.rename,
-          "./4h/anno_res_4h/DMR_anno_4h.RDS", "./4h/anno_res_4h/DMS_anno_4h.RDS", "./4h/anno_res_4h/CpG_anno_4h.RDS",
-          "./4h/anno_res_4h/DMR_annStats_perc_4h.RDS", "./4h/anno_res_4h/DMS_annStats_perc_4h.RDS", "./4h/anno_res_4h/CpG_annStats_perc_4h.RDS",
-          "./4h/anno_res_4h/DMR_annStats_num_4h.RDS", "./4h/anno_res_4h/DMS_annStats_num_4h.RDS", "./4h/anno_res_4h/CpG_annStats_num_4h.RDS",
-          "./4h/anno_res_4h/DMR_TSS_4h.RDS", "./4h/anno_res_4h/DMS_TSS_4h.RDS")
+# anno.func(DMR.diffmeth.4h.gr.rename, DMR.diffmeth.4h.gr.rename.hyper, DMR.diffmeth.4h.gr.rename.hypo, 
+#           DMS.diffmeth.4h.gr.rename, DMS.diffmeth.4h.gr.rename.hyper, DMS.diffmeth.4h.gr.rename.hypo, 
+#           CpG.4h.gr.rename, regions.4h.gr.rename,
+#           "./4h/anno_res_4h/DMR_anno_4h.RDS", "./4h/anno_res_4h/DMR_anno_4h_hyper.RDS", "./4h/anno_res_4h/DMR_anno_4h_hypo.RDS",
+#           "./4h/anno_res_4h/DMS_anno_4h.RDS", "./4h/anno_res_4h/DMS_anno_4h_hyper.RDS", "./4h/anno_res_4h/DMS_anno_4h_hypo.RDS", 
+#           "./4h/anno_res_4h/CpG_anno_4h.RDS", "./4h/anno_res_4h/regions_anno_4h.RDS",
+#           "./4h/anno_res_4h/DMR_annStats_perc_4h.RDS", "./4h/anno_res_4h/DMS_annStats_perc_4h.RDS", 
+#           "./4h/anno_res_4h/CpG_annStats_perc_4h.RDS", "./4h/anno_res_4h/regions_annStats_perc_4h.RDS",
+#           "./4h/anno_res_4h/DMR_annStats_num_4h.RDS", "./4h/anno_res_4h/DMS_annStats_num_4h.RDS", 
+#           "./4h/anno_res_4h/CpG_annStats_num_4h.RDS", "./4h/anno_res_4h/regions_annStats_num_4h.RDS",
+#           "./4h/anno_res_4h/DMR_TSS_4h.RDS", "./4h/anno_res_4h/DMR_TSS_4h_hyper.RDS", "./4h/anno_res_4h/DMR_TSS_4h_hypo.RDS", 
+#           "./4h/anno_res_4h/DMS_TSS_4h.RDS", "./4h/anno_res_4h/DMS_TSS_4h_hyper.RDS", "./4h/anno_res_4h/DMS_TSS_4h_hypo.RDS")
 
-anno.func(DMR.diffmeth.4h.fem.gr.rename, DMS.diffmeth.4h.fem.gr.rename, CpG.4h.fem.gr.rename,
-          "./4h/anno_res_4h/DMR_anno_4h_fem.RDS", "./4h/anno_res_4h/DMS_anno_4h_fem.RDS", "./4h/anno_res_4h/CpG_anno_4h_fem.RDS",
-          "./4h/anno_res_4h/DMR_annStats_perc_4h_fem.RDS", "./4h/anno_res_4h/DMS_annStats_perc_4h_fem.RDS", "./4h/anno_res_4h/CpG_annStats_perc_4h_fem.RDS",
-          "./4h/anno_res_4h/DMR_annStats_num_4h_fem.RDS", "./4h/anno_res_4h/DMS_annStats_num_4h_fem.RDS", "./4h/anno_res_4h/CpG_annStats_num_4h_fem.RDS",
-          "./4h/anno_res_4h/DMR_TSS_4h_fem.RDS", "./4h/anno_res_4h/DMS_TSS_4h_fem.RDS")
+# anno.func(DMR.diffmeth.4h.fem.gr.rename, DMR.diffmeth.4h.fem.gr.rename.hyper, DMR.diffmeth.4h.fem.gr.rename.hypo, 
+#           DMS.diffmeth.4h.fem.gr.rename, DMS.diffmeth.4h.fem.gr.rename.hyper, DMS.diffmeth.4h.fem.gr.rename.hypo, 
+#           CpG.4h.fem.gr.rename, regions.4h.fem.gr.rename,
+#           "./4h/anno_res_4h/DMR_anno_4h_fem.RDS", "./4h/anno_res_4h/DMR_anno_4h_fem_hyper.RDS", "./4h/anno_res_4h/DMR_anno_4h_fem_hypo.RDS", 
+#           "./4h/anno_res_4h/DMS_anno_4h_fem.RDS", "./4h/anno_res_4h/DMS_anno_4h_fem_hyper.RDS", "./4h/anno_res_4h/DMS_anno_4h_fem_hypo.RDS", 
+#           "./4h/anno_res_4h/CpG_anno_4h_fem.RDS", "./4h/anno_res_4h/regions_anno_4h_fem.RDS",
+#           "./4h/anno_res_4h/DMR_annStats_perc_4h_fem.RDS", "./4h/anno_res_4h/DMS_annStats_perc_4h_fem.RDS", 
+#           "./4h/anno_res_4h/CpG_annStats_perc_4h_fem.RDS", "./4h/anno_res_4h/regions_annStats_perc_4h_fem.RDS",
+#           "./4h/anno_res_4h/DMR_annStats_num_4h_fem.RDS", "./4h/anno_res_4h/DMS_annStats_num_4h_fem.RDS", 
+#           "./4h/anno_res_4h/CpG_annStats_num_4h_fem.RDS", "./4h/anno_res_4h/regions_annStats_num_4h_fem.RDS",
+#           "./4h/anno_res_4h/DMR_TSS_4h_fem.RDS", "./4h/anno_res_4h/DMR_TSS_4h_fem_hyper.RDS", "./4h/anno_res_4h/DMR_TSS_4h_fem_hypo.RDS", 
+#           "./4h/anno_res_4h/DMS_TSS_4h_fem.RDS", "./4h/anno_res_4h/DMS_TSS_4h_fem_hyper.RDS", "./4h/anno_res_4h/DMS_TSS_4h_fem_hypo.RDS")
 
-anno.func(DMR.diffmeth.4h.mal.gr.rename, DMS.diffmeth.4h.mal.gr.rename, CpG.4h.mal.gr.rename,
-          "./4h/anno_res_4h/DMR_anno_4h_mal.RDS", "./4h/anno_res_4h/DMS_anno_4h_mal.RDS", "./4h/anno_res_4h/CpG_anno_4h_mal.RDS",
-          "./4h/anno_res_4h/DMR_annStats_perc_4h_mal.RDS", "./4h/anno_res_4h/DMS_annStats_perc_4h_mal.RDS", "./4h/anno_res_4h/CpG_annStats_perc_4h_mal.RDS",
-          "./4h/anno_res_4h/DMR_annStats_num_4h_mal.RDS", "./4h/anno_res_4h/DMS_annStats_num_4h_mal.RDS", "./4h/anno_res_4h/CpG_annStats_num_4h_mal.RDS",
-          "./4h/anno_res_4h/DMR_TSS_4h_mal.RDS", "./4h/anno_res_4h/DMS_TSS_4h_mal.RDS")
+# anno.func(DMR.diffmeth.4h.mal.gr.rename, DMR.diffmeth.4h.mal.gr.rename.hyper, DMR.diffmeth.4h.mal.gr.rename.hypo, 
+#           DMS.diffmeth.4h.mal.gr.rename, DMS.diffmeth.4h.mal.gr.rename.hyper, DMS.diffmeth.4h.mal.gr.rename.hypo, 
+#           CpG.4h.mal.gr.rename, regions.4h.mal.gr.rename,
+#           "./4h/anno_res_4h/DMR_anno_4h_mal.RDS", "./4h/anno_res_4h/DMR_anno_4h_mal_hyper.RDS", "./4h/anno_res_4h/DMR_anno_4h_mal_hypo.RDS", 
+#           "./4h/anno_res_4h/DMS_anno_4h_mal.RDS", "./4h/anno_res_4h/DMS_anno_4h_mal_hyper.RDS", "./4h/anno_res_4h/DMS_anno_4h_mal_hypo.RDS", 
+#           "./4h/anno_res_4h/CpG_anno_4h_mal.RDS", "./4h/anno_res_4h/regions_anno_4h_mal.RDS",
+#           "./4h/anno_res_4h/DMR_annStats_perc_4h_mal.RDS", "./4h/anno_res_4h/DMS_annStats_perc_4h_mal.RDS", 
+#           "./4h/anno_res_4h/CpG_annStats_perc_4h_mal.RDS", "./4h/anno_res_4h/regions_annStats_perc_4h_mal.RDS",
+#           "./4h/anno_res_4h/DMR_annStats_num_4h_mal.RDS", "./4h/anno_res_4h/DMS_annStats_num_4h_mal.RDS", 
+#           "./4h/anno_res_4h/CpG_annStats_num_4h_mal.RDS", "./4h/anno_res_4h/regions_annStats_num_4h_mal.RDS",
+#           "./4h/anno_res_4h/DMR_TSS_4h_mal.RDS", "./4h/anno_res_4h/DMR_TSS_4h_mal_hyper.RDS", "./4h/anno_res_4h/DMR_TSS_4h_mal_hypo.RDS", 
+#           "./4h/anno_res_4h/DMS_TSS_4h_mal.RDS", "./4h/anno_res_4h/DMS_TSS_4h_mal_hyper.RDS", "./4h/anno_res_4h/DMS_TSS_4h_mal_hypo.RDS")
 
-anno.func(DMR.diffmeth.24h.gr.rename, DMS.diffmeth.24h.gr.rename, CpG.24h.gr.rename,
-          "./24h/anno_res_24h/DMR_anno_24h.RDS", "./24h/anno_res_24h/DMS_anno_24h.RDS", "./24h/anno_res_24h/CpG_anno_24h.RDS",
-          "./24h/anno_res_24h/DMR_annStats_perc_24h.RDS", "./24h/anno_res_24h/DMS_annStats_perc_24h.RDS", "./24h/anno_res_24h/CpG_annStats_perc_24h.RDS",
-          "./24h/anno_res_24h/DMR_annStats_num_24h.RDS", "./24h/anno_res_24h/DMS_annStats_num_24h.RDS", "./24h/anno_res_24h/CpG_annStats_num_24h.RDS",
-          "./24h/anno_res_24h/DMR_TSS_24h.RDS", "./24h/anno_res_24h/DMS_TSS_24h.RDS")
+# anno.func(DMR.diffmeth.24h.gr.rename, DMR.diffmeth.24h.gr.rename.hyper, DMR.diffmeth.24h.gr.rename.hypo, 
+#           DMS.diffmeth.24h.gr.rename, DMS.diffmeth.24h.gr.rename.hyper, DMS.diffmeth.24h.gr.rename.hypo, 
+#           CpG.24h.gr.rename, regions.24h.gr.rename,
+#           "./24h/anno_res_24h/DMR_anno_24h.RDS", "./24h/anno_res_24h/DMR_anno_24h_hyper.RDS", "./24h/anno_res_24h/DMR_anno_24h_hypo.RDS", 
+#           "./24h/anno_res_24h/DMS_anno_24h.RDS", "./24h/anno_res_24h/DMS_anno_24h_hyper.RDS", "./24h/anno_res_24h/DMS_anno_24h_hypo.RDS", 
+#           "./24h/anno_res_24h/CpG_anno_24h.RDS", "./24h/anno_res_24h/regions_anno_24h.RDS",
+#           "./24h/anno_res_24h/DMR_annStats_perc_24h.RDS", "./24h/anno_res_24h/DMS_annStats_perc_24h.RDS", 
+#           "./24h/anno_res_24h/CpG_annStats_perc_24h.RDS", "./24h/anno_res_24h/regions_annStats_perc_24h.RDS",
+#           "./24h/anno_res_24h/DMR_annStats_num_24h.RDS", "./24h/anno_res_24h/DMS_annStats_num_24h.RDS", 
+#           "./24h/anno_res_24h/CpG_annStats_num_24h.RDS", "./24h/anno_res_24h/regions_annStats_num_24h.RDS",
+#           "./24h/anno_res_24h/DMR_TSS_24h.RDS", "./24h/anno_res_24h/DMR_TSS_24h_hyper.RDS", "./24h/anno_res_24h/DMR_TSS_24h_hypo.RDS", 
+#           "./24h/anno_res_24h/DMS_TSS_24h.RDS", "./24h/anno_res_24h/DMS_TSS_24h_hyper.RDS", "./24h/anno_res_24h/DMS_TSS_24h_hypo.RDS")
 
-anno.func(DMR.diffmeth.24h.fem.gr.rename, DMS.diffmeth.24h.fem.gr.rename, CpG.24h.fem.gr.rename,
-          "./24h/anno_res_24h/DMR_anno_24h_fem.RDS", "./24h/anno_res_24h/DMS_anno_24h_fem.RDS", "./24h/anno_res_24h/CpG_anno_24h_fem.RDS",
-          "./24h/anno_res_24h/DMR_annStats_perc_24h_fem.RDS", "./24h/anno_res_24h/DMS_annStats_perc_24h_fem.RDS", "./24h/anno_res_24h/CpG_annStats_perc_24h_fem.RDS",
-          "./24h/anno_res_24h/DMR_annStats_num_24h_fem.RDS", "./24h/anno_res_24h/DMS_annStats_num_24h_fem.RDS", "./24h/anno_res_24h/CpG_annStats_num_24h_fem.RDS",
-          "./24h/anno_res_24h/DMR_TSS_24h_fem.RDS", "./24h/anno_res_24h/DMS_TSS_24h_fem.RDS")
+# anno.func(DMR.diffmeth.24h.fem.gr.rename, DMR.diffmeth.24h.fem.gr.rename.hyper, DMR.diffmeth.24h.fem.gr.rename.hypo, 
+#           DMS.diffmeth.24h.fem.gr.rename, DMS.diffmeth.24h.fem.gr.rename.hyper, DMS.diffmeth.24h.fem.gr.rename.hypo, 
+#           CpG.24h.fem.gr.rename, regions.24h.fem.gr.rename,
+#           "./24h/anno_res_24h/DMR_anno_24h_fem.RDS", "./24h/anno_res_24h/DMR_anno_24h_fem_hyper.RDS", "./24h/anno_res_24h/DMR_anno_24h_fem_hypo.RDS", 
+#           "./24h/anno_res_24h/DMS_anno_24h_fem.RDS", "./24h/anno_res_24h/DMS_anno_24h_fem_hyper.RDS", "./24h/anno_res_24h/DMS_anno_24h_fem_hypo.RDS", 
+#           "./24h/anno_res_24h/CpG_anno_24h_fem.RDS", "./24h/anno_res_24h/regions_anno_24h_fem.RDS",
+#           "./24h/anno_res_24h/DMR_annStats_perc_24h_fem.RDS", "./24h/anno_res_24h/DMS_annStats_perc_24h_fem.RDS", 
+#           "./24h/anno_res_24h/CpG_annStats_perc_24h_fem.RDS", "./24h/anno_res_24h/regions_annStats_perc_24h_fem.RDS",
+#           "./24h/anno_res_24h/DMR_annStats_num_24h_fem.RDS", "./24h/anno_res_24h/DMS_annStats_num_24h_fem.RDS", 
+#           "./24h/anno_res_24h/CpG_annStats_num_24h_fem.RDS", "./24h/anno_res_24h/regions_annStats_num_24h_fem.RDS",
+#           "./24h/anno_res_24h/DMR_TSS_24h_fem.RDS", "./24h/anno_res_24h/DMR_TSS_24h_fem_hyper.RDS", "./24h/anno_res_24h/DMR_TSS_24h_fem_hypo.RDS", 
+#           "./24h/anno_res_24h/DMS_TSS_24h_fem.RDS", "./24h/anno_res_24h/DMS_TSS_24h_fem_hyper.RDS", "./24h/anno_res_24h/DMS_TSS_24h_fem_hypo.RDS")
 
-anno.func(DMR.diffmeth.24h.mal.gr.rename, DMS.diffmeth.24h.mal.gr.rename, CpG.24h.mal.gr.rename,
-          "./24h/anno_res_24h/DMR_anno_24h_mal.RDS", "./24h/anno_res_24h/DMS_anno_24h_mal.RDS", "./24h/anno_res_24h/CpG_anno_24h_mal.RDS",
-          "./24h/anno_res_24h/DMR_annStats_perc_24h_mal.RDS", "./24h/anno_res_24h/DMS_annStats_perc_24h_mal.RDS", "./24h/anno_res_24h/CpG_annStats_perc_24h_mal.RDS",
-          "./24h/anno_res_24h/DMR_annStats_num_24h_mal.RDS", "./24h/anno_res_24h/DMS_annStats_num_24h_mal.RDS", "./24h/anno_res_24h/CpG_annStats_num_24h_mal.RDS",
-          "./24h/anno_res_24h/DMR_TSS_24h_mal.RDS", "./24h/anno_res_24h/DMS_TSS_24h_mal.RDS")
+# anno.func(DMR.diffmeth.24h.mal.gr.rename, DMR.diffmeth.24h.mal.gr.rename.hyper, DMR.diffmeth.24h.mal.gr.rename.hypo, 
+#           DMS.diffmeth.24h.mal.gr.rename, DMS.diffmeth.24h.mal.gr.rename.hyper, DMS.diffmeth.24h.mal.gr.rename.hypo,
+#           CpG.24h.mal.gr.rename, regions.24h.mal.gr.rename,
+#           "./24h/anno_res_24h/DMR_anno_24h_mal.RDS", "./24h/anno_res_24h/DMR_anno_24h_mal_hyper.RDS", "./24h/anno_res_24h/DMR_anno_24h_mal_hypo.RDS", 
+#           "./24h/anno_res_24h/DMS_anno_24h_mal.RDS", "./24h/anno_res_24h/DMS_anno_24h_mal_hyper.RDS", "./24h/anno_res_24h/DMS_anno_24h_mal_hypo.RDS", 
+#           "./24h/anno_res_24h/CpG_anno_24h_mal.RDS", "./24h/anno_res_24h/regions_anno_24h_mal.RDS",
+#           "./24h/anno_res_24h/DMR_annStats_perc_24h_mal.RDS", "./24h/anno_res_24h/DMS_annStats_perc_24h_mal.RDS", 
+#           "./24h/anno_res_24h/CpG_annStats_perc_24h_mal.RDS", "./24h/anno_res_24h/regions_annStats_perc_24h_mal.RDS",
+#           "./24h/anno_res_24h/DMR_annStats_num_24h_mal.RDS", "./24h/anno_res_24h/DMS_annStats_num_24h_mal.RDS", 
+#           "./24h/anno_res_24h/CpG_annStats_num_24h_mal.RDS", "./24h/anno_res_24h/regions_annStats_num_24h_mal.RDS",
+#           "./24h/anno_res_24h/DMR_TSS_24h_mal.RDS", "./24h/anno_res_24h/DMR_TSS_24h_mal_hyper.RDS", "./24h/anno_res_24h/DMR_TSS_24h_mal_hypo.RDS", 
+#           "./24h/anno_res_24h/DMS_TSS_24h_mal.RDS", "./24h/anno_res_24h/DMS_TSS_24h_mal_hyper.RDS", "./24h/anno_res_24h/DMS_TSS_24h_mal_hypo.RDS")
 
-anno.func(DMR.diffmeth.72h.gr.rename, DMS.diffmeth.72h.gr.rename, CpG.72h.gr.rename,
-          "./72h/anno_res_72h/DMR_anno_72h.RDS", "./72h/anno_res_72h/DMS_anno_72h.RDS", "./72h/anno_res_72h/CpG_anno_72h.RDS",
-          "./72h/anno_res_72h/DMR_annStats_perc_72h.RDS", "./72h/anno_res_72h/DMS_annStats_perc_72h.RDS", "./72h/anno_res_72h/CpG_annStats_perc_72h.RDS",
-          "./72h/anno_res_72h/DMR_annStats_num_72h.RDS", "./72h/anno_res_72h/DMS_annStats_num_72h.RDS", "./72h/anno_res_72h/CpG_annStats_num_72h.RDS",
-          "./72h/anno_res_72h/DMR_TSS_72h.RDS", "./72h/anno_res_72h/DMS_TSS_72h.RDS")
+# anno.func(DMR.diffmeth.72h.gr.rename, DMR.diffmeth.72h.gr.rename.hyper, DMR.diffmeth.72h.gr.rename.hypo, 
+#           DMS.diffmeth.72h.gr.rename, DMS.diffmeth.72h.gr.rename.hyper, DMS.diffmeth.72h.gr.rename.hypo, 
+#           CpG.72h.gr.rename, regions.72h.gr.rename,
+#           "./72h/anno_res_72h/DMR_anno_72h.RDS", "./72h/anno_res_72h/DMR_anno_72h_hyper.RDS", "./72h/anno_res_72h/DMR_anno_72h_hypo.RDS", 
+#           "./72h/anno_res_72h/DMS_anno_72h.RDS", "./72h/anno_res_72h/DMS_anno_72h_hyper.RDS", "./72h/anno_res_72h/DMS_anno_72h_hypo.RDS", 
+#           "./72h/anno_res_72h/CpG_anno_72h.RDS", "./72h/anno_res_72h/regions_anno_72h.RDS",
+#           "./72h/anno_res_72h/DMR_annStats_perc_72h.RDS", "./72h/anno_res_72h/DMS_annStats_perc_72h.RDS", 
+#           "./72h/anno_res_72h/CpG_annStats_perc_72h.RDS", "./72h/anno_res_72h/regions_annStats_perc_72h.RDS",
+#           "./72h/anno_res_72h/DMR_annStats_num_72h.RDS", "./72h/anno_res_72h/DMS_annStats_num_72h.RDS", 
+#           "./72h/anno_res_72h/CpG_annStats_num_72h.RDS", "./72h/anno_res_72h/regions_annStats_num_72h.RDS",
+#           "./72h/anno_res_72h/DMR_TSS_72h.RDS", "./72h/anno_res_72h/DMR_TSS_72h_hyper.RDS", "./72h/anno_res_72h/DMR_TSS_72h_hypo.RDS", 
+#           "./72h/anno_res_72h/DMS_TSS_72h.RDS", "./72h/anno_res_72h/DMS_TSS_72h_hyper.RDS", "./72h/anno_res_72h/DMS_TSS_72h_hypo.RDS")
 
-anno.func(DMR.diffmeth.72h.fem.gr.rename, DMS.diffmeth.72h.fem.gr.rename, CpG.72h.fem.gr.rename,
-          "./72h/anno_res_72h/DMR_anno_72h_fem.RDS", "./72h/anno_res_72h/DMS_anno_72h_fem.RDS", "./72h/anno_res_72h/CpG_anno_72h_fem.RDS",
-          "./72h/anno_res_72h/DMR_annStats_perc_72h_fem.RDS", "./72h/anno_res_72h/DMS_annStats_perc_72h_fem.RDS", "./72h/anno_res_72h/CpG_annStats_perc_72h_fem.RDS",
-          "./72h/anno_res_72h/DMR_annStats_num_72h_fem.RDS", "./72h/anno_res_72h/DMS_annStats_num_72h_fem.RDS", "./72h/anno_res_72h/CpG_annStats_num_72h_fem.RDS",
-          "./72h/anno_res_72h/DMR_TSS_72h_fem.RDS", "./72h/anno_res_72h/DMS_TSS_72h_fem.RDS")
+# anno.func(DMR.diffmeth.72h.fem.gr.rename, DMR.diffmeth.72h.fem.gr.rename.hyper, DMR.diffmeth.72h.fem.gr.rename.hypo, 
+#           DMS.diffmeth.72h.fem.gr.rename, DMS.diffmeth.72h.fem.gr.rename.hyper, DMS.diffmeth.72h.fem.gr.rename.hypo, 
+#           CpG.72h.fem.gr.rename, regions.72h.fem.gr.rename,
+#           "./72h/anno_res_72h/DMR_anno_72h_fem.RDS", "./72h/anno_res_72h/DMR_anno_72h_fem_hyper.RDS", "./72h/anno_res_72h/DMR_anno_72h_fem_hypo.RDS", 
+#           "./72h/anno_res_72h/DMS_anno_72h_fem.RDS", "./72h/anno_res_72h/DMS_anno_72h_fem_hyper.RDS", "./72h/anno_res_72h/DMS_anno_72h_fem_hypo.RDS", 
+#           "./72h/anno_res_72h/CpG_anno_72h_fem.RDS", "./72h/anno_res_72h/regions_anno_72h_fem.RDS",
+#           "./72h/anno_res_72h/DMR_annStats_perc_72h_fem.RDS", "./72h/anno_res_72h/DMS_annStats_perc_72h_fem.RDS", 
+#           "./72h/anno_res_72h/CpG_annStats_perc_72h_fem.RDS", "./72h/anno_res_72h/regions_annStats_perc_72h_fem.RDS",
+#           "./72h/anno_res_72h/DMR_annStats_num_72h_fem.RDS", "./72h/anno_res_72h/DMS_annStats_num_72h_fem.RDS", 
+#           "./72h/anno_res_72h/CpG_annStats_num_72h_fem.RDS", "./72h/anno_res_72h/regions_annStats_num_72h_fem.RDS",
+#           "./72h/anno_res_72h/DMR_TSS_72h_fem.RDS", "./72h/anno_res_72h/DMR_TSS_72h_fem_hyper.RDS", "./72h/anno_res_72h/DMR_TSS_72h_fem_hypo.RDS", 
+#           "./72h/anno_res_72h/DMS_TSS_72h_fem.RDS", "./72h/anno_res_72h/DMS_TSS_72h_fem_hyper.RDS", "./72h/anno_res_72h/DMS_TSS_72h_fem_hypo.RDS")
 
-anno.func(DMR.diffmeth.72h.mal.gr.rename, DMS.diffmeth.72h.mal.gr.rename, CpG.72h.mal.gr.rename,
-          "./72h/anno_res_72h/DMR_anno_72h_mal.RDS", "./72h/anno_res_72h/DMS_anno_72h_mal.RDS", "./72h/anno_res_72h/CpG_anno_72h_mal.RDS",
-          "./72h/anno_res_72h/DMR_annStats_perc_72h_mal.RDS", "./72h/anno_res_72h/DMS_annStats_perc_72h_mal.RDS", "./72h/anno_res_72h/CpG_annStats_perc_72h_mal.RDS",
-          "./72h/anno_res_72h/DMR_annStats_num_72h_mal.RDS", "./72h/anno_res_72h/DMS_annStats_num_72h_mal.RDS", "./72h/anno_res_72h/CpG_annStats_num_72h_mal.RDS",
-          "./72h/anno_res_72h/DMR_TSS_72h_mal.RDS", "./72h/anno_res_72h/DMS_TSS_72h_mal.RDS")
+# anno.func(DMR.diffmeth.72h.mal.gr.rename, DMR.diffmeth.72h.mal.gr.rename.hyper, DMR.diffmeth.72h.mal.gr.rename.hypo, 
+#           DMS.diffmeth.72h.mal.gr.rename, DMS.diffmeth.72h.mal.gr.rename.hyper, DMS.diffmeth.72h.mal.gr.rename.hypo, 
+#           CpG.72h.mal.gr.rename, regions.72h.mal.gr.rename,
+#           "./72h/anno_res_72h/DMR_anno_72h_mal.RDS", "./72h/anno_res_72h/DMR_anno_72h_mal_hyper.RDS", "./72h/anno_res_72h/DMR_anno_72h_mal_hypo.RDS", 
+#           "./72h/anno_res_72h/DMS_anno_72h_mal.RDS", "./72h/anno_res_72h/DMS_anno_72h_mal_hyper.RDS", "./72h/anno_res_72h/DMS_anno_72h_mal_hypo.RDS", 
+#           "./72h/anno_res_72h/CpG_anno_72h_mal.RDS", "./72h/anno_res_72h/regions_anno_72h_mal.RDS",
+#           "./72h/anno_res_72h/DMR_annStats_perc_72h_mal.RDS", "./72h/anno_res_72h/DMS_annStats_perc_72h_mal.RDS", 
+#           "./72h/anno_res_72h/CpG_annStats_perc_72h_mal.RDS", "./72h/anno_res_72h/regions_annStats_perc_72h_mal.RDS",
+#           "./72h/anno_res_72h/DMR_annStats_num_72h_mal.RDS", "./72h/anno_res_72h/DMS_annStats_num_72h_mal.RDS", 
+#           "./72h/anno_res_72h/CpG_annStats_num_72h_mal.RDS", "./72h/anno_res_72h/regions_annStats_num_72h_mal.RDS",
+#           "./72h/anno_res_72h/DMR_TSS_72h_mal.RDS", "./72h/anno_res_72h/DMR_TSS_72h_mal_hyper.RDS", "./72h/anno_res_72h/DMR_TSS_72h_mal_hypo.RDS", 
+#           "./72h/anno_res_72h/DMS_TSS_72h_mal.RDS", "./72h/anno_res_72h/DMS_TSS_72h_mal_hyper.RDS", "./72h/anno_res_72h/DMS_TSS_72h_mal_hypo.RDS")
 
-anno.func(DMR.diffmeth.all.gr.rename, DMS.diffmeth.all.gr.rename, CpG.all.gr.rename,
-          "./all/anno_res_all/DMR_anno_all.RDS", "./all/anno_res_all/DMS_anno_all.RDS", "./all/anno_res_all/CpG_anno_all.RDS",
-          "./all/anno_res_all/DMR_annStats_perc_all.RDS", "./all/anno_res_all/DMS_annStats_perc_all.RDS", "./all/anno_res_all/CpG_annStats_perc_all.RDS",
-          "./all/anno_res_all/DMR_annStats_num_all.RDS", "./all/anno_res_all/DMS_annStats_num_all.RDS", "./all/anno_res_all/CpG_annStats_num_all.RDS",
-          "./all/anno_res_all/DMR_TSS_all.RDS", "./all/anno_res_all/DMS_TSS_all.RDS")
+# anno.func(DMR.diffmeth.all.gr.rename, DMR.diffmeth.all.gr.rename.hyper, DMR.diffmeth.all.gr.rename.hypo, 
+#           DMS.diffmeth.all.gr.rename, DMS.diffmeth.all.gr.rename.hyper, DMS.diffmeth.all.gr.rename.hypo, 
+#           CpG.all.gr.rename, regions.all.gr.rename,
+#           "./all/anno_res_all/DMR_anno_all.RDS", "./all/anno_res_all/DMR_anno_all_hyper.RDS", "./all/anno_res_all/DMR_anno_all_hypo.RDS", 
+#           "./all/anno_res_all/DMS_anno_all.RDS", "./all/anno_res_all/DMS_anno_all_hyper.RDS", "./all/anno_res_all/DMS_anno_all_hypo.RDS", 
+#           "./all/anno_res_all/CpG_anno_all.RDS", "./all/anno_res_all/regions_anno_all.RDS",
+#           "./all/anno_res_all/DMR_annStats_perc_all.RDS", "./all/anno_res_all/DMS_annStats_perc_all.RDS", 
+#           "./all/anno_res_all/CpG_annStats_perc_all.RDS", "./all/anno_res_all/region_annStats_perc_all.RDS",
+#           "./all/anno_res_all/DMR_annStats_num_all.RDS", "./all/anno_res_all/DMS_annStats_num_all.RDS", 
+#           "./all/anno_res_all/CpG_annStats_num_all.RDS", "./all/anno_res_all/regions_annStats_num_all.RDS",
+#           "./all/anno_res_all/DMR_TSS_all.RDS", "./all/anno_res_all/DMR_TSS_all_hyper.RDS", "./all/anno_res_all/DMR_TSS_all_hypo.RDS", 
+#           "./all/anno_res_all/DMS_TSS_all.RDS", "./all/anno_res_all/DMS_TSS_all_hyper.RDS", "./all/anno_res_all/DMS_TSS_all_hypo.RDS")
 
-anno.func(DMR.diffmeth.all.fem.gr.rename, DMS.diffmeth.all.fem.gr.rename, CpG.all.fem.gr.rename,
-          "./all/anno_res_all/DMR_anno_all_fem.RDS", "./all/anno_res_all/DMS_anno_all_fem.RDS", "./all/anno_res_all/CpG_anno_all_fem.RDS",
-          "./all/anno_res_all/DMR_annStats_perc_all_fem.RDS", "./all/anno_res_all/DMS_annStats_perc_all_fem.RDS", "./all/anno_res_all/CpG_annStats_perc_all_fem.RDS",
-          "./all/anno_res_all/DMR_annStats_num_all_fem.RDS", "./all/anno_res_all/DMS_annStats_num_all_fem.RDS", "./all/anno_res_all/CpG_annStats_num_all_fem.RDS",
-          "./all/anno_res_all/DMR_TSS_all_fem.RDS", "./all/anno_res_all/DMS_TSS_all_fem.RDS")
+# anno.func(DMR.diffmeth.all.fem.gr.rename, DMR.diffmeth.all.fem.gr.rename.hyper, DMR.diffmeth.all.fem.gr.rename.hypo, 
+#           DMS.diffmeth.all.fem.gr.rename, DMS.diffmeth.all.fem.gr.rename.hyper, DMS.diffmeth.all.fem.gr.rename.hypo, 
+#           CpG.all.fem.gr.rename, regions.all.fem.gr.rename,
+#           "./all/anno_res_all/DMR_anno_all_fem.RDS", "./all/anno_res_all/DMR_anno_all_fem_hyper.RDS", "./all/anno_res_all/DMR_anno_all_fem_hypo.RDS", 
+#           "./all/anno_res_all/DMS_anno_all_fem.RDS", "./all/anno_res_all/DMS_anno_all_fem_hyper.RDS", "./all/anno_res_all/DMS_anno_all_fem_hypo.RDS", 
+#           "./all/anno_res_all/CpG_anno_all_fem.RDS", "./all/anno_res_all/regions_anno_all_fem.RDS",
+#           "./all/anno_res_all/DMR_annStats_perc_all_fem.RDS", "./all/anno_res_all/DMS_annStats_perc_all_fem.RDS", 
+#           "./all/anno_res_all/CpG_annStats_perc_all_fem.RDS", "./all/anno_res_all/regions_annStats_perc_all_fem.RDS",
+#           "./all/anno_res_all/DMR_annStats_num_all_fem.RDS", "./all/anno_res_all/DMS_annStats_num_all_fem.RDS", 
+#           "./all/anno_res_all/CpG_annStats_num_all_fem.RDS", "./all/anno_res_all/regions_annStats_num_all_fem.RDS",
+#           "./all/anno_res_all/DMR_TSS_all_fem.RDS", "./all/anno_res_all/DMR_TSS_all_fem_hyper.RDS", "./all/anno_res_all/DMR_TSS_all_fem_hypo.RDS", 
+#           "./all/anno_res_all/DMS_TSS_all_fem.RDS", "./all/anno_res_all/DMS_TSS_all_fem_hyper.RDS", "./all/anno_res_all/DMS_TSS_all_fem_hypo.RDS")
 
-anno.func(DMR.diffmeth.all.mal.gr.rename, DMS.diffmeth.all.mal.gr.rename, CpG.all.mal.gr.rename,
-          "./all/anno_res_all/DMR_anno_all_mal.RDS", "./all/anno_res_all/DMS_anno_all_mal.RDS", "./all/anno_res_all/CpG_anno_all_mal.RDS",
-          "./all/anno_res_all/DMR_annStats_perc_all_mal.RDS", "./all/anno_res_all/DMS_annStats_perc_all_mal.RDS", "./all/anno_res_all/CpG_annStats_perc_all_mal.RDS",
-          "./all/anno_res_all/DMR_annStats_num_all_mal.RDS", "./all/anno_res_all/DMS_annStats_num_all_mal.RDS", "./all/anno_res_all/CpG_annStats_num_all_mal.RDS",
-          "./all/anno_res_all/DMR_TSS_all_mal.RDS", "./all/anno_res_all/DMS_TSS_all_mal.RDS")
+# anno.func(DMR.diffmeth.all.mal.gr.rename, DMR.diffmeth.all.mal.gr.rename.hyper, DMR.diffmeth.all.mal.gr.rename.hypo, 
+#           DMS.diffmeth.all.mal.gr.rename, DMS.diffmeth.all.mal.gr.rename.hyper, DMS.diffmeth.all.mal.gr.rename.hypo, 
+#           CpG.all.mal.gr.rename, regions.all.mal.gr.rename,
+#           "./all/anno_res_all/DMR_anno_all_mal.RDS", "./all/anno_res_all/DMR_anno_all_mal_hyper.RDS", "./all/anno_res_all/DMR_anno_all_mal_hypo.RDS", 
+#           "./all/anno_res_all/DMS_anno_all_mal.RDS", "./all/anno_res_all/DMS_anno_all_mal_hyper.RDS", "./all/anno_res_all/DMS_anno_all_mal_hypo.RDS", 
+#           "./all/anno_res_all/CpG_anno_all_mal.RDS", "./all/anno_res_all/regions_anno_all_mal.RDS",
+#           "./all/anno_res_all/DMR_annStats_perc_all_mal.RDS", "./all/anno_res_all/DMS_annStats_perc_all_mal.RDS", 
+#           "./all/anno_res_all/CpG_annStats_perc_all_mal.RDS", "./all/anno_res_all/regions_annStats_perc_all_mal.RDS",
+#           "./all/anno_res_all/DMR_annStats_num_all_mal.RDS", "./all/anno_res_all/DMS_annStats_num_all_mal.RDS", 
+#           "./all/anno_res_all/CpG_annStats_num_all_mal.RDS", "./all/anno_res_all/regions_annStats_num_all_mal.RDS",
+#           "./all/anno_res_all/DMR_TSS_all_mal.RDS", "./all/anno_res_all/DMR_TSS_all_mal_hyper.RDS", "./all/anno_res_all/DMR_TSS_all_mal_hypo.RDS", 
+#           "./all/anno_res_all/DMS_TSS_all_mal.RDS", "./all/anno_res_all/DMS_TSS_all_mal_hyper.RDS", "./all/anno_res_all/DMS_TSS_all_mal_hypo.RDS")

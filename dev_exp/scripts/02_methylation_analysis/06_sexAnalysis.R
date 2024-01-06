@@ -17,6 +17,7 @@ library("IRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("data.table", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
+library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
 setwd("/scratch/janayfox/guppyWGBS/methylKit/sexDiff")
 
@@ -164,7 +165,7 @@ file.list.all = list("../../mergedCov/dev/DC2F1.CpG_merged.cov",
                     "../../mergedCov/st/ST2C8M.CpG_merged.cov",
                     "../../mergedCov/st/ST2C9M.CpG_merged.cov")
 
-myobj.dev=methRead(file.list.dev.fem,
+myobj.dev=methRead(file.list.dev,
                sample.id=list("DC2F1","DC2F2","DC3F1","DC3F2","DC3F3",
                               "DC4F1","DC4F2","DC4F3","DC4F4","DC4F5",
                               "DC5F1","DC5F2","DC5F3","DC5F4","DC5F5",
@@ -184,7 +185,7 @@ myobj.dev=methRead(file.list.dev.fem,
                mincov = 3
 )
 
-myobj.st=methRead(file.list.all.fem,
+myobj.st=methRead(file.list.st,
                        sample.id=list("ST2C10F","ST2C11F","ST2C12F","ST2C13F","ST2C14F",
                                       "ST2C15F","ST2C1F","ST2C2F","ST2C3F","ST2C4F",
                                       "ST2C5F","ST2C6F","ST2C7F","ST2C8F","ST2C9F",
@@ -201,7 +202,7 @@ myobj.st=methRead(file.list.all.fem,
                        dbdir = "shortterm_allfem_DB"
 )
 
-myobj.all=methRead(file.list.dev.fem,
+myobj.all=methRead(file.list.all,
                sample.id=list("DC2F1","DC2F2","DC3F1","DC3F2","DC3F3",
                               "DC4F1","DC4F2","DC4F3","DC4F4","DC4F5",
                               "DC5F1","DC5F2","DC5F3","DC5F4","DC5F5",
@@ -275,13 +276,13 @@ seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
                               30788009,22026651,28470737,26385442,25773841,
                               25248790,18084596)
 
-myobj3X.dev.subset <- selectByOverlap(norm.myobj.dev.3X, keep.chr.noXY)
-myobj3X.st.subset <- selectByOverlap(norm.myobj.st.3X, keep.chr.noXY)
-myobj3X.all.subset <- selectByOverlap(norm.myobj.all.3X, keep.chr.noXY)
+myobj3X.dev.subset <- selectByOverlap(norm.myobj.dev.3X, keep.chr.allchr)
+myobj3X.st.subset <- selectByOverlap(norm.myobj.st.3X, keep.chr.allchr)
+myobj3X.all.subset <- selectByOverlap(norm.myobj.all.3X, keep.chr.allchr)
 
-myobj5X.dev.subset <- selectByOverlap(norm.myobj.dev.5X, keep.chr.noXY)
-myobj5X.st.subset <- selectByOverlap(norm.myobj.st.5X, keep.chr.noXY)
-myobj5X.all.subset <- selectByOverlap(norm.myobj.all.5X, keep.chr.noXY)
+myobj5X.dev.subset <- selectByOverlap(norm.myobj.dev.5X, keep.chr.allchr)
+myobj5X.st.subset <- selectByOverlap(norm.myobj.st.5X, keep.chr.allchr)
+myobj5X.all.subset <- selectByOverlap(norm.myobj.all.5X, keep.chr.allchr)
 
 ## Find DMSs ## 
 # Unite methylation calls
@@ -303,11 +304,22 @@ sds <- matrixStats::rowSds(pm, na.rm = TRUE) #calculate standard deviation of Cp
 DMSmeth5X.all <- DMSmeth5X.all[sds > 2]
 
 #filter out SNPs
-snp <- read.csv("../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
-snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
-DMSmeth5X.dev <- DMSmeth5X.dev[!as(DMSmeth5X.dev, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-DMSmeth5X.st <- DMSmeth5X.st[!as(DMSmeth5X.st, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-DMSmeth5X.all <- DMSmeth5X.all[!as(DMSmeth5X.all, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
+snp.dev <- read.csv("../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
+snp.st <- read.csv("../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
+
+#make combined snps
+combined.snp <- rbind(snp.dev, snp.st)
+combined.snp <- combined.snp[!duplicated(combined.snp), ] #unique snps only
+
+#convert to granges 
+snp.dev.granges <- makeGRangesFromDataFrame(snp.dev, ignore.strand = TRUE) #convert to granges 
+snp.st.granges <- makeGRangesFromDataFrame(snp.st, ignore.strand = TRUE) #convert to granges 
+snp.comb.granges <- makeGRangesFromDataFrame(combined.snp, ignore.strand = TRUE) #convert to granges 
+
+#remove snps
+DMSmeth5X.dev <- DMSmeth5X.dev[!as(DMSmeth5X.dev, "GRanges") %over% snp.dev.granges, ] #select CpGs that do not overlap
+DMSmeth5X.st <- DMSmeth5X.st[!as(DMSmeth5X.st, "GRanges") %over% snp.st.granges, ] #select CpGs that do not overlap
+DMSmeth5X.all <- DMSmeth5X.all[!as(DMSmeth5X.all, "GRanges") %over% snp.comb.granges, ] #select CpGs that do not overlap
 
 #check number of cpgs
 DMSmeth5X.dev
@@ -332,10 +344,29 @@ covariates.pop <- data.frame(pop = c("paria","paria","paria","paria","paria",
                                     "aripo","aripo","aripo","aripo","aripo"),
                          stringsAsFactors = TRUE)
 
+covariates.dev <- data.frame(tank=c("C2","C2","C3","C3","C3",
+                              "C4","C4","C4","C4","C4",
+                              "C5","C5","C5","C5","C5",
+                              "C6","C6","C6", "C6","C7",
+                              "C7","C7",
+                              "C2","C2","C3","C3","C3",
+                              "C4","C4","C5","C5","C5",
+                              "C6","C6","C6","C7","C7",
+                              "C7","C7","C7"),
+                         stringsAsFactors = TRUE)
+
 # Calculate differential methylation
-DMSmyDiff5X.dev <- calculateDiffMeth(DMSmeth5X.dev, mc.cores=2, test="Chisq")
+DMSmyDiff5X.dev <- calculateDiffMeth(DMSmeth5X.dev, mc.cores=2, covariates=covariates.dev, test="Chisq")
+
+print("dev done")
+
 DMSmyDiff5X.st <- calculateDiffMeth(DMSmeth5X.st, mc.cores=2, test="Chisq")
+
+print("st done")
+
 DMSmyDiff5X.all <- calculateDiffMeth(DMSmeth5X.all, mc.cores=2, covariates=covariates.pop, test="Chisq")
+
+print("all done")
 
 # Call significant methylation
 DMSdiffMeth5X.dev <- getMethylDiff(DMSmyDiff5X.dev, difference = 20, qvalue = 0.0125)
@@ -385,30 +416,48 @@ saveRDS(getData(DMSdiffMeth5X.all), file = "./DMS_res/DMSdiffmeth5X_all_data.RDS
 saveRDS(getData(DMSmyDiff5X.all), file = "./DMS_res/DMSmydiff5X_all_data.RDS")
 
 ## Find DMRs ##
+#unite calls for 60% of samples
+DMRmeth3X.dev <- unite(myobj3X.dev.subset, save.db = FALSE)
+DMRmeth3X.st <- unite(myobj3X.st.subset, save.db = FALSE)
+DMRmeth3X.all <- unite(myobj3X.all.subset, save.db = FALSE)
+
+#convert to non DB object 
+DMRmeth3X.dev <- as(DMRmeth3X.dev, "methylBase")
+DMRmeth3X.st <- as(DMRmeth3X.st, "methylBase")
+DMRmeth3X.all <- as(DMRmeth3X.all, "methylBase")
+
+#filter out low variation sites 
+pm.3x.dev <- percMethylation(DMRmeth3X.dev) #get percent methylation matrix
+sds.3x.dev <- matrixStats::rowSds(pm.3x.dev) #calculate standard deviation of CpGs 
+DMRmeth3X.dev <- DMRmeth3X.dev[sds.3x.dev > 2]
+
+pm.3x.st <- percMethylation(DMRmeth3X.st) #get percent methylation matrix
+sds.3x.st <- matrixStats::rowSds(pm.3x.st) #calculate standard deviation of CpGs 
+DMRmeth3X.st <- DMRmeth3X.st[sds.3x.st > 2]
+
+pm.3x.all <- percMethylation(DMRmeth3X.all) #get percent methylation matrix
+sds.3x.all <- matrixStats::rowSds(pm.3x.all) #calculate standard deviation of CpGs 
+DMRmeth3X.all <- DMRmeth3X.all[sds.3x.all > 2]
+
+#filter out SNPs
+DMRmeth3X.dev <- DMRmeth3X.dev[!as(DMRmeth3X.dev, "GRanges") %over% snp.dev.granges, ] #select CpGs that do not overlap
+DMRmeth3X.st <- DMRmeth3X.st[!as(DMRmeth3X.st, "GRanges") %over% snp.st.granges, ] #select CpGs that do not overlap
+DMRmeth3X.all <- DMRmeth3X.all[!as(DMRmeth3X.all, "GRanges") %over% snp.comb.granges, ] #select CpGs that do not overlap
+
 #tile into 100 bp windows with min coverage 10X and 5X
-tiles.5X.dev <- tileMethylCounts(myobj3X.dev.subset, win.size = 100, step.size = 100, cov.bases = 5)
-tiles.5X.st <- tileMethylCounts(myobj3X.st.subset, win.size = 100, step.size = 100, cov.bases = 5)
-tiles.5X.all <- tileMethylCounts(myobj3X.all.subset, win.size = 100, step.size = 100, cov.bases = 5)
+tiles.5X.dev <- tileMethylCounts(DMRmeth3X.dev, win.size = 100, step.size = 100, cov.bases = 5)
+tiles.5X.st <- tileMethylCounts(DMRmeth3X.st, win.size = 100, step.size = 100, cov.bases = 5)
+tiles.5X.all <- tileMethylCounts(DMRmeth3X.all, win.size = 100, step.size = 100, cov.bases = 5)
 
 #check number of tiles 
 tiles.5X.dev
 tiles.5X.st
 tiles.5X.all
 
-#unite calls for 60% of samples
-DMRmeth5X.dev <- unite(tiles.5X.dev, save.db = FALSE)
-DMRmeth5X.st <- unite(tiles.5X.st, save.db = FALSE)
-DMRmeth5X.all <- unite(tiles.5X.all, save.db = FALSE)
-
-#check number of regions retained 
-DMRmeth5X.dev
-DMRmeth5X.st
-DMRmeth5X.all
-
 #calculate differential methylation 
-DMRmyDiff5X.dev <- calculateDiffMeth(DMRmeth5X.dev, mc.cores=2, test="Chisq")
-DMRmyDiff5X.st <- calculateDiffMeth(DMRmeth5X.st, mc.cores=2, test="Chisq")
-DMRmyDiff5X.all <- calculateDiffMeth(DMRmeth5X.all, mc.cores=2, test="Chisq", covariates=covariates.pop)
+DMRmyDiff5X.dev <- calculateDiffMeth(tiles.5X.dev, mc.cores=2, test="Chisq", covariates = covariates.dev)
+DMRmyDiff5X.st <- calculateDiffMeth(tiles.5X.st, mc.cores=2, test="Chisq")
+DMRmyDiff5X.all <- calculateDiffMeth(tiles.5X.all, mc.cores=2, test="Chisq", covariates = covariates.pop)
 
 #call significant methylation
 DMRdiffMeth5X.dev <- getMethylDiff(DMRmyDiff5X.dev, difference = 20, qvalue = 0.0125)
@@ -431,29 +480,29 @@ DMRdiffMethChr5X.all
 
 ## Save R objects ##
 saveRDS(tiles.5X.dev, file = "./DMR_res/DMRtiles5X_dev.RDS")
-saveRDS(DMRmeth5X.dev, file = "./DMR_res/DMRmeth5X_dev.RDS")
+saveRDS(DMRmeth3X.dev, file = "./DMR_res/DMRmeth3X_dev.RDS")
 saveRDS(DMRmyDiff5X.dev, file = "./DMR_res/DMRmydiff5X_dev.RDS")
 saveRDS(DMRdiffMeth5X.dev, file = "./DMR_res/DMRdiffmeth5X_dev.RDS")
 saveRDS(DMRdiffMethChr5X.dev, file = "./DMR_res/DMRdiffmethchr5X_dev.RDS")
-saveRDS(getData(DMRmeth5X.dev), file = "./DMR_res/DMRmeth5X_data_dev.RDS")
+saveRDS(getData(DMRmeth3X.dev), file = "./DMR_res/DMRmeth3X_data_dev.RDS")
 saveRDS(getData(DMRmyDiff5X.dev), file = "./DMR_res/DMRmydiff5X_data_dev.RDS")
 saveRDS(getData(DMRdiffMeth5X.dev), file = "./DMR_res/DMRdiffmeth5X_data_dev.RDS")
 
 saveRDS(tiles.5X.st, file = "./DMR_res/DMRtiles5X_st.RDS")
-saveRDS(DMRmeth5X.st, file = "./DMR_res/DMRmeth5X_st.RDS")
+saveRDS(DMRmeth3X.st, file = "./DMR_res/DMRmeth3X_st.RDS")
 saveRDS(DMRmyDiff5X.st, file = "./DMR_res/DMRmydiff5X_st.RDS")
 saveRDS(DMRdiffMeth5X.st, file = "./DMR_res/DMRdiffmeth5X_st.RDS")
 saveRDS(DMRdiffMethChr5X.st, file = "./DMR_res/DMRdiffmethchr5X_st.RDS")
-saveRDS(getData(DMRmeth5X.st), file = "./DMR_res/DMRmeth5X_data_st.RDS")
+saveRDS(getData(DMRmeth3X.st), file = "./DMR_res/DMRmeth3X_data_st.RDS")
 saveRDS(getData(DMRmyDiff5X.st), file = "./DMR_res/DMRmydiff5X_data_st.RDS")
 saveRDS(getData(DMRdiffMeth5X.st), file = "./DMR_res/DMRdiffmeth5X_data_st.RDS")
 
 saveRDS(tiles.5X.all, file = "./DMR_res/DMRtiles5X_all.RDS")
-saveRDS(DMRmeth5X.all, file = "./DMR_res/DMRmeth5X_all.RDS")
+saveRDS(DMRmeth3X.all, file = "./DMR_res/DMRmeth3X_all.RDS")
 saveRDS(DMRmyDiff5X.all, file = "./DMR_res/DMRmydiff5X_all.RDS")
 saveRDS(DMRdiffMeth5X.all, file = "./DMR_res/DMRdiffmeth5X_all.RDS")
 saveRDS(DMRdiffMethChr5X.all, file = "./DMR_res/DMRdiffmethchr5X_all.RDS")
-saveRDS(getData(DMRmeth5X.all), file = "./DMR_res/DMRmeth5X_data_all.RDS")
+saveRDS(getData(DMRmeth3X.all), file = "./DMR_res/DMRmeth3X_data_all.RDS")
 saveRDS(getData(DMRmyDiff5X.all), file = "./DMR_res/DMRmydiff5X_data_all.RDS")
 saveRDS(getData(DMRdiffMeth5X.all), file = "./DMR_res/DMRdiffmeth5X_data_all.RDS")
 
@@ -479,17 +528,17 @@ renameChr <- function(obj) {
   return(gr.obj.rename)
 }
 
-DMRdiffMeth5X.dev.gr.rename <- renameChr.noXY(DMRdiffMeth5X.dev)
-DMRdiffMeth5X.st.gr.rename <- renameChr.noXY(DMRdiffMeth5X.st)
-DMRdiffMeth5X.all.gr.rename <- renameChr.noXY(DMRdiffMeth5X.all)
+DMRdiffMeth5X.dev.gr.rename <- renameChr(DMRdiffMeth5X.dev)
+DMRdiffMeth5X.st.gr.rename <- renameChr(DMRdiffMeth5X.st)
+DMRdiffMeth5X.all.gr.rename <- renameChr(DMRdiffMeth5X.all)
 
-DMRdiffMeth5X.dev.gr.rename <- renameChr.noXY(DMSdiffMeth5X.dev)
-DMRdiffMeth5X.st.gr.rename <- renameChr.noXY(DMSdiffMeth5X.st)
-DMRdiffMeth5X.all.gr.rename <- renameChr.noXY(DMSdiffMeth5X.all)
+DMSdiffMeth5X.dev.gr.rename <- renameChr(DMSdiffMeth5X.dev)
+DMSdiffMeth5X.st.gr.rename <- renameChr(DMSdiffMeth5X.st)
+DMSdiffMeth5X.all.gr.rename <- renameChr(DMSdiffMeth5X.all)
 
-CpG.dev.gr.rename <- renameChr.noXY(DMSmyDiff5X.dev)
-CpG.st.gr.rename <- renameChr.noXY(DMSmyDiff5X.st)
-CpG.all.gr.rename <- renameChr.noXY(DMSmyDiff5X.all)
+CpG.dev.gr.rename <- renameChr(DMSmyDiff5X.dev)
+CpG.st.gr.rename <- renameChr(DMSmyDiff5X.st)
+CpG.all.gr.rename <- renameChr(DMSmyDiff5X.all)
 
 #make function for annotations
 anno.func <- function(DMR, DMS, CpG, 
@@ -532,20 +581,20 @@ anno.func <- function(DMR, DMS, CpG,
   saveRDS(DMS.tss, file = DMS_tss_name)
 }
 
-anno.func(DMRdiffMeth5X.dev.gr.rename, DMS.diffmeth.dev.gr.rename, CpG.dev.gr.rename,
+anno.func(DMRdiffMeth5X.dev.gr.rename, DMSdiffMeth5X.dev.gr.rename, CpG.dev.gr.rename,
           "./anno_res/DMR_anno_dev.RDS", "./anno_res/DMS_anno_dev.RDS", "./anno_res/CpG_anno_dev.RDS",
           "./anno_res/DMR_annStats_perc_dev.RDS", "./anno_res/DMS_annStats_perc_dev.RDS", "./anno_res/CpG_annStats_perc_dev.RDS",
           "./anno_res/DMR_annStats_num_dev.RDS", "./anno_res/DMS_annStats_num_dev.RDS", "./anno_res/CpG_annStats_num_dev.RDS",
-          "./anno_res/DMR_TSS_dev.RDS", "./0anno_res/DMS_TSS_dev.RDS")
+          "./anno_res/DMR_TSS_dev.RDS", "./anno_res/DMS_TSS_dev.RDS")
 
-anno.func(DMRdiffMeth5X.st.gr.rename, DMS.diffmeth.st.gr.rename, CpG.st.gr.rename,
+anno.func(DMRdiffMeth5X.st.gr.rename, DMSdiffMeth5X.st.gr.rename, CpG.st.gr.rename,
           "./anno_res/DMR_anno_st.RDS", "./anno_res/DMS_anno_st.RDS", "./anno_res/CpG_anno_st.RDS",
           "./anno_res/DMR_annStats_perc_st.RDS", "./anno_res/DMS_annStats_perc_st.RDS", "./anno_res/CpG_annStats_perc_st.RDS",
           "./anno_res/DMR_annStats_num_st.RDS", "./anno_res/DMS_annStats_num_st.RDS", "./anno_res/CpG_annStats_num_st.RDS",
-          "./anno_res/DMR_TSS_st.RDS", "./0anno_res/DMS_TSS_st.RDS")
+          "./anno_res/DMR_TSS_st.RDS", "./anno_res/DMS_TSS_st.RDS")
 
-anno.func(DMRdiffMeth5X.all.gr.rename, DMS.diffmeth.all.gr.rename, CpG.all.gr.rename,
+anno.func(DMRdiffMeth5X.all.gr.rename, DMSdiffMeth5X.all.gr.rename, CpG.all.gr.rename,
           "./anno_res/DMR_anno_all.RDS", "./anno_res/DMS_anno_all.RDS", "./anno_res/CpG_anno_all.RDS",
           "./anno_res/DMR_annStats_perc_all.RDS", "./anno_res/DMS_annStats_perc_all.RDS", "./anno_res/CpG_annStats_perc_all.RDS",
           "./anno_res/DMR_annStats_num_all.RDS", "./anno_res/DMS_annStats_num_all.RDS", "./anno_res/CpG_annStats_num_all.RDS",
-          "./anno_res/DMR_TSS_all.RDS", "./0anno_res/DMS_TSS_all.RDS")
+          "./anno_res/DMR_TSS_all.RDS", "./anno_res/DMS_TSS_all.RDS")

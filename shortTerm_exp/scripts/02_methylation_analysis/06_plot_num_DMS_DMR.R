@@ -84,8 +84,56 @@ DMS_meth_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/DMS_res_4h/meth_4
 DMS_meth_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/DMS_res_24h/meth_24h_mal_5X_data.RDS")
 DMS_meth_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/DMS_res_72h/meth_72h_mal_5X_data.RDS")
 
-#calculate percent methylation
-perc <- percMethylation(meth_all)
+#check numbers of hypo and hyper methylation 
+nrow(subset(DMS_diffMeth_05h_fem, meth.diff > 0))
+nrow(subset(DMS_diffMeth_05h_fem, meth.diff < 0))
+nrow(subset(DMS_diffMeth_1h_fem, meth.diff > 0))
+nrow(subset(DMS_diffMeth_1h_fem, meth.diff < 0))
+nrow(subset(DMS_diffMeth_4h_fem, meth.diff > 0))
+nrow(subset(DMS_diffMeth_4h_fem, meth.diff < 0))
+nrow(subset(DMS_diffMeth_24h_fem, meth.diff > 0))
+nrow(subset(DMS_diffMeth_24h_fem, meth.diff < 0))
+nrow(subset(DMS_diffMeth_72h_fem, meth.diff > 0))
+nrow(subset(DMS_diffMeth_72h_fem, meth.diff < 0))
+
+nrow(subset(DMS_diffMeth_05h_mal, meth.diff > 0))
+nrow(subset(DMS_diffMeth_05h_mal, meth.diff < 0))
+nrow(subset(DMS_diffMeth_1h_mal, meth.diff > 0))
+nrow(subset(DMS_diffMeth_1h_mal, meth.diff < 0))
+nrow(subset(DMS_diffMeth_4h_mal, meth.diff > 0))
+nrow(subset(DMS_diffMeth_4h_mal, meth.diff < 0))
+nrow(subset(DMS_diffMeth_24h_mal, meth.diff > 0))
+nrow(subset(DMS_diffMeth_24h_mal, meth.diff < 0))
+nrow(subset(DMS_diffMeth_72h_mal, meth.diff > 0))
+nrow(subset(DMS_diffMeth_72h_mal, meth.diff < 0))
+
+nrow(subset(DMR_diffMeth_05h_fem, meth.diff > 0))
+nrow(subset(DMR_diffMeth_05h_fem, meth.diff < 0))
+nrow(subset(DMR_diffMeth_1h_fem, meth.diff > 0))
+nrow(subset(DMR_diffMeth_1h_fem, meth.diff < 0))
+nrow(subset(DMR_diffMeth_4h_fem, meth.diff > 0))
+nrow(subset(DMR_diffMeth_4h_fem, meth.diff < 0))
+nrow(subset(DMR_diffMeth_24h_fem, meth.diff > 0))
+nrow(subset(DMR_diffMeth_24h_fem, meth.diff < 0))
+nrow(subset(DMR_diffMeth_72h_fem, meth.diff > 0))
+nrow(subset(DMR_diffMeth_72h_fem, meth.diff < 0))
+
+nrow(subset(DMR_diffMeth_05h_mal, meth.diff > 0))
+nrow(subset(DMR_diffMeth_05h_mal, meth.diff < 0))
+nrow(subset(DMR_diffMeth_1h_mal, meth.diff > 0))
+nrow(subset(DMR_diffMeth_1h_mal, meth.diff < 0))
+nrow(subset(DMR_diffMeth_4h_mal, meth.diff > 0))
+nrow(subset(DMR_diffMeth_4h_mal, meth.diff < 0))
+nrow(subset(DMR_diffMeth_24h_mal, meth.diff > 0))
+nrow(subset(DMR_diffMeth_24h_mal, meth.diff < 0))
+nrow(subset(DMR_diffMeth_72h_mal, meth.diff > 0))
+nrow(subset(DMR_diffMeth_72h_mal, meth.diff < 0))
+
+nrow(subset(DMR_diffMeth_all_fem, meth.diff > 0))
+nrow(subset(DMR_diffMeth_all_fem, meth.diff < 0))
+
+nrow(subset(DMR_diffMeth_all_mal, meth.diff > 0))
+nrow(subset(DMR_diffMeth_all_mal, meth.diff < 0))
 
 #create a column with a name for each DMS/DMR
 nameSite <- function(data){
@@ -166,7 +214,7 @@ barplot.funct <- function(bar.data, site, ylabel){
   ggplot(data = bar.data, aes(x=time_point, y = {{site}}, fill = sex)) + 
     geom_bar(stat="identity", position = position_dodge()) +
     theme_bw() + xlab("Time Point") + ylab(ylabel) +
-    scale_fill_manual(values = c("all" = "lightgreen", "fem" = "orange", "mal" = "skyblue"), name = "Sex", 
+    scale_fill_manual(values = c("all" = "#B8DE29FF", "fem" = "#481567FF", "mal" = "#1F968BFF"), name = "Sex", 
                       labels = c("all" = "All", "fem" = "Female", "mal" = "Male")) +
     theme(axis.title = element_text(size = 14), axis.text = element_text(size = 12), legend.text = element_text(size = 11),
     legend.title = element_text(size = 12)) 
@@ -270,10 +318,10 @@ DMR.all.upset <- DMR.all.upset %>% group_by(site_name) %>% summarize(time_points
 
 #plot upsets 
 upset.plot.funct <- function(data){
-  ggplot(data = data, aes(x = time_points)) + geom_bar(fill = "#27187E") + scale_x_upset() + theme_bw() + ylab("Intersection Size") + 
+  ggplot(data = data, aes(x = time_points)) + geom_bar(fill = "#39568CFF") + scale_x_upset() + theme_bw() + ylab("Intersection Size") + 
     xlab("") + geom_text(stat = 'count', aes(label = after_stat(count)), vjust = -0.5, color = "black", size = 2.5) + 
-    theme_combmatrix(combmatrix.panel.point.color.fill = "skyblue",
-                     combmatrix.panel.line.color = "skyblue",
+    theme_combmatrix(combmatrix.panel.point.color.fill = "#1F968BFF",
+                     combmatrix.panel.line.color = "#1F968BFF",
                      combmatrix.label.extra_spacing	= 10,
                      combmatrix.label.text = element_text(size = 12, color = "black")) + 
     theme(axis.title = element_text(size = 15, color = "black"), axis.text.y = element_text(size = 11, color = "black")) 
@@ -288,6 +336,12 @@ DMR.mal.upset.plot <- upset.plot.funct(DMR.mal.upset)
 DMR.all.upset.plot <- upset.plot.funct(DMR.all.upset)
 
 #find overlapping DMRs in all time points 
+Reduce(intersect, list(DMS_diffMeth_05h_fem$site_name,DMS_diffMeth_1h_fem$site_name,DMS_diffMeth_4h_fem$site_name,
+                       DMS_diffMeth_24h_fem$site_name,DMS_diffMeth_72h_fem$site_name))
+
+Reduce(intersect, list(DMS_diffMeth_05h_mal$site_name,DMS_diffMeth_1h_mal$site_name,DMS_diffMeth_4h_mal$site_name,
+                       DMS_diffMeth_24h_mal$site_name,DMS_diffMeth_72h_mal$site_name))
+
 Reduce(intersect, list(DMR_diffMeth_05h_fem$site_name,DMR_diffMeth_1h_fem$site_name,DMR_diffMeth_4h_fem$site_name,
                        DMR_diffMeth_24h_fem$site_name,DMR_diffMeth_72h_fem$site_name))
 
@@ -338,8 +392,8 @@ DMS.femvmal <- list(DMS.mal, DMS.fem)
 venn_object <- venn.diagram(DMS.femvmal, category.names = c("Males", "Females"),
              filename = "./shortTerm_exp/plots/finalized_tiff/venn_diagrams/DMS_femVmal_venn.png",
              imagetype = "tiff", height = 2000, width = 2000, resolution = 600, 
-             lwd = 2, col = c("skyblue", "orange"),
-             fill = c(alpha("skyblue", 0.8), alpha("orange", 0.8)),
+             lwd = 2, col = c("#1F968BFF", "#481567FF"),
+             fill = c(alpha("#1F968BFF", 0.8), alpha("#481567FF", 0.8)),
              cex = 1, cat.cex = 1, scaled = FALSE, fontfamily = "sans", 
              cat.fontfamily = "sans",cat.default.pos = "outer",cat.pos = c(-27, 27),
              cat.dist = c(0.055, 0.055))
@@ -353,8 +407,8 @@ DMR.femvmal <- list(DMR.mal, DMR.fem)
 venn_object <- venn.diagram(DMR.femvmal, category.names = c("Males", "Females"),
                             filename = "./shortTerm_exp/plots/finalized_tiff/venn_diagrams/DMR_femVmal_venn.png",
                             imagetype = "tiff", height = 2000, width = 2000, resolution = 600, 
-                            lwd = 2, col = c("skyblue", "orange"),
-                            fill = c(alpha("skyblue", 0.8), alpha("orange", 0.8)),
+                            lwd = 2, col = c("#1F968BFF", "#481567FF"),
+                            fill = c(alpha("#1F968BFF", 0.8), alpha("#481567FF", 0.8)),
                             cex = 1, cat.cex = 1, scaled = FALSE, fontfamily = "sans", 
                             cat.fontfamily = "sans",cat.default.pos = "outer",cat.pos = c(-27, 27),
                             cat.dist = c(0.055, 0.055), inverted = TRUE) #note have to invert so that it is in the same order as the previous one 
@@ -362,6 +416,8 @@ venn_object <- venn.diagram(DMR.femvmal, category.names = c("Males", "Females"),
 ## Plot Manhattan plots ## 
 #create function that plots manhattan plots
 plotManhat <- function(df, plotname, color_val){
+  
+  df$chr <- as.character(df$chr)
   
   #convert chromosome names for plotting 
   df$chr[df$chr == "NC_024331.1"] <- 1
@@ -425,9 +481,10 @@ plotManhat <- function(df, plotname, color_val){
   
   ggsave(filename = plotname, plot = p, width = 7, height = 4, units = "in", dpi = 300)
   
+  return(p)
 }
 
-color_val1 <- rep(c("grey", "skyblue"), length.out = 23)
+color_val1 <- rep(c("#1F968BFF", "#39568CFF"), length.out = 23)
 
 plotManhat(DMS_diffMeth_all, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_allTP_allSex_manPlot.tiff", color_val1)
 plotManhat(DMS_diffMeth_05h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_05h_allSex_manPlot.tiff", color_val1)
@@ -436,33 +493,33 @@ plotManhat(DMS_diffMeth_4h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_
 plotManhat(DMS_diffMeth_24h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_24h_allSex_manPlot.tiff", color_val1)
 plotManhat(DMS_diffMeth_72h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_72h_allSex_manPlot.tiff", color_val1)
 
-plotManhat(DMS_diffMeth_all_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_allTP_fem_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_05h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_05h_fem_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_1h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_1h_fem_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_4h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_4h_fem_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_24h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_24h_fem_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_72h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_72h_fem_manPlot.tiff", color_val1)
+DMS.man.all.fem <- plotManhat(DMS_diffMeth_all_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_allTP_fem_manPlot.tiff", color_val1)
+DMS.man.fem.05h <- plotManhat(DMS_diffMeth_05h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_05h_fem_manPlot.tiff", color_val1)
+DMS.man.fem.1h <- plotManhat(DMS_diffMeth_1h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_1h_fem_manPlot.tiff", color_val1)
+DMS.man.fem.4h <- plotManhat(DMS_diffMeth_4h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_4h_fem_manPlot.tiff", color_val1)
+DMS.man.fem.24h <- plotManhat(DMS_diffMeth_24h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_24h_fem_manPlot.tiff", color_val1)
+DMS.man.fem.72h <- plotManhat(DMS_diffMeth_72h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_72h_fem_manPlot.tiff", color_val1)
 
-plotManhat(DMS_diffMeth_all_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_allTP_mal_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_05h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_05h_mal_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_1h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_1h_mal_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_4h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_4h_mal_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_24h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_24h_mal_manPlot.tiff", color_val1)
-plotManhat(DMS_diffMeth_72h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_72h_mal_manPlot.tiff", color_val1)
+DMS.man.all.mal <- plotManhat(DMS_diffMeth_all_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_allTP_mal_manPlot.tiff", color_val1)
+DMS.man.mal.05h <- plotManhat(DMS_diffMeth_05h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_05h_mal_manPlot.tiff", color_val1)
+DMS.man.mal.1h <- plotManhat(DMS_diffMeth_1h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_1h_mal_manPlot.tiff", color_val1)
+DMS.man.mal.4h <- plotManhat(DMS_diffMeth_4h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_4h_mal_manPlot.tiff", color_val1)
+DMS.man.mal.24h <- plotManhat(DMS_diffMeth_24h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_24h_mal_manPlot.tiff", color_val1)
+DMS.man.mal.72h <- plotManhat(DMS_diffMeth_72h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_72h_mal_manPlot.tiff", color_val1)
 
-plotManhat(DMR_diffMeth_all, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_allTP_allSex_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_05h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_05h_allSex_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_1h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_1h_allSex_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_4h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_4h_allSex_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_24h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_24h_allSex_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_72h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_72h_allSex_manPlot.tiff", color_val1)
+DMR.man.all.fem <- plotManhat(DMR_diffMeth_all, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_allTP_allSex_manPlot.tiff", color_val1)
+DMR.man.fem.05h <- plotManhat(DMR_diffMeth_05h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_05h_allSex_manPlot.tiff", color_val1)
+DMR.man.fem.1h <- plotManhat(DMR_diffMeth_1h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_1h_allSex_manPlot.tiff", color_val1)
+DMR.man.fem.4h <- plotManhat(DMR_diffMeth_4h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_4h_allSex_manPlot.tiff", color_val1)
+DMR.man.fem.24h <- plotManhat(DMR_diffMeth_24h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_24h_allSex_manPlot.tiff", color_val1)
+DMR.man.fem.72h <- plotManhat(DMR_diffMeth_72h, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_72h_allSex_manPlot.tiff", color_val1)
 
-plotManhat(DMR_diffMeth_all_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_allTP_fem_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_05h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_05h_fem_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_1h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_1h_fem_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_4h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_4h_fem_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_24h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_24h_fem_manPlot.tiff", color_val1)
-plotManhat(DMR_diffMeth_72h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_72h_fem_manPlot.tiff", color_val1)
+DMR.man.all.mal <- plotManhat(DMR_diffMeth_all_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_allTP_fem_manPlot.tiff", color_val1)
+DMR.man.mal.05h <- plotManhat(DMR_diffMeth_05h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_05h_fem_manPlot.tiff", color_val1)
+DMR.man.mal.1h <- plotManhat(DMR_diffMeth_1h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_1h_fem_manPlot.tiff", color_val1)
+DMR.man.mal.4h <- plotManhat(DMR_diffMeth_4h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_4h_fem_manPlot.tiff", color_val1)
+DMR.man.mal.24h <- plotManhat(DMR_diffMeth_24h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_24h_fem_manPlot.tiff", color_val1)
+DMR.man.mal.72h <- plotManhat(DMR_diffMeth_72h_fem, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_72h_fem_manPlot.tiff", color_val1)
 
 plotManhat(DMR_diffMeth_all_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_allTP_mal_manPlot.tiff", color_val1)
 plotManhat(DMR_diffMeth_05h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_05h_mal_manPlot.tiff", color_val1)
@@ -470,6 +527,28 @@ plotManhat(DMR_diffMeth_1h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/
 plotManhat(DMR_diffMeth_4h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_4h_mal_manPlot.tiff", color_val1)
 plotManhat(DMR_diffMeth_24h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_24h_mal_manPlot.tiff", color_val1)
 plotManhat(DMR_diffMeth_72h_mal, "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_72h_mal_manPlot.tiff", color_val1)
+
+#make panels 
+DMS.man.panel.fem <- ggarrange(DMS.man.fem.05h, DMS.man.fem.1h, DMS.man.fem.4h, DMS.man.fem.24h, DMS.man.fem.72h, labels = c("A", "B", "C", "D", "E"),
+                               nrow = 3, ncol = 2)
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_fem_man_panel.tiff", plot = DMS.man.panel.fem, width = 12, height = 12, units = "in", dpi = 300)
+
+DMS.man.panel.mal <- ggarrange(DMS.man.mal.05h, DMS.man.mal.1h, DMS.man.mal.4h, DMS.man.mal.24h, DMS.man.mal.72h, labels = c("A", "B", "C", "D", "E"),
+                               nrow = 3, ncol = 2)
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/man_plots/DMS_mal_man_panel.tiff", plot = DMS.man.panel.mal, width = 12, height = 12, units = "in", dpi = 300)
+
+
+DMR.man.panel.fem <- ggarrange(DMR.man.fem.05h, DMR.man.fem.1h, DMR.man.fem.4h, DMR.man.fem.24h, DMR.man.fem.72h, labels = c("A", "B", "C", "D", "E"),
+                                nrow = 3, ncol = 2)
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_fem_man_panel.tiff", plot = DMR.man.panel.fem, width = 12, height = 12, units = "in", dpi = 300)
+
+DMR.man.panel.mal <- ggarrange(DMR.man.mal.05h, DMR.man.mal.1h, DMR.man.mal.4h, DMR.man.mal.24h, DMR.man.mal.72h, labels = c("A", "B", "C", "D", "E"),
+                               nrow = 3, ncol = 2)
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/man_plots/DMR_mal_man_panel.tiff", plot = DMR.man.panel.mal, width = 12, height = 12, units = "in", dpi = 300)
+
+all.panel <- ggarrange(DMS.man.all.fem, DMS.man.all.mal, labels = c("A", "B"),
+                       nrow = 2, ncol = 1)
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/man_plots/all_DMS_man_panel.tiff", plot = all.panel, width = 6, height = 6, units = "in", dpi = 300)
 
 ## Assess changes in methylation ## 
 #check max and min methylation changes in DMRs
