@@ -178,8 +178,8 @@ plot.dist <- function(DMS.data, cpg.data, plotname){
   
   p <- ggplot(plot.data, aes(x = dist, y = count, fill = feature)) +
                 geom_col(colour = "black", position = "fill") + scale_y_continuous(labels = scales::percent) + theme_bw() + xlab(NULL) +
-                ylab("Percent") + scale_fill_manual(values = c("exon" = "lightgreen", "intron" = "skyblue", 
-                                                               "intergenic" = "orange", "promoter" = "yellow"),
+                ylab("Percent") + scale_fill_manual(values = c("exon" = "#B8DE29FF", "intron" = "#1F968BFF", 
+                                                               "intergenic" = "#39568CFF", "promoter" = "#481567FF"),
                                                     name = "Feature") + 
                 theme(axis.title = element_text(size = 14), axis.text = element_text(size = 12), legend.text = element_text(size = 12),
                       legend.title = element_text(size = 14)) 

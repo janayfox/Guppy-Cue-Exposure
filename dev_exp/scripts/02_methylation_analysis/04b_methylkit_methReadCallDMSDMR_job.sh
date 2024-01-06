@@ -14,4 +14,4 @@
 module load StdEnv/2020
 module load r/4.3.1
 
-Rscript 04a_methylkit_methReadCallDMS.R
+Rscript 04a_methylkit_methReadCallDMSDMR.R

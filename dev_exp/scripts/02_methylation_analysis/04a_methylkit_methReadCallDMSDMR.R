@@ -1,5 +1,5 @@
 #####################################################################################################################
-### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation, call DMS
+### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation, call DMS and DMRs
 ### Author: Janay Fox
 ### R script
 #####################################################################################################################
@@ -19,6 +19,219 @@ library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("data.table", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
 setwd("/scratch/janayfox/guppyWGBS/methylKit/dev/perc20")
+
+#Prepare function for getting DMS and DMRs 
+run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filename.myobj5x,
+                        file.name.meth.DMS,file.name.meth.DMS.data,
+                        file.name.myDiff.DMS,file.name.myDiff.data,
+                        file.name.diffMeth.DMS,filename.diffMeth.DMS.data,
+                        filename.chr.DMS,
+                        file.name.meth.DMR,file.name.meth.DMR.data,
+                        file.name.myDiff.DMR,file.name.myDiff.DMR.data,
+                        file.name.diffMeth.DMR,file.name.diffMeth.DMR.data,
+                        filename.chr.DMR){
+
+      #filter out sites in the 99.9th percentile of coverage (PCR bias) for 3x and 5X
+      myobj.3X=filterByCoverage(myobj,lo.count=3,lo.perc=NULL,
+                                    hi.count=NULL, hi.perc=99.9)
+
+
+      myobj.5X=filterByCoverage(myobj,lo.count=5,lo.perc=NULL,
+                                    hi.count=NULL, hi.perc=99.9)
+
+      #normalize by median coverage
+      norm.myobj.3X=normalizeCoverage(myobj.3X, method="median")
+      norm.myobj.5X=normalizeCoverage(myobj.5X, method="median")
+
+      #remove sex chr (LG12) and unplaced scaffolds
+      myobj.subset.3X <- selectByOverlap(norm.myobj.3X, chr.to.keep)
+      myobj.subset.5X <- selectByOverlap(norm.myobj.5X, chr.to.keep)
+
+      ##Find DMS##
+      #unite sites 
+      DMS.meth.5X=unite(myobj.subset.5X, min.per.group = unite.val, destrand=FALSE, save.db = FALSE)
+
+      #convert to non DB object 
+      DMS.meth.5X <- as(DMS.meth.5X, "methylBase")
+
+      #filter out low variation sites 
+      pm.5X <- percMethylation(DMS.meth.5X) #get percent methylation matrix
+      sds.5X <- matrixStats::rowSds(pm.5X, na.rm = TRUE) #calculate standard deviation of CpGs 
+      DMS.meth.5X <- DMS.meth.5X[sds.5X > 2]
+
+      #filter out SNPs
+      snp <- read.csv("../../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
+      snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
+      DMS.meth.5X <- DMS.meth.5X[!as(DMS.meth.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
+
+      # Check number of CpGs 
+      print(head(DMS.meth.5X))
+
+      #calculate differential methylation
+      DMS.myDiff.5X <- calculateDiffMeth(DMS.meth.5X, covariates=cov, mc.cores=2, test="Chisq", save.db = FALSE)
+
+      #call significant methylation
+      DMS.diffMeth.5X <- getMethylDiff(DMS.myDiff.5X, difference = 20, qvalue = 0.0125, save.db = FALSE)
+
+      #check number of significant DMS
+      print(head(DMS.diffMeth.5X))
+
+      # Get meth per chromosome
+      DMS.diffMeth.5X.chr <- diffMethPerChr(DMS.myDiff.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = FALSE)
+
+      ##Find DMRs ##
+      #unite sites 
+      DMR.meth.3X=unite(myobj.subset.3X, min.per.group = unite.val, destrand=FALSE, save.db = FALSE)
+
+      #convert to non DB object 
+      DMR.meth.3X <- as(DMR.meth.3X, "methylBase")
+
+      #filter out low variation sites 
+      pm.3x <- percMethylation(DMR.meth.3X) #get percent methylation matrix
+      sds.3x <- matrixStats::rowSds(pm.3x, na.rm = TRUE) #calculate standard deviation of CpGs 
+      DMR.meth.3X <- DMR.meth.3X[sds.3x > 2]
+
+      #filter out SNPs
+      DMR.meth.3X <- DMR.meth.3X[!as(DMR.meth.3X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
+
+      # Check number of CpGs 
+      print(head(DMR.meth.3X))
+
+      #tile into 100 bp windows with min coverage 5X
+      tile.meth.5X <- tileMethylCounts(DMR.meth.3X, win.size = 100, step.size = 100, cov.bases = 5)
+
+      #check number of regions retained 
+      print(head(tile.meth.5X))
+
+      #calculate differential methylation 
+      DMR.myDiff.5X <- calculateDiffMeth(tile.meth.5X, mc.cores=2, test="Chisq", covariates=cov, save.db = FALSE)
+       
+      #call significant methylation
+      DMR.diffMeth.5X <- getMethylDiff(DMR.myDiff.5X, difference = 20, qvalue = 0.0125, save.db = FALSE)
+
+      #check number of DMRs 
+     print(head(DMR.diffMeth.5X))
+
+      #get meth per chromosome 
+      DMR.diffMeth.5X.chr <- diffMethPerChr(DMR.diffMeth.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db = FALSE)
+
+      # Save R objects ##
+      saveRDS(myobj.subset.3X, file = filename.myobj3x)
+      saveRDS(myobj.subset.5X, file = filename.myobj5x)
+
+      saveRDS(DMS.meth.5X, file = file.name.meth.DMS)
+      saveRDS(getData(DMS.meth.5X), file = file.name.meth.DMS.data)
+      saveRDS(DMS.myDiff.5X, file = file.name.myDiff.DMS)
+      saveRDS(getData(DMS.myDiff.5X), file = file.name.myDiff.data)
+      saveRDS(DMS.diffMeth.5X, file = file.name.diffMeth.DMS)
+      saveRDS(getData(DMS.diffMeth.5X), file = filename.diffMeth.DMS.data)
+      saveRDS(DMS.diffMeth.5X.chr, file = filename.chr.DMS)
+
+      
+      saveRDS(DMR.meth.3X, file = file.name.meth.DMR)
+      saveRDS(getData(DMR.meth.3X), file = file.name.meth.DMR.data)
+      saveRDS(DMR.myDiff.5X, file = file.name.myDiff.DMR)
+      saveRDS(getData(DMR.myDiff.5X), file = file.name.myDiff.DMR.data)
+      saveRDS(DMR.diffMeth.5X, file = file.name.diffMeth.DMR)
+      saveRDS(getData(DMR.diffMeth.5X), file = file.name.diffMeth.DMR.data)
+      saveRDS(DMR.diffMeth.5X.chr, file = filename.chr.DMR)
+
+}
+
+#prepare GRanges object for chromosomes to keep 
+#to remove unplaced scaffolds and sex chromosomes
+keep.chr.noXY <- GRanges(seqnames = c("NC_024331.1", "NC_024332.1", "NC_024333.1", "NC_024334.1", "NC_024335.1",
+                                    "NC_024336.1", "NC_024337.1", "NC_024338.1", "NC_024339.1", "NC_024340.1",
+                                    "NC_024341.1", "NC_024343.1", "NC_024344.1", "NC_024345.1", "NC_024346.1",
+                                    "NC_024347.1", "NC_024348.1", "NC_024349.1", "NC_024350.1", "NC_024351.1",
+                                    "NC_024352.1", "NC_024353.1"),
+                        ranges=IRanges(start = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),
+                                    end = c(34115677,46286544,35265442,31497199,33908744,
+                                                31529174,31413364,27946405,34117797,32819797,
+                                                28875558,33524197,28338960,30644713,33199742,
+                                                30788009,22026651,28470737,26385442,25773841,
+                                                25248790,18084596)),
+                        strand="*")
+
+seqlengths(keep.chr.noXY)=c(34115677,46286544,35265442,31497199,33908744,
+                        31529174,31413364,27946405,34117797,32819797,
+                        28875558,33524197,28338960,30644713,33199742,
+                        30788009,22026651,28470737,26385442,25773841,
+                        25248790,18084596)
+
+#to remove unplaced scaffolds
+keep.chr.allchr <- GRanges(seqnames = c("NC_024331.1", "NC_024332.1", "NC_024333.1", "NC_024334.1", "NC_024335.1",
+                                    "NC_024336.1", "NC_024337.1", "NC_024338.1", "NC_024339.1", "NC_024340.1",
+                                    "NC_024341.1", "NC_024342.1", "NC_024343.1", "NC_024344.1", "NC_024345.1", "NC_024346.1",
+                                    "NC_024347.1", "NC_024348.1", "NC_024349.1", "NC_024350.1", "NC_024351.1",
+                                    "NC_024352.1", "NC_024353.1"),
+                        ranges=IRanges(start = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),
+                                          end = c(34115677,46286544,35265442,31497199,33908744,
+                                                31529174,31413364,27946405,34117797,32819797,
+                                                28875558,26439574,33524197,28338960,30644713,33199742,
+                                                30788009,22026651,28470737,26385442,25773841,
+                                                25248790,18084596)),
+                        strand="*")
+
+seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
+                              31529174,31413364,27946405,34117797,32819797,
+                              28875558,26439574,33524197,28338960,30644713,33199742,
+                              30788009,22026651,28470737,26385442,25773841,
+                              25248790,18084596)
+
+#read in tank covariate data
+covariates.all <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3","AC3",
+                                "AC3","AC4","AC4","AC4","AC4","AC4",
+                                "AC5","AC5","AC5","AC5","AC5",
+                                "AC5","AC5","AC5","AC6","AC6","AC6",
+                                "AC6","AC6","AC6","AC7","AC7","AC7",
+                                "AC7","AC7","AC7","AC7","AC7","AC7",
+                                "C2","C2","C2","C2","C3","C3",
+                                "C3","C3","C3","C3","C4","C4",
+                                "C4","C4","C4","C4","C4","C5",
+                                "C5","C5","C5","C5","C5","C5",
+                                "C5","C6","C6","C6","C6","C6",
+                                "C6","C6","C7","C7","C7","C7",
+                                "C7","C7","C7","C7"),
+                        sex=c("F","F","F","F","F","M",
+                              "M","F","F","F","F","F",
+                              "F","F","F","F","M","M",
+                              "M","M","F","F","F","M",
+                              "M","M", "F","F","F","F",
+                              "F","F","M","M","M",
+                              "F","F","M","M","F","F","F",
+                              "M","M","M","F","F","F","F",
+                              "F","M","M","F","F","F","F",
+                              "F","M","M","M","F","F","F",
+                              "F","M","M","M","F","F","F",
+                              "M","M","M","M","M"),
+                         stringsAsFactors = TRUE)
+
+covariates.fem <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3",
+                                "AC4","AC4","AC4","AC4","AC4",
+                                "AC5","AC5","AC5","AC5",
+                                "AC6","AC6","AC6",
+                                "AC7","AC7","AC7",
+                                "AC7","AC7","AC7",
+                                "C2","C2","C3","C3",
+                                "C3","C4","C4",
+                                "C4","C4","C4","C5",
+                                "C5","C5","C5","C5",
+                                "C6","C6","C6","C6",
+                                "C7","C7","C7"),
+                         stringsAsFactors = TRUE)
+
+covariates.mal <- data.frame(tank=c("AC3","AC3",
+                                "AC5","AC5","AC5","AC5",
+                                "AC6","AC6","AC6",
+                                "AC7","AC7","AC7",
+                                "C2","C2","C3","C3",
+                                "C3","C4","C4",
+                                "C5","C5","C5",
+                                "C6","C6","C6",
+                                "C7","C7","C7","C7",
+                                "C7"),
+                         stringsAsFactors = TRUE)
 
 ## Prepare tabix files
 #create list of file locations
@@ -199,6 +412,19 @@ myobj.all=methRead(file.list.dev.all,
                mincov = 1
 )
 
+run.DMS.DMR(myobj.all,covariates.all,keep.chr.noXY,21L,
+                        "./DMS_res/myobj_all_3X.RDS","./DMS_res/myobj_all_5X.RDS",
+                        "./DMS_res/DMSmeth_all_5X.RDS","./DMS_res/meth_all_5X_data.RDS",
+                        "./DMS_res/DMSmydiff_all_5X.RDS","./DMS_res/DMSmydiff_all_5X_data.RDS",
+                        "./DMS_res/DMSdiffmeth_all_5X.RDS","./DMS_res/DMSdiffmeth_all_5X_data.RDS",
+                        "./DMS_res/DMSdiffmethchr_all_5X.RDS",
+                        "./DMR_res/DMRmeth_all_5X.RDS","./DMR_res/DMRmeth_all_5X_data.RDS",
+                        "./DMR_res/DMRmydiff_all_5X.RDS","./DMR_res/DMRmydiff_all_5X_data.RDS",
+                        "./DMR_res/DMRdiffmeth_all_5X.RDS","./DMR_res/DMRdiffmeth_all_5X_data.RDS",
+                        "./DMR_res/DMRdiffmethchr_all_5X.RDS")
+
+rm(myobj.all)
+
 myobj.fem=methRead(file.list.dev.fem,
                sample.id=list("DAC2F4","DAC2F5","DAC2F6","DAC3F1","DAC3F2",
                               "DAC4F1","DAC4F2","DAC4F3","DAC4F4","DAC4F5",
@@ -220,6 +446,19 @@ myobj.fem=methRead(file.list.dev.fem,
                mincov = 1
 )
 
+run.DMS.DMR(myobj.fem,covariates.fem,keep.chr.allchr,13L,
+                        "./DMS_res/myobj_fem_3X.RDS","./DMS_res/myobj_fem_5X.RDS",
+                        "./DMS_res/DMSmeth_fem_5X.RDS","./DMS_res/meth_fem_5X_data.RDS",
+                        "./DMS_res/DMSmydiff_fem_5X.RDS","./DMS_res/DMSmydiff_fem_5X_data.RDS",
+                        "./DMS_res/DMSdiffmeth_fem_5X.RDS","./DMS_res/DMSdiffmeth_fem_5X_data.RDS",
+                        "./DMS_res/DMSdiffmethchr_fem_5X.RDS",
+                        "./DMR_res/DMRmeth_fem_5X.RDS","./DMR_res/DMRmeth_fem_5X_data.RDS",
+                        "./DMR_res/DMRmydiff_fem_5X.RDS","./DMR_res/DMRmydiff_fem_5X_data.RDS",
+                        "./DMR_res/DMRdiffmeth_fem_5X.RDS","./DMR_res/DMRdiffmeth_fem_5X_data.RDS",
+                        "./DMR_res/DMRdiffmethchr_fem_5X.RDS")
+
+rm(myobj.fem)
+
 myobj.mal=methRead(file.list.dev.mal,
                sample.id=list("DAC3M1","DAC3M2","DAC5M1","DAC5M2",
                               "DAC5M3","DAC5M4","DAC6M1",
@@ -238,204 +477,13 @@ myobj.mal=methRead(file.list.dev.mal,
                mincov = 1
 )
 
-#get coverage stats 
-getCoverageStats(myobj.all[[2]], both.strands = FALSE)
-getCoverageStats(myobj.fem[[2]], both.strands = FALSE)
-getCoverageStats(myobj.mal[[2]], both.strands = FALSE)
-
-#filter out sites in the 99.9th percentile of coverage (PCR bias) and 5x coverage
-myobj.all.5X=filterByCoverage(myobj.all,lo.count=5,lo.perc=NULL,
-                          hi.count=NULL, hi.perc=99.9, suffix = "5X_merged")
-
-myobj.fem.5X=filterByCoverage(myobj.fem,lo.count=5,lo.perc=NULL,
-                          hi.count=NULL, hi.perc=99.9, suffix = "5X_merged")
-
-myobj.mal.5X=filterByCoverage(myobj.mal,lo.count=5,lo.perc=NULL,
-                          hi.count=NULL, hi.perc=99.9, suffix = "5X_merged")
-
-#normalize by median coverage
-norm.myobj.all.5X=normalizeCoverage(myobj.all.5X, method="median")
-norm.myobj.fem.5X=normalizeCoverage(myobj.fem.5X, method="median")
-norm.myobj.mal.5X=normalizeCoverage(myobj.mal.5X, method="median")
-
-## Remove sex chromosomes and unplacex scaffolds ##
-#prepare GRanges object for chromosomes to keep 
-keep.chr.noXY <- GRanges(seqnames = c("NC_024331.1", "NC_024332.1", "NC_024333.1", "NC_024334.1", "NC_024335.1",
-                                      "NC_024336.1", "NC_024337.1", "NC_024338.1", "NC_024339.1", "NC_024340.1",
-                                      "NC_024341.1", "NC_024343.1", "NC_024344.1", "NC_024345.1", "NC_024346.1",
-                                      "NC_024347.1", "NC_024348.1", "NC_024349.1", "NC_024350.1", "NC_024351.1",
-                                      "NC_024352.1", "NC_024353.1"),
-                         ranges=IRanges(start = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),
-                                        end = c(34115677,46286544,35265442,31497199,33908744,
-                                                31529174,31413364,27946405,34117797,32819797,
-                                                28875558,33524197,28338960,30644713,33199742,
-                                                30788009,22026651,28470737,26385442,25773841,
-                                                25248790,18084596)),
-                         strand="*")
-
-seqlengths(keep.chr.noXY)=c(34115677,46286544,35265442,31497199,33908744,
-                            31529174,31413364,27946405,34117797,32819797,
-                            28875558,33524197,28338960,30644713,33199742,
-                            30788009,22026651,28470737,26385442,25773841,
-                            25248790,18084596)
-
-#to remove unplaced scaffolds
-keep.chr.allchr <- GRanges(seqnames = c("NC_024331.1", "NC_024332.1", "NC_024333.1", "NC_024334.1", "NC_024335.1",
-                                        "NC_024336.1", "NC_024337.1", "NC_024338.1", "NC_024339.1", "NC_024340.1",
-                                        "NC_024341.1", "NC_024342.1", "NC_024343.1", "NC_024344.1", "NC_024345.1", "NC_024346.1",
-                                        "NC_024347.1", "NC_024348.1", "NC_024349.1", "NC_024350.1", "NC_024351.1",
-                                        "NC_024352.1", "NC_024353.1"),
-                           ranges=IRanges(start = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),
-                                          end = c(34115677,46286544,35265442,31497199,33908744,
-                                                  31529174,31413364,27946405,34117797,32819797,
-                                                  28875558,26439574,33524197,28338960,30644713,33199742,
-                                                  30788009,22026651,28470737,26385442,25773841,
-                                                  25248790,18084596)),
-                           strand="*")
-
-seqlengths(keep.chr.allchr)=c(34115677,46286544,35265442,31497199,33908744,
-                              31529174,31413364,27946405,34117797,32819797,
-                              28875558,26439574,33524197,28338960,30644713,33199742,
-                              30788009,22026651,28470737,26385442,25773841,
-                              25248790,18084596)
-
-myobj5X.all.subset <- selectByOverlap(norm.myobj.all.5X, keep.chr.noXY)
-myobj5X.fem.subset <- selectByOverlap(norm.myobj.fem.5X, keep.chr.allchr)
-myobj5X.mal.subset <- selectByOverlap(norm.myobj.mal.5X, keep.chr.allchr)
-
-## Find DMSs ## 
-# Unite methylation calls
-DMSmeth5X.all <- unite(myobj5X.all.subset, min.per.group=21L, destrand=FALSE, save.db = FALSE)
-DMSmeth5X.fem <- unite(myobj5X.fem.subset, min.per.group=13L, destrand=FALSE, save.db = FALSE)
-DMSmeth5X.mal <- unite(myobj5X.mal.subset, min.per.group=7L, destrand=FALSE, save.db = FALSE)
-
-#filter out low variation sites 
-pm <- percMethylation(DMSmeth5X.all) #get percent methylation matrix
-sds <- matrixStats::rowSds(pm, na.rm = TRUE) #calculate standard deviation of CpGs 
-DMSmeth5X.all <- DMSmeth5X.all[sds > 2]
-
-pm <- percMethylation(DMSmeth5X.fem) #get percent methylation matrix
-sds <- matrixStats::rowSds(pm, na.rm = TRUE) #calculate standard deviation of CpGs 
-DMSmeth5X.fem <- DMSmeth5X.fem[sds > 2]
-
-pm <- percMethylation(DMSmeth5X.mal) #get percent methylation matrix
-sds <- matrixStats::rowSds(pm, na.rm = TRUE) #calculate standard deviation of CpGs 
-DMSmeth5X.mal <- DMSmeth5X.mal[sds > 2]
-
-#filter out SNPs
-snp <- read.csv("../../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
-snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
-DMSmeth5X.all <- DMSmeth5X.all[!as(DMSmeth5X.all, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-DMSmeth5X.fem <- DMSmeth5X.all[!as(DMSmeth5X.fem, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-DMSmeth5X.mal <- DMSmeth5X.all[!as(DMSmeth5X.mal, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
-
-#check number of cpgs
-DMSmeth5X.all
-DMSmeth5X.fem
-DMSmeth5X.mal
-
-#read in tank covariate data
-covariates.all <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3","AC3",
-                                "AC3","AC4","AC4","AC4","AC4","AC4",
-                                "AC5","AC5","AC5","AC5","AC5",
-                                "AC5","AC5","AC5","AC6","AC6","AC6",
-                                "AC6","AC6","AC6","AC7","AC7","AC7",
-                                "AC7","AC7","AC7","AC7","AC7","AC7",
-                                "C2","C2","C2","C2","C3","C3",
-                                "C3","C3","C3","C3","C4","C4",
-                                "C4","C4","C4","C4","C4","C5",
-                                "C5","C5","C5","C5","C5","C5",
-                                "C5","C6","C6","C6","C6","C6",
-                                "C6","C6","C7","C7","C7","C7",
-                                "C7","C7","C7","C7"),
-                        sex=c("F","F","F","F","F","M",
-                              "M","F","F","F","F","F",
-                              "F","F","F","F","M","M",
-                              "M","M","F","F","F","M",
-                              "M","M", "F","F","F","F",
-                              "F","F","M","M","M",
-                              "F","F","M","M","F","F","F",
-                              "M","M","M","F","F","F","F",
-                              "F","M","M","F","F","F","F",
-                              "F","M","M","M","F","F","F",
-                              "F","M","M","M","F","F","F",
-                              "M","M","M","M","M"),
-                         stringsAsFactors = TRUE)
-
-covariates.fem <- data.frame(tank=c("AC2","AC2","AC2","AC3","AC3",
-                                "AC4","AC4","AC4","AC4","AC4",
-                                "AC5","AC5","AC5","AC5",
-                                "AC6","AC6","AC6",
-                                "AC7","AC7","AC7",
-                                "AC7","AC7","AC7",
-                                "C2","C2","C3","C3",
-                                "C3","C4","C4",
-                                "C4","C4","C4","C5",
-                                "C5","C5","C5","C5",
-                                "C6","C6","C6","C6",
-                                "C7","C7","C7"),
-                         stringsAsFactors = TRUE)
-
-covariates.mal <- data.frame(tank=c("AC3","AC3",
-                                "AC5","AC5","AC5","AC5",
-                                "AC6","AC6","AC6",
-                                "AC7","AC7","AC7",
-                                "C2","C2","C3","C3",
-                                "C3","C4","C4",
-                                "C5","C5","C5",
-                                "C6","C6","C6",
-                                "C7","C7","C7","C7",
-                                "C7"),
-                         stringsAsFactors = TRUE)
-
-# Calculate differential methylation
-DMSmyDiff5X.all <- calculateDiffMeth(DMSmeth5X.all, mc.cores=2, covariates=covariates.all, test="Chisq", save.db = TRUE, suffix = "myDiff_all")
-DMSmyDiff5X.fem <- calculateDiffMeth(DMSmeth5X.fem, mc.cores=2, covariates=covariates.fem, test="Chisq", save.db = TRUE, suffix = "myDiff_fem")
-DMSmyDiff5X.mal <- calculateDiffMeth(DMSmeth5X.mal, mc.cores=2, covariates=covariates.mal, test="Chisq", save.db = TRUE, suffix = "myDiff_mal")
-
-# Call significant methylation
-DMSdiffMeth5X.all <- getMethylDiff(DMSmyDiff5X.all, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth_all")
-DMSdiffMeth5X.fem <- getMethylDiff(DMSmyDiff5X.fem, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth_fem")
-DMSdiffMeth5X.mal <- getMethylDiff(DMSmyDiff5X.mal, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "diffMeth_mal")
-
-# Check number of significant DMS
-DMSdiffMeth5X.all
-DMSdiffMeth5X.fem
-DMSdiffMeth5X.mal
-
-# Get meth per chromosome
-DMSdiffMethChr5X.all <- diffMethPerChr(DMSmyDiff5X.all, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "chr_all")
-DMSdiffMethChr5X.fem <- diffMethPerChr(DMSmyDiff5X.fem, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "chr_fem")
-DMSdiffMethChr5X.mal <- diffMethPerChr(DMSmyDiff5X.mal, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = TRUE, suffix = "chr_mal")
-
-DMSdiffMethChr5X.all
-DMSdiffMethChr5X.fem
-DMSdiffMethChr5X.mal
-
-## Save R objects ##
-saveRDS(myobj5X.all.subset, file = "./DMS_res/myObj5X_all.RDS")
-saveRDS(DMSmeth5X.all, file = "./DMS_res/DMSmeth5x_all.RDS")
-saveRDS(DMSmyDiff5X.all, file = "./DMS_res/DMSmydiff5X_all.RDS")
-saveRDS(DMSdiffMeth5X.all, file = "./DMS_res/DMSdiffmeth5X_all.RDS")
-saveRDS(DMSdiffMethChr5X.all, file = "./DMS_res/DMSdiffmethchr5x_all.RDS")
-saveRDS(getData(DMSmeth5X.all), file = "./DMS_res/DMSmeth5X_all_data.RDS")
-saveRDS(getData(DMSdiffMeth5X.all), file = "./DMS_res/DMSdiffmeth5X_all_data.RDS")
-saveRDS(getData(DMSmyDiff5X.all), file = "./DMS_res/DMSmydiff5X_all_data.RDS")
-
-saveRDS(myobj5X.fem.subset, file = "./DMS_res/myObj5X_fem.RDS")
-saveRDS(DMSmeth5X.fem, file = "./DMS_res/DMSmeth5x_fem.RDS")
-saveRDS(DMSmyDiff5X.fem, file = "./DMS_res/DMSmydiff5X_fem.RDS")
-saveRDS(DMSdiffMeth5X.fem, file = "./DMS_res/DMSdiffmeth5X_fem.RDS")
-saveRDS(DMSdiffMethChr5X.fem, file = "./DMS_res/DMSdiffmethchr5x_fem.RDS")
-saveRDS(getData(DMSmeth5X.fem), file = "./DMS_res/DMSmeth5X_fem_data.RDS")
-saveRDS(getData(DMSdiffMeth5X.fem), file = "./DMS_res/DMSdiffmeth5X_fem_data.RDS")
-saveRDS(getData(DMSmyDiff5X.fem), file = "./DMS_res/DMSmydiff5X_fem_data.RDS")
-
-saveRDS(myobj5X.mal.subset, file = "./DMS_res/myObj5X_mal.RDS")
-saveRDS(DMSmeth5X.mal, file = "./DMS_res/DMSmeth5x_mal.RDS")
-saveRDS(DMSmyDiff5X.mal, file = "./DMS_res/DMSmydiff5X_mal.RDS")
-saveRDS(DMSdiffMeth5X.mal, file = "./DMS_res/DMSdiffmeth5X_mal.RDS")
-saveRDS(DMSdiffMethChr5X.mal, file = "./DMS_res/DMSdiffmethchr5x_mal.RDS")
-saveRDS(getData(DMSmeth5X.mal), file = "./DMS_res/DMSmeth5X_mal_data.RDS")
-saveRDS(getData(DMSdiffMeth5X.mal), file = "./DMS_res/DMSdiffmeth5X_mal_data.RDS")
-saveRDS(getData(DMSmyDiff5X.mal), file = "./DMS_res/DMSmydiff5X_mal_data.RDS")
+run.DMS.DMR(myobj.mal,covariates.mal,keep.chr.allchr,7L,
+                        "./DMS_res/myobj_mal_3X.RDS","./DMS_res/myobj_mal_5X.RDS",
+                        "./DMS_res/DMSmeth_mal_5X.RDS","./DMS_res/meth_mal_5X_data.RDS",
+                        "./DMS_res/DMSmydiff_mal_5X.RDS","./DMS_res/DMSmydiff_mal_5X_data.RDS",
+                        "./DMS_res/DMSdiffmeth_mal_5X.RDS","./DMS_res/DMSdiffmeth_mal_5X_data.RDS",
+                        "./DMS_res/DMSdiffmethchr_mal_5X.RDS",
+                        "./DMR_res/DMRmeth_mal_5X.RDS","./DMR_res/DMRmeth_mal_5X_data.RDS",
+                        "./DMR_res/DMRmydiff_mal_5X.RDS","./DMR_res/DMRmydiff_mal_5X_data.RDS",
+                        "./DMR_res/DMRdiffmeth_mal_5X.RDS","./DMR_res/DMRdiffmeth_mal_5X_data.RDS",
+                        "./DMR_res/DMRdiffmethchr_mal_5X.RDS")
