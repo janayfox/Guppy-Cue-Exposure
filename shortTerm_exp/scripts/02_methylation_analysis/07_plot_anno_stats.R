@@ -9,12 +9,13 @@
 #install.packages("ggplot2")
 #install.packages("dplyr")
 
-#load packaes
+#load packages
 library(ggplot2)
 library(dplyr)
 library(genomation)
 library(DescTools)
 library(tibble)
+library(ggpubr)
 
 #load in data
 DMS_anno_all <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_annStats_num_all.RDS")
@@ -162,19 +163,24 @@ gtest.funct(DMR_anno_24h_mal, CpG_anno_24h_mal)
 gtest.funct(DMR_anno_72h_mal, CpG_anno_72h_mal)
 
 #plot annotation distribution 
-plot.dist <- function(DMS.data, cpg.data, plotname){
+plot.dist <- function(DMS.data, DMR.data, cpg.data, plotname){
   #format data for plotting 
-  plot.data <- data.frame(DMS.data)
-  plot.data$dist <- "DMS"
-  colnames(plot.data)[1] <- "count"
-  plot.data <- rownames_to_column(plot.data, "feature")
+  DMS.plot.data <- data.frame(DMS.data)
+  DMS.plot.data$dist <- "DMS"
+  colnames(DMS.plot.data)[1] <- "count"
+  DMS.plot.data <- rownames_to_column(DMS.plot.data, "feature")
+  
+  DMR.plot.data <- data.frame(DMR.data)
+  DMR.plot.data$dist <- "DMR"
+  colnames(DMR.plot.data)[1] <- "count"
+  DMR.plot.data <- rownames_to_column(DMR.plot.data, "feature")
   
   cpg.plot.data <- data.frame(cpg.data)
   cpg.plot.data$dist <- "CpG"
   colnames(cpg.plot.data)[1] <- "count"
   cpg.plot.data <- rownames_to_column(cpg.plot.data, "feature")
   
-  plot.data <- rbind(plot.data, cpg.plot.data)
+  plot.data <- rbind(DMS.plot.data, DMR.plot.data, cpg.plot.data)
   
   p <- ggplot(plot.data, aes(x = dist, y = count, fill = feature)) +
                 geom_col(colour = "black", position = "fill") + scale_y_continuous(labels = scales::percent) + theme_bw() + xlab(NULL) +
@@ -186,46 +192,106 @@ plot.dist <- function(DMS.data, cpg.data, plotname){
   
   ggsave(filename = plotname, plot = p, width = 4, height = 5, units = "in", dpi = 300)
   
+  return(p)
 }
 
-plot.dist(DMS_anno_all, CpG_anno_all, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_allTP_allsex_anno_barplot.tiff")
-plot.dist(DMS_anno_05h, CpG_anno_05h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_05h_allsex_anno_barplot.tiff")
-plot.dist(DMS_anno_1h, CpG_anno_1h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_1h_allsex_anno_barplot.tiff")
-plot.dist(DMS_anno_4h, CpG_anno_4h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_4h_allsex_anno_barplot.tiff")
-plot.dist(DMS_anno_24h, CpG_anno_24h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_24h_allsex_anno_barplot.tiff")
-plot.dist(DMS_anno_72h, CpG_anno_72h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_72h_allsex_anno_barplot.tiff")
+plot.dist(DMS_anno_all, DMR_anno_all ,CpG_anno_all, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_allTP_allsex_anno_barplot.tiff")
+plot.dist(DMS_anno_05h, DMR_anno_05h, CpG_anno_05h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_05h_allsex_anno_barplot.tiff")
+plot.dist(DMS_anno_1h, DMR_anno_1h, CpG_anno_1h,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_1h_allsex_anno_barplot.tiff")
+plot.dist(DMS_anno_4h, DMR_anno_4h, CpG_anno_4h,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_4h_allsex_anno_barplot.tiff")
+plot.dist(DMS_anno_24h, DMR_anno_24h, CpG_anno_24h,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_24h_allsex_anno_barplot.tiff")
+plot.dist(DMS_anno_72h, DMR_anno_72h, CpG_anno_72h,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_72h_allsex_anno_barplot.tiff")
 
-plot.dist(DMS_anno_all_fem, CpG_anno_all_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_allTP_fem_anno_barplot.tiff")
-plot.dist(DMS_anno_05h_fem, CpG_anno_05h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_05h_fem_anno_barplot.tiff")
-plot.dist(DMS_anno_1h_fem, CpG_anno_1h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_1h_fem_anno_barplot.tiff")
-plot.dist(DMS_anno_4h_fem, CpG_anno_4h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_4h_fem_anno_barplot.tiff")
-plot.dist(DMS_anno_24h_fem, CpG_anno_24h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_24h_fem_anno_barplot.tiff")
-plot.dist(DMS_anno_72h_fem, CpG_anno_72h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_72h_fem_anno_barplot.tiff")
+plot.dist(DMS_anno_all_fem, DMR_anno_all_fem, CpG_anno_all_fem,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_allTP_fem_anno_barplot.tiff")
+fem_05h_plot <- plot.dist(DMS_anno_05h_fem, DMR_anno_05h_fem, CpG_anno_05h_fem,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_05h_fem_anno_barplot.tiff")
+fem_1h_plot <- plot.dist(DMS_anno_1h_fem, DMR_anno_1h_fem, CpG_anno_1h_fem,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_1h_fem_anno_barplot.tiff")
+fem_4h_plot <- plot.dist(DMS_anno_4h_fem, DMR_anno_4h_fem, CpG_anno_4h_fem,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_4h_fem_anno_barplot.tiff")
+fem_24h_plot <- plot.dist(DMS_anno_24h_fem, DMR_anno_24h_fem, CpG_anno_24h_fem,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_24h_fem_anno_barplot.tiff")
+fem_72h_plot <- plot.dist(DMS_anno_72h_fem, DMR_anno_72h_fem, CpG_anno_72h_fem,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_72h_fem_anno_barplot.tiff")
 
-plot.dist(DMS_anno_all_mal, CpG_anno_all_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_allTP_mal_anno_barplot.tiff")
-plot.dist(DMS_anno_05h_mal, CpG_anno_05h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_05h_mal_anno_barplot.tiff")
-plot.dist(DMS_anno_1h_mal, CpG_anno_1h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_1h_mal_anno_barplot.tiff")
-plot.dist(DMS_anno_4h_mal, CpG_anno_4h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_4h_mal_anno_barplot.tiff")
-plot.dist(DMS_anno_24h_mal, CpG_anno_24h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_24h_mal_anno_barplot.tiff")
-plot.dist(DMS_anno_72h_mal, CpG_anno_72h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_72h_mal_anno_barplot.tiff")
+plot.dist(DMS_anno_all_mal, DMR_anno_all_mal, CpG_anno_all_mal,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_allTP_mal_anno_barplot.tiff")
+mal_05h_plot <- plot.dist(DMS_anno_05h_mal, DMR_anno_05h_mal, CpG_anno_05h_mal,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_05h_mal_anno_barplot.tiff")
+mal_1h_plot <- plot.dist(DMS_anno_1h_mal, DMR_anno_1h_mal, CpG_anno_1h_mal,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_1h_mal_anno_barplot.tiff")
+mal_4h_plot <- plot.dist(DMS_anno_4h_mal, DMR_anno_4h_mal, CpG_anno_4h_mal,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_4h_mal_anno_barplot.tiff")
+mal_24h_plot <- plot.dist(DMS_anno_24h_mal, DMR_anno_24h_mal, CpG_anno_24h_mal,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_24h_mal_anno_barplot.tiff")
+mal_72h_plot <- plot.dist(DMS_anno_72h_mal, DMR_anno_72h_mal, CpG_anno_72h_mal,"./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMS_72h_mal_anno_barplot.tiff")
 
-plot.dist(DMR_anno_all, CpG_anno_all, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_allTP_allsex_anno_barplot.tiff")
-plot.dist(DMR_anno_05h, CpG_anno_05h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_05h_allsex_anno_barplot.tiff")
-plot.dist(DMR_anno_1h, CpG_anno_1h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_1h_allsex_anno_barplot.tiff")
-plot.dist(DMR_anno_4h, CpG_anno_4h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_4h_allsex_anno_barplot.tiff")
-plot.dist(DMR_anno_24h, CpG_anno_24h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_24h_allsex_anno_barplot.tiff")
-plot.dist(DMR_anno_72h, CpG_anno_72h, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_72h_allsex_anno_barplot.tiff")
+#make panels
+panel <- ggarrange(fem_05h_plot, fem_1h_plot, fem_4h_plot, fem_24h_plot, fem_72h_plot,
+                   mal_05h_plot, mal_1h_plot, mal_4h_plot, mal_24h_plot, mal_72h_plot,
+                           common.legend = TRUE, nrow = 2, ncol = 5, legend = "bottom",
+                           labels = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J"))
 
-plot.dist(DMR_anno_all_fem, CpG_anno_all_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_allTP_fem_anno_barplot.tiff")
-plot.dist(DMR_anno_05h_fem, CpG_anno_05h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_05h_fem_anno_barplot.tiff")
-plot.dist(DMR_anno_1h_fem, CpG_anno_1h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_1h_fem_anno_barplot.tiff")
-plot.dist(DMR_anno_4h_fem, CpG_anno_4h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_4h_fem_anno_barplot.tiff")
-plot.dist(DMR_anno_24h_fem, CpG_anno_24h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_24h_fem_anno_barplot.tiff")
-plot.dist(DMR_anno_72h_fem, CpG_anno_72h_fem, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_72h_fem_anno_barplot.tiff")
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/anno_barplots/all_panel.tiff", plot = panel, width = 12, height = 6, units = "in", dpi = 300)
 
-plot.dist(DMR_anno_all_mal, CpG_anno_all_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_allTP_mal_anno_barplot.tiff")
-plot.dist(DMR_anno_05h_mal, CpG_anno_05h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_05h_mal_anno_barplot.tiff")
-plot.dist(DMR_anno_1h_mal, CpG_anno_1h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_1h_mal_anno_barplot.tiff")
-plot.dist(DMR_anno_4h_mal, CpG_anno_4h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_4h_mal_anno_barplot.tiff")
-plot.dist(DMR_anno_24h_mal, CpG_anno_24h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_24h_mal_anno_barplot.tiff")
-plot.dist(DMR_anno_72h_mal, CpG_anno_72h_mal, "./shortTerm_exp/plots/finalized_tiff/anno_barplots/DMR_72h_mal_anno_barplot.tiff")
+#try plotting in a different way 
+#format data for plotting 
+format.data <- function(DMS.data, DMR.data, cpg.data, time_point){
+                        DMS.plot.data <- data.frame(DMS.data)
+                        DMS.plot.data$dist <- "DMS"
+                        colnames(DMS.plot.data)[1] <- "count"
+                        DMS.plot.data <- rownames_to_column(DMS.plot.data, "feature")
+                        
+                        DMR.plot.data <- data.frame(DMR.data)
+                        DMR.plot.data$dist <- "DMR"
+                        colnames(DMR.plot.data)[1] <- "count"
+                        DMR.plot.data <- rownames_to_column(DMR.plot.data, "feature")
+                        
+                        cpg.plot.data <- data.frame(cpg.data)
+                        cpg.plot.data$dist <- "CpG"
+                        colnames(cpg.plot.data)[1] <- "count"
+                        cpg.plot.data <- rownames_to_column(cpg.plot.data, "feature")
+                        
+                        bind.data <- rbind(DMS.plot.data, DMR.plot.data, cpg.plot.data)
+                        bind.data$time_point <- time_point
+                        return(bind.data)
+                      }
+
+plot.v2 <- function(DMS.data.05h, DMR.data.05h, cpg.data.05h,
+                    DMS.data.1h, DMR.data.1h, cpg.data.1h, 
+                    DMS.data.4h, DMR.data.4h, cpg.data.4h,
+                    DMS.data.24h, DMR.data.24h, cpg.data.24h,
+                    DMS.data.72h, DMR.data.72h, cpg.data.72h){
+  #format for plotting 
+  data.05h <- format.data(DMS.data.05h, DMR.data.05h, cpg.data.05h, "0.5h")
+  data.1h <- format.data(DMS.data.1h, DMR.data.1h, cpg.data.1h, "1h")
+  data.4h <- format.data(DMS.data.4h, DMR.data.4h, cpg.data.4h, "4h")
+  data.24h <- format.data(DMS.data.24h, DMR.data.24h, cpg.data.24h, "24h")
+  data.72h <- format.data(DMS.data.72h, DMR.data.72h, cpg.data.72h, "72h")
+  
+  plot.data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
+  
+  #plot 
+  p <- ggplot(plot.data, aes(x = dist, y = count, fill = feature)) +
+    geom_col(colour = "black", position = "fill") + scale_y_continuous(labels = scales::percent) + theme_bw() + xlab(NULL) +
+    ylab("Percent") + scale_fill_manual(values = c("exon" = "#B8DE29FF", "intron" = "#1F968BFF", 
+                                                   "intergenic" = "#39568CFF", "promoter" = "#481567FF"),
+                                        name = "Feature") + 
+    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 12), legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14)) + facet_grid(~time_point, switch = "x") +
+    theme(strip.placement = "outside",
+          strip.background = element_rect(fill = NA, color = "white"),
+          panel.spacing = unit(-.01,"cm"),
+          strip.text.x = element_text(size = 14))
+  
+  return(p)
+  }
+
+fem.plot <- plot.v2(DMS_anno_05h_fem, DMR_anno_05h_fem, CpG_anno_05h_fem,
+                    DMS_anno_1h_fem, DMR_anno_1h_fem, CpG_anno_1h_fem,
+                    DMS_anno_4h_fem, DMR_anno_4h_fem, CpG_anno_4h_fem,
+                    DMS_anno_24h_fem, DMR_anno_24h_fem, CpG_anno_24h_fem,
+                    DMS_anno_72h_fem, DMR_anno_72h_fem, CpG_anno_72h_fem)
+
+mal.plot <- plot.v2(DMS_anno_05h_mal, DMR_anno_05h_mal, CpG_anno_05h_mal,
+                    DMS_anno_1h_mal, DMR_anno_1h_mal, CpG_anno_1h_mal,
+                    DMS_anno_4h_mal, DMR_anno_4h_mal, CpG_anno_4h_mal,
+                    DMS_anno_24h_mal, DMR_anno_24h_mal, CpG_anno_24h_mal,
+                    DMS_anno_72h_mal, DMR_anno_72h_mal, CpG_anno_72h_mal)
+
+panel <- ggarrange(fem.plot, mal.plot,
+                         labels = c("A", "B"), nrow = 2, ncol = 1,
+                   common.legend = TRUE, legend = "bottom")
+
+
+ggsave(filename = "./shortTerm_exp/plots/finalized_tiff/panel_anno_plot.tiff", plot = panel, width = 8, height = 6, units = "in", dpi = 300)

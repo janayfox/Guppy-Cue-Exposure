@@ -26,7 +26,7 @@ run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filenam
                         file.name.myDiff.DMS,file.name.myDiff.data,
                         file.name.diffMeth.DMS,filename.diffMeth.DMS.data,
                         filename.chr.DMS,
-                        file.name.meth.DMR,file.name.meth.DMR.data,
+                        file.name.meth.DMR,file.name.meth.DMR.data,file.name.tile.meth,
                         file.name.myDiff.DMR,file.name.myDiff.DMR.data,
                         file.name.diffMeth.DMR,file.name.diffMeth.DMR.data,
                         filename.chr.DMR){
@@ -60,12 +60,12 @@ run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filenam
       DMS.meth.5X <- DMS.meth.5X[sds.5X > 2]
 
       #filter out SNPs
-      snp <- read.csv("../../../BS-SNPer/dev_CT_SNP_edit.csv") #read in snps
+      snp <- read.csv("../../../BS-SNPer/shortterm_CT_SNP_edit.csv") #read in snps
       snp.granges <- makeGRangesFromDataFrame(snp, ignore.strand = TRUE) #convert to granges 
       DMS.meth.5X <- DMS.meth.5X[!as(DMS.meth.5X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
 
       # Check number of CpGs 
-      print(head(DMS.meth.5X))
+      head(DMS.meth.5X)
 
       #calculate differential methylation
       DMS.myDiff.5X <- calculateDiffMeth(DMS.meth.5X, covariates=cov, mc.cores=2, test="Chisq", save.db = FALSE)
@@ -74,7 +74,7 @@ run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filenam
       DMS.diffMeth.5X <- getMethylDiff(DMS.myDiff.5X, difference = 20, qvalue = 0.0125, save.db = FALSE)
 
       #check number of significant DMS
-      print(head(DMS.diffMeth.5X))
+      head(DMS.diffMeth.5X)
 
       # Get meth per chromosome
       DMS.diffMeth.5X.chr <- diffMethPerChr(DMS.myDiff.5X, plot=FALSE, qvalue.cutoff=0.0125, meth.cutoff=20, save.db = FALSE)
@@ -95,13 +95,13 @@ run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filenam
       DMR.meth.3X <- DMR.meth.3X[!as(DMR.meth.3X, "GRanges") %over% snp.granges, ] #select CpGs that do not overlap
 
       # Check number of CpGs 
-      print(head(DMR.meth.3X))
+      head(DMR.meth.3X)
 
       #tile into 100 bp windows with min coverage 5X
       tile.meth.5X <- tileMethylCounts(DMR.meth.3X, win.size = 100, step.size = 100, cov.bases = 5)
 
       #check number of regions retained 
-      print(head(tile.meth.5X))
+      head(tile.meth.5X)
 
       #calculate differential methylation 
       DMR.myDiff.5X <- calculateDiffMeth(tile.meth.5X, mc.cores=2, test="Chisq", covariates=cov, save.db = FALSE)
@@ -110,7 +110,7 @@ run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filenam
       DMR.diffMeth.5X <- getMethylDiff(DMR.myDiff.5X, difference = 20, qvalue = 0.0125, save.db = FALSE)
 
       #check number of DMRs 
-     print(head(DMR.diffMeth.5X))
+      head(DMR.diffMeth.5X)
 
       #get meth per chromosome 
       DMR.diffMeth.5X.chr <- diffMethPerChr(DMR.diffMeth.5X, plot = FALSE,qvalue.cutoff=0.0125, meth.cutoff=20, save.db = FALSE)
@@ -130,6 +130,7 @@ run.DMS.DMR <- function(myobj,cov,chr.to.keep,unite.val,filename.myobj3x,filenam
       
       saveRDS(DMR.meth.3X, file = file.name.meth.DMR)
       saveRDS(getData(DMR.meth.3X), file = file.name.meth.DMR.data)
+      saveRDS(tile.meth.5X, file = file.name.tile.meth)
       saveRDS(DMR.myDiff.5X, file = file.name.myDiff.DMR)
       saveRDS(getData(DMR.myDiff.5X), file = file.name.myDiff.DMR.data)
       saveRDS(DMR.diffMeth.5X, file = file.name.diffMeth.DMR)
@@ -419,6 +420,7 @@ run.DMS.DMR(myobj.all,covariates.all,keep.chr.noXY,21L,
                         "./DMS_res/DMSdiffmeth_all_5X.RDS","./DMS_res/DMSdiffmeth_all_5X_data.RDS",
                         "./DMS_res/DMSdiffmethchr_all_5X.RDS",
                         "./DMR_res/DMRmeth_all_5X.RDS","./DMR_res/DMRmeth_all_5X_data.RDS",
+                        "./DMR_res/DMR_tile_meth_all_5X.RDS",
                         "./DMR_res/DMRmydiff_all_5X.RDS","./DMR_res/DMRmydiff_all_5X_data.RDS",
                         "./DMR_res/DMRdiffmeth_all_5X.RDS","./DMR_res/DMRdiffmeth_all_5X_data.RDS",
                         "./DMR_res/DMRdiffmethchr_all_5X.RDS")
@@ -453,6 +455,7 @@ run.DMS.DMR(myobj.fem,covariates.fem,keep.chr.allchr,13L,
                         "./DMS_res/DMSdiffmeth_fem_5X.RDS","./DMS_res/DMSdiffmeth_fem_5X_data.RDS",
                         "./DMS_res/DMSdiffmethchr_fem_5X.RDS",
                         "./DMR_res/DMRmeth_fem_5X.RDS","./DMR_res/DMRmeth_fem_5X_data.RDS",
+                        "./DMR_res/DMR_tile_meth_fem_5X.RDS",
                         "./DMR_res/DMRmydiff_fem_5X.RDS","./DMR_res/DMRmydiff_fem_5X_data.RDS",
                         "./DMR_res/DMRdiffmeth_fem_5X.RDS","./DMR_res/DMRdiffmeth_fem_5X_data.RDS",
                         "./DMR_res/DMRdiffmethchr_fem_5X.RDS")
@@ -484,6 +487,7 @@ run.DMS.DMR(myobj.mal,covariates.mal,keep.chr.allchr,7L,
                         "./DMS_res/DMSdiffmeth_mal_5X.RDS","./DMS_res/DMSdiffmeth_mal_5X_data.RDS",
                         "./DMS_res/DMSdiffmethchr_mal_5X.RDS",
                         "./DMR_res/DMRmeth_mal_5X.RDS","./DMR_res/DMRmeth_mal_5X_data.RDS",
+                        "./DMR_res/DMR_tile_meth_mal_5X.RDS",
                         "./DMR_res/DMRmydiff_mal_5X.RDS","./DMR_res/DMRmydiff_mal_5X_data.RDS",
                         "./DMR_res/DMRdiffmeth_mal_5X.RDS","./DMR_res/DMRdiffmeth_mal_5X_data.RDS",
                         "./DMR_res/DMRdiffmethchr_mal_5X.RDS")
