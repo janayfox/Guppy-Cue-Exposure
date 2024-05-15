@@ -34,9 +34,9 @@ library(lmerTest)
 library(r2glmm)
 
 #read data files
-of.data <- read_csv("./dev_exp/data/clean/clean_openfield.csv")
-sh.data <- read_csv("./dev_exp/data/clean/clean_shoaling.csv")
-wt.data <- read_csv("./dev_exp/data/clean/dev_size.csv") 
+of.data <- read.csv("./dev_exp/data/clean/clean_openfield.csv")
+sh.data <- read.csv("./dev_exp/data/clean/clean_shoaling.csv")
+wt.data <- read.csv("./dev_exp/data/clean/dev_size.csv") 
 
 #merge datasets
 of.data <- merge(of.data, wt.data[,1:4], by = "ID") 
@@ -64,16 +64,18 @@ size.plot
 dist.plot <-of.data %>% ggplot(aes(x=cue, y=dist_cm, fill=sex)) + theme_bw() +
   geom_boxplot() + labs(y="Distance travelled (cm)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c( "#FFE17B", "#9d4edd")) 
+  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=13),
+        legend.title = element_text(size=14)) +
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 dist.plot
 
 #Time in shelter plot
 shelt.plot <-of.data %>% ggplot(aes(x=cue, y=time_shelter_s, fill=sex)) + theme_bw() +
   geom_boxplot() + labs(y="Time in shelter (s)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "#9d4edd")) 
+  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=13),
+        legend.title = element_text(size=14)) +
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 shelt.plot
 
 #Time in outer edge
@@ -81,15 +83,16 @@ edge.plot <-of.data %>% ggplot(aes(x=cue, y=time_outer_s, fill=sex)) + theme_bw(
   geom_boxplot() + labs(y="Time in outer edge (s)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
   theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "#9d4edd")) 
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 edge.plot
 
 #Time frozen
 frozen.plot <-of.data %>% ggplot(aes(x=cue, y=frozen_s, fill=sex)) + theme_bw() +
   geom_boxplot() + labs(y="Time frozen (s)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "#9d4edd")) 
+  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=13),
+        legend.title = element_text(size=14)) +
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 frozen.plot
 
 #scatterplots between variables 
@@ -131,6 +134,7 @@ cor.test(of.data$time_shelter_s, of.data$frozen_s)
 cor.test(of.data$time_shelter_s, of.data$time_outer_s)
 cor.test(of.data$frozen_s, of.data$time_outer_s)
 
+cor(of.data[,c(5,8,11,14)])
 #run PCA
 #for all samples
 of.pca <- prcomp(of.data[,c(5,8,11,14)], scale = TRUE)
@@ -191,11 +195,18 @@ summary(dist.lmm)
 #calculate stats with car package 
 car::Anova(dist.lmm, type = 3)
 
+#remove interaction for cue 
+dist.lmm <- lmer(dist_cm ~ cue + sex * weight_g + (1|tank), data = of.data, REML = TRUE)
+
+#interpret results 
+summary(dist.lmm)
+car::Anova(dist.lmm, type = 3)
+
 #calulate signifcance of random effects 
 ranova(dist.lmm)
 
 #calculate partial R2 
-dist.R2 <- r2beta(dist.lmm, partial = TRUE,  method = 'sgv')
+dist.R2 <- r2beta(dist.lmm, partial = TRUE,  method = 'nsj')
 
 # time frozen #
 #run LMM
@@ -240,7 +251,7 @@ car::Anova(frozen.lmm.2, type = 2)
 ranova(frozen.lmm.2)
 
 #calculate partial R2 
-frozen.R2 <- r2beta(frozen.lmm.2, partial = TRUE,  method = 'sgv')
+frozen.R2 <- r2beta(frozen.lmm.2, partial = TRUE,  method = 'nsj')
 
 #for time in outer edge
 outer.lmm <- lmer(time_outer_s ~ cue * sex * weight_g + (1|tank), data = of.data)
@@ -284,7 +295,7 @@ car::Anova(outer.lmm.2, type = 2)
 ranova(outer.lmm.2)
 
 #calculate partial R2 
-outer.R2 <- r2beta(outer.lmm.2, partial = TRUE,  method = 'sgv')
+outer.R2 <- r2beta(outer.lmm.2, partial = TRUE,  method = 'nsj')
 
 #for time in shelter edge
 shelter.lmm <- lmer(time_shelter_s ~ cue * sex * weight_g + (1|tank), data = of.data)
@@ -328,7 +339,7 @@ car::Anova(shelter.lmm.2, type = 2)
 ranova(shelter.lmm.2)
 
 #calculate partial R2 
-shelter.R2 <- r2beta(shelter.lmm.2, partial = TRUE,  method = 'sgv')
+shelter.R2 <- r2beta(shelter.lmm.2, partial = TRUE,  method = 'nsj')
 
 ##Correct p values 
 dist.cue.p <- car::Anova(dist.lmm, type = 3)["cue", "Pr(>Chisq)"]
@@ -359,9 +370,14 @@ weight.p.hommel <- p.adjust(weight.p.unadj, method = "hommel")
 weight.p.hommel
 
 ## Analysis of shoaling test data ##
+#calculate total time shoaling 
+sh.data$total_shoal_s <- sh.data$tight_shoal_s + sh.data$lse_shoal_s
+sh.data$total_emp_s <- sh.data$tight_emp_s + sh.data$lse_emp_s
+
 #calculate time differences for shoal vs empty container
 sh.data$tight_diff_s <- sh.data$tight_shoal_s - sh.data$tight_emp_s
 sh.data$lse_diff_s <- sh.data$lse_shoal_s - sh.data$lse_emp_s
+sh.data$total_diff_s <- sh.data$total_shoal_s - sh.data$total_emp_s
 
 # Exploratory plots #
 #Time loose shoaling
@@ -369,15 +385,23 @@ lse.plot <- sh.data %>% ggplot(aes(x=cue, y=lse_diff_s, fill=sex)) + theme_bw() 
   geom_boxplot() + labs(y="Preference for loose shoaling (s)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
   theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "#9d4edd")) 
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 lse.plot
 
 tight.plot <- sh.data %>% ggplot(aes(x=cue, y=tight_diff_s, fill=sex)) + theme_bw() + 
   geom_boxplot() + labs(y="Preference for tight shoaling (s)", x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
   theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) + 
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "#9d4edd")) 
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 tight.plot
+
+total.plot <- sh.data %>% ggplot(aes(x=cue, y=total_diff_s, fill=sex)) + theme_bw() + 
+  geom_boxplot() + labs(y="Preference for shoaling (s)", x="Cue") + 
+  scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
+  theme(axis.text = element_text(size=13), axis.title = element_text(size=15), legend.text = element_text(size=13),
+        legend.title = element_text(size=14)) + 
+  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
+total.plot
 
 #check for correlation between variables 
 cor.test(sh.data$lse_diff_s, sh.data$tight_diff_s)
@@ -429,7 +453,7 @@ car::Anova(tight.lmm.2, type = 2)
 ranova(tight.lmm.2)
 
 #calculate partial R2 
-tight.R2 <- r2beta(tight.lmm.2, partial = TRUE,  method = 'sgv')
+tight.R2 <- r2beta(tight.lmm.2, partial = TRUE,  method = 'nsj')
 
 # loose shoaling #
 #run lmm
@@ -469,7 +493,7 @@ car::Anova(loose.lmm.2, type = 2)
 ranova(loose.lmm.2)
 
 #calculate partial R2 
-loose.R2 <- r2beta(loose.lmm.2, partial = TRUE,  method = 'sgv')
+loose.R2 <- r2beta(loose.lmm.2, partial = TRUE,  method = 'nsj')
 
 #correct p values
 loose.cue.p <- car::Anova(loose.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
@@ -487,13 +511,8 @@ sex.p.hommel <- p.adjust(sex.p.unadj, method = "hommel")
 sex.p.hommel
 
 #try running model with both measuerments of shoaling combined 
-#combine data and recalculate preference
-sh.data$combined_shoal_s <- sh.data$tight_shoal_s + sh.data$lse_shoal_s
-sh.data$combined_emp_s <- sh.data$tight_emp_s + sh.data$lse_emp_s
-sh.data$combined_diff_s <- sh.data$combined_shoal_s - sh.data$combined_emp_s
-
 #run lmm
-combined.lmm <- lmer(combined_diff_s ~ cue * sex + (1|tank), data = sh.data, REML = TRUE)
+combined.lmm <- lmer(total_diff_s ~ cue * sex + (1|tank), data = sh.data, REML = TRUE)
 
 #model validation
 #homogeneity of variance
@@ -519,17 +538,17 @@ summary(combined.lmm)
 car::Anova(combined.lmm, type = 3)
 
 #rerun without interactions 
-combined.lmm.2 <- lmer(combined_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
+combined.lmm.2 <- lmer(total_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
 
 #interpret results 
 summary(combined.lmm.2)
-car::Anova(combined.lmm.2, type = 2)
+car::Anova(combined.lmm.2, type = 3)
 
 #calulate signifcance of random effects 
 ranova(combined.lmm.2)
 
 #calculate partial R2 
-r2beta(combined.lmm.2, partial = TRUE,  method = 'sgv')
+r2beta(combined.lmm.2, partial = TRUE,  method = 'nsj')
 
 ## Make panels ##
 of.panel <- ggarrange(dist.plot, frozen.plot, shelt.plot, edge.plot, labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
@@ -538,7 +557,14 @@ of.panel
 shoal.panel <- ggarrange(lse.plot, tight.plot, labels = c("A", "B"), ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
 shoal.panel
 
+mix.panel <- ggarrange(dist.plot, shelt.plot, total.plot,  labels = c("A", "B", "C"), ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
+mix.panel
+
 #save panels
+tiff("mixed_panel.tiff", units="in", width = 7, height = 8, res = 600)
+mix.panel
+dev.off()
+
 tiff("openField_panel.tiff", units="in", width = 7, height = 7, res = 600)
 of.panel
 dev.off()
@@ -547,3 +573,4 @@ tiff("shoaling_panel.tiff", units="in", width = 7, height = 5, res = 600)
 shoal.panel
 dev.off()
 
+ggsave(plot = total.plot, filename =  "total_shoaling.tiff", width = 5, height = 5, units = "in", dpi = 600)

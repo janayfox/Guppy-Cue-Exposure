@@ -616,7 +616,7 @@ DMR_4h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_4h_mal_hypo, regions_anno_4h_mal
 DMR_24h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_24h_mal_hypo, regions_anno_24h_mal, "CC")
 DMR_72h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_72h_mal_hypo, regions_anno_72h_mal, "CC")
 
-#save results as a table 
+#save results as a table
 #write.csv(DMS_all_gostat_BP, "./shortTerm_exp/data/go_res/DMS_all_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_05h_gostat_BP, "./shortTerm_exp/data/go_res/DMS_05h_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_1h_gostat_BP, "./shortTerm_exp/data/go_res/DMS_1h_gostat_BP.csv", row.names = FALSE)
@@ -743,7 +743,7 @@ write.csv(DMR_4h_mal_gostat_CC, "./shortTerm_exp/data/go_res/DMR_4h_mal_gostat_C
 write.csv(DMR_24h_mal_gostat_CC, "./shortTerm_exp/data/go_res/DMR_24h_mal_gostat_CC.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_CC, "./shortTerm_exp/data/go_res/DMR_72h_mal_gostat_CC.csv", row.names = FALSE)
 
-#hyper 
+#hyper
 #write.csv(DMS_all_gostat_BP_hyper, "./shortTerm_exp/data/go_res/DMS_all_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_gostat_BP_hyper, "./shortTerm_exp/data/go_res/DMS_05h_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_gostat_BP_hyper, "./shortTerm_exp/data/go_res/DMS_1h_gostat_BP_hyper.csv", row.names = FALSE)
@@ -870,7 +870,7 @@ write.csv(DMR_4h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res/DMR_4h_mal_go
 write.csv(DMR_24h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res/DMR_24h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res/DMR_72h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 
-#hypo 
+#hypo
 #write.csv(DMS_all_gostat_BP_hypo, "./shortTerm_exp/data/go_res/DMS_all_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_gostat_BP_hypo, "./shortTerm_exp/data/go_res/DMS_05h_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_gostat_BP_hypo, "./shortTerm_exp/data/go_res/DMS_1h_gostat_BP_hypo.csv", row.names = FALSE)
@@ -1311,10 +1311,10 @@ DMR_mal_all_CC_hypo <- rbind(DMR_05h_mal_gostat_CC_hypo,DMR_1h_mal_gostat_CC_hyp
 write.csv(DMR_mal_all_BP_hypo, "./shortTerm_exp/data/go_res/DMR_mal_combined_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_mal_all_MF_hypo, "./shortTerm_exp/data/go_res/DMR_mal_combined_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_mal_all_CC_hypo, "./shortTerm_exp/data/go_res/DMR_mal_combined_gostat_CC_hypo.csv", row.names = FALSE)
-
-#plot go seq analysis 
-plot.funct <- function(data.05h, data.1h, data.4h, data.24h, data.72h, 
-                       total.05h, total.1h, total.4h, total.24h, total.72h, 
+# 
+#plot go seq analysis
+plot.funct <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
+                       total.05h, total.1h, total.4h, total.24h, total.72h,
                        name.plot){
   #calculate percent
   data.05h$perc <- data.05h$Count / total.05h * 100
@@ -1322,38 +1322,39 @@ plot.funct <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
   data.4h$perc <- data.4h$Count / total.4h * 100
   data.24h$perc <- data.24h$Count / total.24h * 100
   data.72h$perc <- data.72h$Count / total.72h * 100
-  
+
   #select top 10 by p value and percent
-  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE) 
-  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE) 
-  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE) 
-  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE) 
-  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE) 
-  
-  #add time point variable 
+  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+
+  #add time point variable
   data.05h$tp <- "0.5h"
   data.1h$tp <- "1h"
   data.4h$tp <- "4h"
   data.24h$tp <- "24h"
   data.72h$tp <- "72h"
-  
+
   #bind all data
   data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
-  
+
   #convert time point to ordered factor
   data$tp <- factor(data$tp, levels = c("0.5h", "1h", "4h", "24h", "72h"), ordered = TRUE)
-  
-  #plot 
+
+  #plot
   p <- data %>% ggplot(aes(x = tp, y = Term, size = perc, color = tp, alpha = FDR)) + geom_point() + theme_bw() +
     scale_color_manual(values = c("#B8DE29FF", "#55C667FF", "#1F968BFF", "#39568CFF", "#481567FF")) +
     scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
-    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1), 
-                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") + 
+    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
+                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
+    scale_y_discrete(labels = function(Term) str_wrap(Term, width = 100)) +
     theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
-          legend.title = element_text(size = 14)) 
-  
+          legend.title = element_text(size = 14))
+
   ggsave(filename = name.plot, plot = p, width = 8, height = 10, units = "in", dpi = 300)
-  
+
   return(p)
 }
 
@@ -1389,7 +1390,7 @@ DMR.mal.MF <- plot.funct(DMR_05h_mal_gostat_MF, DMR_1h_mal_gostat_MF, DMR_4h_mal
            nrow(DMR_TSS_05h_mal), nrow(DMR_TSS_1h_mal), nrow(DMR_TSS_4h_mal), nrow(DMR_TSS_24h_mal), nrow(DMR_TSS_72h_mal),
            "./shortTerm_exp/plots/finalized_tiff/go_plots/DMR_mal_goplot_MF.tiff")
 
-#hyper 
+#hyper
 DMS.fem.BP <- plot.funct(DMS_05h_fem_gostat_BP_hyper, DMS_1h_fem_gostat_BP_hyper, DMS_4h_fem_gostat_BP_hyper, DMS_24h_fem_gostat_BP_hyper, DMS_72h_fem_gostat_BP_hyper,
                          nrow(DMS_TSS_05h_fem_hyper), nrow(DMS_TSS_1h_fem_hyper), nrow(DMS_TSS_4h_fem_hyper), nrow(DMS_TSS_24h_fem_hyper), nrow(DMS_TSS_72h_fem_hyper),
                          "./shortTerm_exp/plots/finalized_tiff/go_plots/DMS_fem_goplot_BP_hyper.tiff")
@@ -1422,7 +1423,7 @@ DMR.mal.MF <- plot.funct(DMR_05h_mal_gostat_MF_hyper, DMR_1h_mal_gostat_MF_hyper
                          nrow(DMR_TSS_05h_mal_hyper), nrow(DMR_TSS_1h_mal_hyper), nrow(DMR_TSS_4h_mal_hyper), nrow(DMR_TSS_24h_mal_hyper), nrow(DMR_TSS_72h_mal_hyper),
                          "./shortTerm_exp/plots/finalized_tiff/go_plots/DMR_mal_goplot_MF_hyper.tiff")
 
-#hypo 
+#hypo
 DMS.fem.BP <- plot.funct(DMS_05h_fem_gostat_BP_hypo, DMS_1h_fem_gostat_BP_hypo, DMS_4h_fem_gostat_BP_hypo, DMS_24h_fem_gostat_BP_hypo, DMS_72h_fem_gostat_BP_hypo,
                          nrow(DMS_TSS_05h_fem_hypo), nrow(DMS_TSS_1h_fem_hypo), nrow(DMS_TSS_4h_fem_hypo), nrow(DMS_TSS_24h_fem_hypo), nrow(DMS_TSS_72h_fem_hypo),
                          "./shortTerm_exp/plots/finalized_tiff/go_plots/DMS_fem_goplot_BP_hypo.tiff")
@@ -1455,14 +1456,221 @@ DMR.mal.MF <- plot.funct(DMR_05h_mal_gostat_MF_hypo, DMR_1h_mal_gostat_MF_hypo, 
                          nrow(DMR_TSS_05h_mal_hypo), nrow(DMR_TSS_1h_mal_hypo), nrow(DMR_TSS_4h_mal_hypo), nrow(DMR_TSS_24h_mal_hypo), nrow(DMR_TSS_72h_mal_hypo),
                          "./shortTerm_exp/plots/finalized_tiff/go_plots/DMR_mal_goplot_MF_hypo.tiff")
 
-## Get lists of differentially methylated genes ## 
+#plot go seq analysis
+plot.funct.top5 <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
+                       total.05h, total.1h, total.4h, total.24h, total.72h,
+                       name.plot){
+  #calculate percent
+  data.05h$perc <- data.05h$Count / total.05h * 100
+  data.1h$perc <- data.1h$Count / total.1h * 100
+  data.4h$perc <- data.4h$Count / total.4h * 100
+  data.24h$perc <- data.24h$Count / total.24h * 100
+  data.72h$perc <- data.72h$Count / total.72h * 100
+  
+  #select top 10 by p value and percent
+  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  
+  #add time point variable
+  data.05h$tp <- "0.5h"
+  data.1h$tp <- "1h"
+  data.4h$tp <- "4h"
+  data.24h$tp <- "24h"
+  data.72h$tp <- "72h"
+  
+  #bind all data
+  data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
+  
+  #convert time point to ordered factor
+  data$tp <- factor(data$tp, levels = c("0.5h", "1h", "4h", "24h", "72h"), ordered = TRUE)
+  
+  #plot
+  p <- data %>% ggplot(aes(x = tp, y = Term, size = perc, color = tp, alpha = FDR)) + geom_point() + theme_bw() +
+    scale_color_manual(values = c("#B8DE29FF", "#55C667FF", "#1F968BFF", "#39568CFF", "#481567FF")) +
+    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
+    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
+                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
+    scale_y_discrete(labels = function(Term) str_wrap(Term, width = 60)) +
+    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14))
+  
+  ggsave(filename = name.plot, plot = p, width = 9, height = 10, units = "in", dpi = 300)
+  
+  return(p)
+}
+
+DMS.fem.BP <- plot.funct.top5(DMS_05h_fem_gostat_BP, DMS_1h_fem_gostat_BP, DMS_4h_fem_gostat_BP, DMS_24h_fem_gostat_BP, DMS_72h_fem_gostat_BP,
+                         nrow(DMS_TSS_05h_fem), nrow(DMS_TSS_1h_fem), nrow(DMS_TSS_4h_fem), nrow(DMS_TSS_24h_fem), nrow(DMS_TSS_72h_fem),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_BP.tiff")
+
+DMS.fem.MF <- plot.funct.top5(DMS_05h_fem_gostat_MF, DMS_1h_fem_gostat_MF, DMS_4h_fem_gostat_MF, DMS_24h_fem_gostat_MF, DMS_72h_fem_gostat_MF,
+                         nrow(DMS_TSS_05h_fem), nrow(DMS_TSS_1h_fem), nrow(DMS_TSS_4h_fem), nrow(DMS_TSS_24h_fem), nrow(DMS_TSS_72h_fem),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_MF.tiff")
+
+DMR.fem.BP <- plot.funct.top5(DMR_05h_fem_gostat_BP, DMR_1h_fem_gostat_BP, DMR_4h_fem_gostat_BP, DMR_24h_fem_gostat_BP, DMR_72h_fem_gostat_BP,
+                         nrow(DMR_TSS_05h_fem), nrow(DMR_TSS_1h_fem), nrow(DMR_TSS_4h_fem), nrow(DMR_TSS_24h_fem), nrow(DMR_TSS_72h_fem),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_BP.tiff")
+
+DMR.fem.MF <- plot.funct.top5(DMR_05h_fem_gostat_MF, DMR_1h_fem_gostat_MF, DMR_4h_fem_gostat_MF, DMR_24h_fem_gostat_MF, DMR_72h_fem_gostat_MF,
+                         nrow(DMR_TSS_05h_fem), nrow(DMR_TSS_1h_fem), nrow(DMR_TSS_4h_fem), nrow(DMR_TSS_24h_fem), nrow(DMR_TSS_72h_fem),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_MF.tiff")
+
+DMS.mal.BP <- plot.funct.top5(DMS_05h_mal_gostat_BP, DMS_1h_mal_gostat_BP, DMS_4h_mal_gostat_BP, DMS_24h_mal_gostat_BP, DMS_72h_mal_gostat_BP,
+                         nrow(DMS_TSS_05h_mal), nrow(DMS_TSS_1h_mal), nrow(DMS_TSS_4h_mal), nrow(DMS_TSS_24h_mal), nrow(DMS_TSS_72h_mal),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_BP.tiff")
+
+DMS.mal.MF <- plot.funct.top5(DMS_05h_mal_gostat_MF, DMS_1h_mal_gostat_MF, DMS_4h_mal_gostat_MF, DMS_24h_mal_gostat_MF, DMS_72h_mal_gostat_MF,
+                         nrow(DMS_TSS_05h_mal), nrow(DMS_TSS_1h_mal), nrow(DMS_TSS_4h_mal), nrow(DMS_TSS_24h_mal), nrow(DMS_TSS_72h_mal),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_MF.tiff")
+
+DMR.mal.BP <- plot.funct.top5(DMR_05h_mal_gostat_BP, DMR_1h_mal_gostat_BP, DMR_4h_mal_gostat_BP, DMR_24h_mal_gostat_BP, DMR_72h_mal_gostat_BP,
+                         nrow(DMR_TSS_05h_mal), nrow(DMR_TSS_1h_mal), nrow(DMR_TSS_4h_mal), nrow(DMR_TSS_24h_mal), nrow(DMR_TSS_72h_mal),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_BP.tiff")
+
+DMR.mal.MF <- plot.funct.top5(DMR_05h_mal_gostat_MF, DMR_1h_mal_gostat_MF, DMR_4h_mal_gostat_MF, DMR_24h_mal_gostat_MF, DMR_72h_mal_gostat_MF,
+                         nrow(DMR_TSS_05h_mal), nrow(DMR_TSS_1h_mal), nrow(DMR_TSS_4h_mal), nrow(DMR_TSS_24h_mal), nrow(DMR_TSS_72h_mal),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_MF.tiff")
+
+#hyper
+DMS.fem.BP.hyper <- plot.funct.top5(DMS_05h_fem_gostat_BP_hyper, DMS_1h_fem_gostat_BP_hyper, DMS_4h_fem_gostat_BP_hyper, DMS_24h_fem_gostat_BP_hyper, DMS_72h_fem_gostat_BP_hyper,
+                         nrow(DMS_TSS_05h_fem_hyper), nrow(DMS_TSS_1h_fem_hyper), nrow(DMS_TSS_4h_fem_hyper), nrow(DMS_TSS_24h_fem_hyper), nrow(DMS_TSS_72h_fem_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_BP_hyper.tiff")
+
+DMS.fem.MF.hyper <- plot.funct.top5(DMS_05h_fem_gostat_MF_hyper, DMS_1h_fem_gostat_MF_hyper, DMS_4h_fem_gostat_MF_hyper, DMS_24h_fem_gostat_MF_hyper, DMS_72h_fem_gostat_MF_hyper,
+                         nrow(DMS_TSS_05h_fem_hyper), nrow(DMS_TSS_1h_fem_hyper), nrow(DMS_TSS_4h_fem_hyper), nrow(DMS_TSS_24h_fem_hyper), nrow(DMS_TSS_72h_fem_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_MF_hyper.tiff")
+
+DMR.fem.BP.hyper <- plot.funct.top5(DMR_05h_fem_gostat_BP_hyper, DMR_1h_fem_gostat_BP_hyper, DMR_4h_fem_gostat_BP_hyper, DMR_24h_fem_gostat_BP_hyper, DMR_72h_fem_gostat_BP_hyper,
+                         nrow(DMR_TSS_05h_fem_hyper), nrow(DMR_TSS_1h_fem_hyper), nrow(DMR_TSS_4h_fem_hyper), nrow(DMR_TSS_24h_fem_hyper), nrow(DMR_TSS_72h_fem_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_BP_hyper.tiff")
+
+DMR.fem.MF.hyper <- plot.funct.top5(DMR_05h_fem_gostat_MF_hyper, DMR_1h_fem_gostat_MF_hyper, DMR_4h_fem_gostat_MF_hyper, DMR_24h_fem_gostat_MF_hyper, DMR_72h_fem_gostat_MF_hyper,
+                         nrow(DMR_TSS_05h_fem_hyper), nrow(DMR_TSS_1h_fem_hyper), nrow(DMR_TSS_4h_fem_hyper), nrow(DMR_TSS_24h_fem_hyper), nrow(DMR_TSS_72h_fem_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_MF_hyper.tiff")
+
+DMS.mal.BP.hyper <- plot.funct.top5(DMS_05h_mal_gostat_BP_hyper, DMS_1h_mal_gostat_BP_hyper, DMS_4h_mal_gostat_BP_hyper, DMS_24h_mal_gostat_BP_hyper, DMS_72h_mal_gostat_BP_hyper,
+                         nrow(DMS_TSS_05h_mal_hyper), nrow(DMS_TSS_1h_mal_hyper), nrow(DMS_TSS_4h_mal_hyper), nrow(DMS_TSS_24h_mal_hyper), nrow(DMS_TSS_72h_mal_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_BP_hyper.tiff")
+
+DMS.mal.MF.hyper <- plot.funct.top5(DMS_05h_mal_gostat_MF_hyper, DMS_1h_mal_gostat_MF_hyper, DMS_4h_mal_gostat_MF_hyper, DMS_24h_mal_gostat_MF_hyper, DMS_72h_mal_gostat_MF_hyper,
+                         nrow(DMS_TSS_05h_mal_hyper), nrow(DMS_TSS_1h_mal_hyper), nrow(DMS_TSS_4h_mal_hyper), nrow(DMS_TSS_24h_mal_hyper), nrow(DMS_TSS_72h_mal_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_MF_hyper.tiff")
+
+DMR.mal.BP.hyper <- plot.funct.top5(DMR_05h_mal_gostat_BP_hyper, DMR_1h_mal_gostat_BP_hyper, DMR_4h_mal_gostat_BP_hyper, DMR_24h_mal_gostat_BP_hyper, DMR_72h_mal_gostat_BP_hyper,
+                         nrow(DMR_TSS_05h_mal_hyper), nrow(DMR_TSS_1h_mal_hyper), nrow(DMR_TSS_4h_mal_hyper), nrow(DMR_TSS_24h_mal_hyper), nrow(DMR_TSS_72h_mal_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_BP_hyper.tiff")
+
+DMR.mal.MF.hyper <- plot.funct.top5(DMR_05h_mal_gostat_MF_hyper, DMR_1h_mal_gostat_MF_hyper, DMR_4h_mal_gostat_MF_hyper, DMR_24h_mal_gostat_MF_hyper, DMR_72h_mal_gostat_MF_hyper,
+                         nrow(DMR_TSS_05h_mal_hyper), nrow(DMR_TSS_1h_mal_hyper), nrow(DMR_TSS_4h_mal_hyper), nrow(DMR_TSS_24h_mal_hyper), nrow(DMR_TSS_72h_mal_hyper),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_MF_hyper.tiff")
+
+#hypo
+DMS.fem.BP.hypo <- plot.funct.top5(DMS_05h_fem_gostat_BP_hypo, DMS_1h_fem_gostat_BP_hypo, DMS_4h_fem_gostat_BP_hypo, DMS_24h_fem_gostat_BP_hypo, DMS_72h_fem_gostat_BP_hypo,
+                         nrow(DMS_TSS_05h_fem_hypo), nrow(DMS_TSS_1h_fem_hypo), nrow(DMS_TSS_4h_fem_hypo), nrow(DMS_TSS_24h_fem_hypo), nrow(DMS_TSS_72h_fem_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_BP_hypo.tiff")
+
+DMS.fem.MF.hypo <- plot.funct.top5(DMS_05h_fem_gostat_MF_hypo, DMS_1h_fem_gostat_MF_hypo, DMS_4h_fem_gostat_MF_hypo, DMS_24h_fem_gostat_MF_hypo, DMS_72h_fem_gostat_MF_hypo,
+                         nrow(DMS_TSS_05h_fem_hypo), nrow(DMS_TSS_1h_fem_hypo), nrow(DMS_TSS_4h_fem_hypo), nrow(DMS_TSS_24h_fem_hypo), nrow(DMS_TSS_72h_fem_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_MF_hypo.tiff")
+
+DMR.fem.BP.hypo <- plot.funct.top5(DMR_05h_fem_gostat_BP_hypo, DMR_1h_fem_gostat_BP_hypo, DMR_4h_fem_gostat_BP_hypo, DMR_24h_fem_gostat_BP_hypo, DMR_72h_fem_gostat_BP_hypo,
+                         nrow(DMR_TSS_05h_fem_hypo), nrow(DMR_TSS_1h_fem_hypo), nrow(DMR_TSS_4h_fem_hypo), nrow(DMR_TSS_24h_fem_hypo), nrow(DMR_TSS_72h_fem_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_BP_hypo.tiff")
+
+DMR.fem.MF.hypo <- plot.funct.top5(DMR_05h_fem_gostat_MF_hypo, DMR_1h_fem_gostat_MF_hypo, DMR_4h_fem_gostat_MF_hypo, DMR_24h_fem_gostat_MF_hypo, DMR_72h_fem_gostat_MF_hypo,
+                         nrow(DMR_TSS_05h_fem_hypo), nrow(DMR_TSS_1h_fem_hypo), nrow(DMR_TSS_4h_fem_hypo), nrow(DMR_TSS_24h_fem_hypo), nrow(DMR_TSS_72h_fem_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_MF_hypo.tiff")
+
+DMS.mal.BP.hypo <- plot.funct.top5(DMS_05h_mal_gostat_BP_hypo, DMS_1h_mal_gostat_BP_hypo, DMS_4h_mal_gostat_BP_hypo, DMS_24h_mal_gostat_BP_hypo, DMS_72h_mal_gostat_BP_hypo,
+                         nrow(DMS_TSS_05h_mal_hypo), nrow(DMS_TSS_1h_mal_hypo), nrow(DMS_TSS_4h_mal_hypo), nrow(DMS_TSS_24h_mal_hypo), nrow(DMS_TSS_72h_mal_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_BP_hypo.tiff")
+
+DMS.mal.MF.hypo <- plot.funct.top5(DMS_05h_mal_gostat_MF_hypo, DMS_1h_mal_gostat_MF_hypo, DMS_4h_mal_gostat_MF_hypo, DMS_24h_mal_gostat_MF_hypo, DMS_72h_mal_gostat_MF_hypo,
+                         nrow(DMS_TSS_05h_mal_hypo), nrow(DMS_TSS_1h_mal_hypo), nrow(DMS_TSS_4h_mal_hypo), nrow(DMS_TSS_24h_mal_hypo), nrow(DMS_TSS_72h_mal_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_MF_hypo.tiff")
+
+DMR.mal.BP.hypo <- plot.funct.top5(DMR_05h_mal_gostat_BP_hypo, DMR_1h_mal_gostat_BP_hypo, DMR_4h_mal_gostat_BP_hypo, DMR_24h_mal_gostat_BP_hypo, DMR_72h_mal_gostat_BP_hypo,
+                         nrow(DMR_TSS_05h_mal_hypo), nrow(DMR_TSS_1h_mal_hypo), nrow(DMR_TSS_4h_mal_hypo), nrow(DMR_TSS_24h_mal_hypo), nrow(DMR_TSS_72h_mal_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_BP_hypo.tiff")
+
+DMR.mal.MF.hypo <- plot.funct.top5(DMR_05h_mal_gostat_MF_hypo, DMR_1h_mal_gostat_MF_hypo, DMR_4h_mal_gostat_MF_hypo, DMR_24h_mal_gostat_MF_hypo, DMR_72h_mal_gostat_MF_hypo,
+                         nrow(DMR_TSS_05h_mal_hypo), nrow(DMR_TSS_1h_mal_hypo), nrow(DMR_TSS_4h_mal_hypo), nrow(DMR_TSS_24h_mal_hypo), nrow(DMR_TSS_72h_mal_hypo),
+                         "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_MF_hypo.tiff")
+
+#make panels
+DMR.fem.panel <- ggarrange(DMR.fem.BP.hyper, DMR.fem.BP.hypo, nrow = 2, ncol = 1, labels = c("A", "B"), common.legend = TRUE, legend = "right")
+ggsave(plot = DMR.fem.panel, filename = "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_fem_goplot_BP_panel.tiff", 
+       width = 8, height = 11, units = "in", dpi = 300)
+
+DMR.mal.panel <- ggarrange(DMR.mal.BP.hyper, DMR.mal.BP.hypo, nrow = 2, ncol = 1, labels = c("A", "B"), common.legend = TRUE, legend = "right")
+ggsave(plot = DMR.mal.panel, filename = "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMR_mal_goplot_BP_panel.tiff", 
+       width = 8, height = 11, units = "in", dpi = 300)
+
+DMS.fem.panel <- ggarrange(DMS.fem.BP.hyper, DMS.fem.BP.hypo, nrow = 2, ncol = 1, labels = c("A", "B"), common.legend = TRUE, legend = "right")
+ggsave(plot = DMS.fem.panel, filename = "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_fem_goplot_BP_panel.tiff", 
+       width = 8, height = 11, units = "in", dpi = 300)
+
+DMS.mal.panel <- ggarrange(DMS.mal.BP.hyper, DMS.mal.BP.hypo, nrow = 2, ncol = 1, labels = c("A", "B"), common.legend = TRUE, legend = "right")
+ggsave(plot = DMS.mal.panel, filename = "./shortTerm_exp/plots/finalized_tiff/go_plots/top5/DMS_mal_goplot_BP_panel.tiff", 
+       width = 8, height = 11, units = "in", dpi = 300)
+
+# plot results of pooled analysis 
+#plot
+plot_pooled <- function(data.hyper, total.hyper, data.hypo, total.hypo, name.plot){
+  #add labels 
+  data.hyper$direction <- "hyper"
+  data.hypo$direction <- "hypo"
+  
+  #calculate percent
+  data.hyper$perc <- data.hyper$Count / total.hyper * 100
+  data.hypo$perc <- data.hypo$Count / total.hypo * 100
+  
+  #select top 10 by p value and percent
+  data.hyper <- data.hyper %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.hypo <- data.hypo %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  
+  #merge data 
+  data <- rbind(data.hyper, data.hypo)
+  
+  #plot
+  p <- data %>% ggplot(aes(x = direction, y = Term, color = direction, size = perc, alpha = FDR)) + geom_point() + theme_bw() +
+    scale_color_manual(values = c("#55C667FF", "#39568CFF")) +
+    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
+    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
+                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
+    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14))
+  
+  ggsave(filename = name.plot, plot = p, width = 8, height = 10, units = "in", dpi = 300)
+}
+
+plot_pooled(DMR_all_fem_gostat_BP_hyper, nrow(DMR_TSS_all_fem_hyper), 
+            DMR_all_fem_gostat_BP_hypo, nrow(DMR_TSS_all_fem_hypo), 
+            "./shortTerm_exp/plots/finalized_tiff/go_plots/DMR_fem_pooled_goplot_BP.tiff")
+
+plot_pooled(DMS_all_fem_gostat_BP_hyper, nrow(DMS_TSS_all_fem_hyper), 
+            DMS_all_fem_gostat_BP_hypo, nrow(DMS_TSS_all_fem_hypo), 
+            "./shortTerm_exp/plots/finalized_tiff/go_plots/DMS_fem_pooled_goplot_BP.tiff")
+
+plot_pooled(DMR_all_mal_gostat_BP_hyper, nrow(DMR_TSS_all_mal_hyper), 
+            DMR_all_mal_gostat_BP_hypo, nrow(DMR_TSS_all_mal_hypo), 
+            "./shortTerm_exp/plots/finalized_tiff/go_plots/DMR_mal_pooled_goplot_BP.tiff")
+
+plot_pooled(DMS_all_mal_gostat_BP_hyper, nrow(DMS_TSS_all_mal_hyper), 
+            DMS_all_mal_gostat_BP_hypo, nrow(DMS_TSS_all_mal_hypo), 
+            "./shortTerm_exp/plots/finalized_tiff/go_plots/DMS_mal_pooled_goplot_BP.tiff")
+
+## Get lists of differentially methylated genes ##
 gene.list.funct <- function(data, name.csv){
-  #limit to genes within 10kb 
+  #limit to genes within 10kb
   data <- subset(data, dist.to.feature >= -10000 & dist.to.feature <= 10000)
-  #get list to seach in biomart 
+  #get list to seach in biomart
   val <- data$feature.name
   #search biomart
-  gene.data <- getBM(mart = bm, attributes = c('ensembl_transcript_id','external_gene_name','go_id', "name_1006", 
+  gene.data <- getBM(mart = bm, attributes = c('ensembl_transcript_id','external_gene_name','go_id', "name_1006",
                                   "namespace_1003", "go_linkage_type"), filters = "ensembl_transcript_id", values = val)
   gene.data <- gene.data[!duplicated(gene.data),]
   write.csv(gene.data, name.csv, row.names = FALSE)
@@ -1595,3 +1803,44 @@ gene.list.funct(DMR_TSS_1h_mal_hypo,  "./shortTerm_exp/data/gene_lists/DMR_1h_ma
 gene.list.funct(DMR_TSS_4h_mal_hypo,  "./shortTerm_exp/data/gene_lists/DMR_4h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_24h_mal_hypo,  "./shortTerm_exp/data/gene_lists/DMR_24h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_72h_mal_hypo,  "./shortTerm_exp/data/gene_lists/DMR_72h_mal_genelist.csv")
+
+#check ranges
+max(nrow(DMR_05h_fem_gostat_BP_hyper), nrow(DMR_1h_fem_gostat_BP_hyper), nrow(DMR_4h_fem_gostat_BP_hyper),
+    nrow(DMR_24h_fem_gostat_BP_hyper), nrow(DMR_72h_fem_gostat_BP_hyper), 
+    nrow(DMR_05h_fem_gostat_BP_hypo), nrow(DMR_1h_fem_gostat_BP_hypo), nrow(DMR_4h_fem_gostat_BP_hypo),
+    nrow(DMR_24h_fem_gostat_BP_hypo), nrow(DMR_72h_fem_gostat_BP_hypo))
+
+min(nrow(DMR_05h_fem_gostat_BP_hyper), nrow(DMR_1h_fem_gostat_BP_hyper), nrow(DMR_4h_fem_gostat_BP_hyper),
+    nrow(DMR_24h_fem_gostat_BP_hyper), nrow(DMR_72h_fem_gostat_BP_hyper), 
+    nrow(DMR_05h_fem_gostat_BP_hypo), nrow(DMR_1h_fem_gostat_BP_hypo), nrow(DMR_4h_fem_gostat_BP_hypo),
+    nrow(DMR_24h_fem_gostat_BP_hypo), nrow(DMR_72h_fem_gostat_BP_hypo))
+
+max(nrow(DMS_05h_fem_gostat_BP_hyper), nrow(DMS_1h_fem_gostat_BP_hyper), nrow(DMS_4h_fem_gostat_BP_hyper),
+    nrow(DMS_24h_fem_gostat_BP_hyper), nrow(DMS_72h_fem_gostat_BP_hyper), 
+    nrow(DMS_05h_fem_gostat_BP_hypo), nrow(DMS_1h_fem_gostat_BP_hypo), nrow(DMS_4h_fem_gostat_BP_hypo),
+    nrow(DMS_24h_fem_gostat_BP_hypo), nrow(DMS_72h_fem_gostat_BP_hypo))
+
+min(nrow(DMS_05h_fem_gostat_BP_hyper), nrow(DMS_1h_fem_gostat_BP_hyper), nrow(DMS_4h_fem_gostat_BP_hyper),
+    nrow(DMS_24h_fem_gostat_BP_hyper), nrow(DMS_72h_fem_gostat_BP_hyper), 
+    nrow(DMS_05h_fem_gostat_BP_hypo), nrow(DMS_1h_fem_gostat_BP_hypo), nrow(DMS_4h_fem_gostat_BP_hypo),
+    nrow(DMS_24h_fem_gostat_BP_hypo), nrow(DMS_72h_fem_gostat_BP_hypo))
+
+max(nrow(DMR_05h_mal_gostat_BP_hyper), nrow(DMR_1h_mal_gostat_BP_hyper), nrow(DMR_4h_mal_gostat_BP_hyper),
+    nrow(DMR_24h_mal_gostat_BP_hyper), nrow(DMR_72h_mal_gostat_BP_hyper), 
+    nrow(DMR_05h_mal_gostat_BP_hypo), nrow(DMR_1h_mal_gostat_BP_hypo), nrow(DMR_4h_mal_gostat_BP_hypo),
+    nrow(DMR_24h_mal_gostat_BP_hypo), nrow(DMR_72h_mal_gostat_BP_hypo))
+
+min(nrow(DMR_05h_mal_gostat_BP_hyper), nrow(DMR_1h_mal_gostat_BP_hyper), nrow(DMR_4h_mal_gostat_BP_hyper),
+    nrow(DMR_24h_mal_gostat_BP_hyper), nrow(DMR_72h_mal_gostat_BP_hyper), 
+    nrow(DMR_05h_mal_gostat_BP_hypo), nrow(DMR_1h_mal_gostat_BP_hypo), nrow(DMR_4h_mal_gostat_BP_hypo),
+    nrow(DMR_24h_mal_gostat_BP_hypo), nrow(DMR_72h_mal_gostat_BP_hypo))
+
+max(nrow(DMS_05h_mal_gostat_BP_hyper), nrow(DMS_1h_mal_gostat_BP_hyper), nrow(DMS_4h_mal_gostat_BP_hyper),
+    nrow(DMS_24h_mal_gostat_BP_hyper), nrow(DMS_72h_mal_gostat_BP_hyper), 
+    nrow(DMS_05h_mal_gostat_BP_hypo), nrow(DMS_1h_mal_gostat_BP_hypo), nrow(DMS_4h_mal_gostat_BP_hypo),
+    nrow(DMS_24h_mal_gostat_BP_hypo), nrow(DMS_72h_mal_gostat_BP_hypo))
+
+min(nrow(DMS_05h_mal_gostat_BP_hyper), nrow(DMS_1h_mal_gostat_BP_hyper), nrow(DMS_4h_mal_gostat_BP_hyper),
+    nrow(DMS_24h_mal_gostat_BP_hyper), nrow(DMS_72h_mal_gostat_BP_hyper), 
+    nrow(DMS_05h_mal_gostat_BP_hypo), nrow(DMS_1h_mal_gostat_BP_hypo), nrow(DMS_4h_mal_gostat_BP_hypo),
+    nrow(DMS_24h_mal_gostat_BP_hypo), nrow(DMS_72h_mal_gostat_BP_hypo))

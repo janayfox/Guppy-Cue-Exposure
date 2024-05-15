@@ -39,34 +39,18 @@ CpG.mal <- readRDS("./DMS_res/DMSmydiff_mal_5X.RDS")
 regions.all <- readRDS("./DMR_res/DMRmydiff_all_5X.RDS")
 regions.fem <- readRDS("./DMR_res/DMRmydiff_fem_5X.RDS")
 regions.mal <- readRDS("./DMR_res/DMRmydiff_mal_5X.RDS")
-
-#convert to GRanges
-DMR.diffmeth.all.gr <- as(DMR.diffmeth.all, "GRanges") 
-DMR.diffmeth.fem.gr <- as(DMR.diffmeth.fem, "GRanges") 
-DMR.diffmeth.mal.gr <- as(DMR.diffmeth.mal, "GRanges") 
-
-DMS.diffmeth.all.gr <- as(DMS.diffmeth.all, "GRanges") 
-DMS.diffmeth.fem.gr <- as(DMS.diffmeth.fem, "GRanges") 
-DMS.diffmeth.mal.gr <- as(DMS.diffmeth.mal, "GRanges") 
-
-CpG.all.gr <- as(CpG.all, "GRanges") 
-CpG.fem.gr <- as(CpG.fem, "GRanges") 
-CpG.mal.gr <- as(CpG.mal, "GRanges") 
-
-regions.all.gr <- as(regions.all, "GRanges") 
-regions.fem.gr <- as(regions.fem, "GRanges") 
-regions.mal.gr <- as(regions.mal, "GRanges") 
-
+ 
 #change chromosome names to match 
 #create function that renames chromosomes
-renameChr <- function(gr.obj) {
-  gr.obj.rename <- renameSeqlevels(gr.obj, c(NC_024331.1="LG1", NC_024332.1="LG2",
+renameChr <- function(obj) {
+  obj.gr <- as(obj, "GRanges")
+  gr.obj.rename <- renameSeqlevels(obj.gr, c(NC_024331.1="LG1", NC_024332.1="LG2",
                                      NC_024333.1="LG3", NC_024334.1="LG4",
                                      NC_024335.1="LG5",NC_024336.1="LG6",
                                      NC_024337.1="LG7", NC_024338.1="LG8",
                                      NC_024339.1="LG9", NC_024340.1="LG10",
                                      NC_024341.1="LG11", NC_024342.1="LG12",
-                                     NC_024343.1="LG13",
+                                     NC_024343.1="LG13", 
                                      NC_024344.1="LG14", NC_024345.1="LG15",
                                      NC_024346.1="LG16", NC_024347.1="LG17",
                                      NC_024348.1="LG18", NC_024349.1="LG19",
@@ -76,38 +60,38 @@ renameChr <- function(gr.obj) {
 }
 
 #rename chromosomes in each GRanges
-DMR.diffmeth.all.gr.rename <- renameChr(DMR.diffmeth.all.gr)
-DMR.diffmeth.fem.gr.rename <- renameChr(DMR.diffmeth.fem.gr)
-DMR.diffmeth.mal.gr.rename <- renameChr(DMR.diffmeth.mal.gr)
+DMR.diffmeth.all.gr.rename <- renameChr(DMR.diffmeth.all)
+DMR.diffmeth.fem.gr.rename <- renameChr(DMR.diffmeth.fem)
+DMR.diffmeth.mal.gr.rename <- renameChr(DMR.diffmeth.mal)
 
-DMS.diffmeth.all.gr.rename <- renameChr(DMS.diffmeth.all.gr)
-DMS.diffmeth.fem.gr.rename <- renameChr(DMS.diffmeth.fem.gr)
-DMS.diffmeth.mal.gr.rename <- renameChr(DMS.diffmeth.mal.gr)
+DMS.diffmeth.all.gr.rename <- renameChr(DMS.diffmeth.all)
+DMS.diffmeth.fem.gr.rename <- renameChr(DMS.diffmeth.fem)
+DMS.diffmeth.mal.gr.rename <- renameChr(DMS.diffmeth.mal)
 
-CpG.all.gr.rename <- renameChr(CpG.all.gr)
-CpG.fem.gr.rename <- renameChr(CpG.fem.gr)
-CpG.mal.gr.rename <- renameChr(CpG.mal.gr)
+CpG.all.gr.rename <- renameChr(CpG.all)
+CpG.fem.gr.rename <- renameChr(CpG.fem)
+CpG.mal.gr.rename <- renameChr(CpG.mal)
 
-regions.all.gr.rename <- renameChr(CpG.all.gr)
-regions.fem.gr.rename <- renameChr(CpG.fem.gr)
-regions.mal.gr.rename <- renameChr(CpG.mal.gr)
+regions.all.gr.rename <- renameChr(regions.all)
+regions.fem.gr.rename <- renameChr(regions.fem)
+regions.mal.gr.rename <- renameChr(regions.mal)
 
 #get hyper and hypo methylated 
-DMR.diffmeth.all.gr.rename.hyper <- subset(DMR.diffmeth.all.gr, meth.diff > 0)
-DMR.diffmeth.fem.gr.rename.hyper <- subset(DMR.diffmeth.fem.gr, meth.diff > 0)
-DMR.diffmeth.mal.gr.rename.hyper <- subset(DMR.diffmeth.mal.gr, meth.diff > 0)
+DMR.diffmeth.all.gr.rename.hyper <- subset(DMR.diffmeth.all.gr.rename, meth.diff > 0)
+DMR.diffmeth.fem.gr.rename.hyper <- subset(DMR.diffmeth.fem.gr.rename, meth.diff > 0)
+DMR.diffmeth.mal.gr.rename.hyper <- subset(DMR.diffmeth.mal.gr.rename, meth.diff > 0)
 
-DMS.diffmeth.all.gr.rename.hyper <- subset(DMS.diffmeth.all.gr, meth.diff > 0)
-DMS.diffmeth.fem.gr.rename.hyper <- subset(DMS.diffmeth.fem.gr, meth.diff > 0)
-DMS.diffmeth.mal.gr.rename.hyper <- subset(DMS.diffmeth.mal.gr, meth.diff > 0)
+DMS.diffmeth.all.gr.rename.hyper <- subset(DMS.diffmeth.all.gr.rename, meth.diff > 0)
+DMS.diffmeth.fem.gr.rename.hyper <- subset(DMS.diffmeth.fem.gr.rename, meth.diff > 0)
+DMS.diffmeth.mal.gr.rename.hyper <- subset(DMS.diffmeth.mal.gr.rename, meth.diff > 0)
 
-DMR.diffmeth.all.gr.rename.hypo <- subset(DMR.diffmeth.all.gr, meth.diff < 0)
-DMR.diffmeth.fem.gr.rename.hypo <- subset(DMR.diffmeth.fem.gr, meth.diff < 0)
-DMR.diffmeth.mal.gr.rename.hypo <- subset(DMR.diffmeth.mal.gr, meth.diff < 0)
+DMR.diffmeth.all.gr.rename.hypo <- subset(DMR.diffmeth.all.gr.rename, meth.diff < 0)
+DMR.diffmeth.fem.gr.rename.hypo <- subset(DMR.diffmeth.fem.gr.rename, meth.diff < 0)
+DMR.diffmeth.mal.gr.rename.hypo <- subset(DMR.diffmeth.mal.gr.rename, meth.diff < 0)
 
-DMS.diffmeth.all.gr.rename.hypo <- subset(DMS.diffmeth.all.gr, meth.diff < 0)
-DMS.diffmeth.fem.gr.rename.hypo <- subset(DMS.diffmeth.fem.gr, meth.diff < 0)
-DMS.diffmeth.mal.gr.rename.hypo<- subset(DMS.diffmeth.mal.gr, meth.diff < 0)
+DMS.diffmeth.all.gr.rename.hypo <- subset(DMS.diffmeth.all.gr.rename, meth.diff < 0)
+DMS.diffmeth.fem.gr.rename.hypo <- subset(DMS.diffmeth.fem.gr.rename, meth.diff < 0)
+DMS.diffmeth.mal.gr.rename.hypo <- subset(DMS.diffmeth.mal.gr.rename, meth.diff < 0)
 
 ## Annotate ##
 #annotate with gene parts 
@@ -122,9 +106,9 @@ regions.all.anno <- annotateWithGeneParts(regions.all.gr.rename, ref.anno)
 
 DMR.fem.anno <- annotateWithGeneParts(DMR.diffmeth.fem.gr.rename, ref.anno)
 DMR.fem.anno.hyper <- annotateWithGeneParts(DMR.diffmeth.fem.gr.rename.hyper, ref.anno)
-DMR.fem.anno.hypo <- annotateWithGeneParts(DMR.diffmeth.fem.gr.rename.hyper, ref.anno)
+DMR.fem.anno.hypo <- annotateWithGeneParts(DMR.diffmeth.fem.gr.rename.hypo, ref.anno)
 DMS.fem.anno <- annotateWithGeneParts(DMS.diffmeth.fem.gr.rename, ref.anno)
-DMS.fem.anno.hyper <- annotateWithGeneParts(DMS.diffmeth.fem.gr.rename.hypo, ref.anno)
+DMS.fem.anno.hyper <- annotateWithGeneParts(DMS.diffmeth.fem.gr.rename.hyper, ref.anno)
 DMS.fem.anno.hypo <- annotateWithGeneParts(DMS.diffmeth.fem.gr.rename.hypo, ref.anno)
 CpG.fem.anno <- annotateWithGeneParts(CpG.fem.gr.rename, ref.anno)
 regions.fem.anno <- annotateWithGeneParts(regions.fem.gr.rename, ref.anno)
