@@ -11,25 +11,24 @@
 #install.packages("dplyr")
 
 #load packages
-library(here)
 library(tidyverse)
 library(dplyr)
 
 #read in data files
-openfield.data <- read_csv(here("gup_cue_exp", "data", "raw", "openfield.csv"))
-feeding.data <- read_csv(here("gup_cue_exp","data", "raw", "feeding.csv"))
-shoaling.data <- read_csv(here("gup_cue_exp","data", "raw", "shoaling.csv"))
-SL.data <- read_csv(here("gup_cue_exp","data", "raw", "sociallearning.csv"))
-SL.lat.data <- read_csv(here("gup_cue_exp","data", "raw", "SL_lat.csv"))
-SL.dem.data <- read_csv(here("gup_cue_exp","data", "raw", "sl_dem.csv"))
-time.data <- read_csv(here("gup_cue_exp", "data", "raw", "time.csv"))
+openfield.data <- read_csv("./dev_exp/data/raw/openfield.csv")
+feeding.data <- read_csv("./dev_exp/data/raw/feeding.csv")
+shoaling.data <- read_csv("./dev_exp/data/raw/shoaling.csv")
+SL.data <- read_csv("./dev_exp/data/raw/sociallearning.csv")
+SL.lat.data <- read_csv("./dev_exp/data/raw/SL_lat.csv")
+SL.dem.data <- read_csv("./dev_exp/data/raw/sl_dem.csv")
+time.data <- read_csv("./dev_exp/data/raw/time.csv")
 
 ## Open Field data ##
 #merge time data 
 openfield.data <- merge(openfield.data, time.data, by="ID")
 
 #export data
-write_csv(openfield.data, file(here("gup_cue_exp", "data", "clean", "clean_openfield.csv")))
+write_csv(openfield.data, file("./dev_exp/data/clean/clean_openfield.csv"))
 
 ## Shoaling data ##
 #change cue labels to match open field data 

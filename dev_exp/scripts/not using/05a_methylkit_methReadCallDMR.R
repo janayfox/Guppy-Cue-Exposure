@@ -381,8 +381,8 @@ DMRmeth5X.mal
 
 #calculate differential methylation 
 DMRmyDiff5X.all <- calculateDiffMeth(DMRmeth5X.all, mc.cores=2, test="Chisq", covariates=covariates.all, save.db = TRUE, suffix = "myDiffDMR5X_all")
-DMRmyDiff5X.fem <- calculateDiffMeth(DMRmeth5X.fem, mc.cores=2, test="Chisq", covariates=covariates.all, save.db = TRUE, suffix = "myDiffDMR5X_fem")
-DMRmyDiff5X.mal <- calculateDiffMeth(DMRmeth5X.fem, mc.cores=2, test="Chisq", covariates=covariates.all, save.db = TRUE, suffix = "myDiffDMR5X_mal")
+DMRmyDiff5X.fem <- calculateDiffMeth(DMRmeth5X.fem, mc.cores=2, test="Chisq", covariates=covariates.fem, save.db = TRUE, suffix = "myDiffDMR5X_fem")
+DMRmyDiff5X.mal <- calculateDiffMeth(DMRmeth5X.mal, mc.cores=2, test="Chisq", covariates=covariates.mal, save.db = TRUE, suffix = "myDiffDMR5X_mal")
 
 #call significant methylation
 DMRdiffMeth5X.all <- getMethylDiff(DMRmyDiff5X.all, difference = 20, qvalue = 0.0125, save.db = TRUE, suffix = "diffMethDMR5X_all")

@@ -46,7 +46,7 @@ sd(align.st.data$No_CpGs)
 mean(align.dev.data$Perc_Meth_CpGs)
 sd(align.dev.data$Perc_Meth_CpGs)
 
-#in ceach group
+#in each group
 tapply(align.dev.data$Perc_Meth_CpGs, align.dev.data$Treatment, mean)
 tapply(align.dev.data$Perc_Meth_CpGs, align.dev.data$Treatment, sd)
 

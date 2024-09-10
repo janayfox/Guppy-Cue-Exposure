@@ -194,7 +194,7 @@ prep_data <- function(df){
 plot_pca <- function(pca.data, pca.x, pca.y, xlabel, ylabel, plotname){
   p <- ggplot(data = pca.data, aes(x = pca.x, y = pca.y, color = cue, shape = tank, group = cue)) + theme_bw() + geom_point() +
     scale_color_manual(name = "Cue",
-                       values = c("#E14D2A", "#31C6D4"), labels = c("A" = "Alarm Cue", "C" = "Control")) +
+                       values = c("#E14D2A", "lightblue"), labels = c("A" = "Alarm Cue", "C" = "Control")) +
     scale_shape_manual(values = c(15, 25, 17, 18, 19, 8, 15, 25, 17, 18, 19, 8)) +
     geom_hline(yintercept = 0, linetype = "dashed") + geom_vline(xintercept = 0, linetype = "dashed") +
     xlab(xlabel) + ylab(ylabel) + labs(shape = "Tank") + stat_ellipse() +
@@ -209,7 +209,7 @@ plot_pca <- function(pca.data, pca.x, pca.y, xlabel, ylabel, plotname){
 plot_pca_V2 <- function(pca.data, pca.x, pca.y, xlabel, ylabel, plotname){
   p <- ggplot(data = pca.data, aes(x = pca.x, y = pca.y, color = cue, shape = sex, group = cue)) + theme_bw() + geom_point() +
     scale_color_manual(name = "Cue",
-                       values = c("#E14D2A", "#31C6D4"), labels = c("A" = "Alarm Cue", "C" = "Control")) +
+                       values = c("#E14D2A", "lightblue"), labels = c("A" = "Alarm Cue", "C" = "Control")) +
     geom_hline(yintercept = 0, linetype = "dashed") + geom_vline(xintercept = 0, linetype = "dashed") +
     xlab(xlabel) + ylab(ylabel) + labs(shape = "Sex") + stat_ellipse() +
     theme(axis.title = element_text(size = 18), axis.text = element_text(size = 16), legend.text = element_text(size=14),
@@ -251,7 +251,7 @@ plot_heatmap <- function(data, plotname){
   sample.info[,1] <- NULL
   
   #set annotation colors
-  anno.colors <- list(Cue = c("Alarm Cue" = "#E14D2A", "Control" = "#31C6D4"))
+  anno.colors <- list(Cue = c("Alarm Cue" = "#E14D2A", "Control" = "lightblue"))
   
                       # Tank = c("C2" = "#03045E", "C3" = "#023E8A", "C4" = "#0077B6",
                       #          "C5" = "#183EFA", "C6" = "#00FFEF", "C7" = "#82EEFD",
@@ -413,35 +413,35 @@ nrow(subset(DMR_diffmeth_mal, meth.diff < 0))
 
 nrow(subset(DMR_diffmeth_all, meth.diff > 0))
 nrow(subset(DMR_diffmeth_all, meth.diff < 0))
-# 
-# #check max and min methylation changes in DMRs
-# min(abs(DMS_diffmeth_fem$meth.diff))
-# max(abs(DMS_diffmeth_fem$meth.diff))
-# min(abs(DMR_diffmeth_fem$meth.diff))
-# max(abs(DMR_diffmeth_fem$meth.diff))
-# 
-# min(abs(DMS_diffmeth_mal$meth.diff))
-# max(abs(DMS_diffmeth_mal$meth.diff))
-# min(abs(DMR_diffmeth_mal$meth.diff))
-# max(abs(DMR_diffmeth_mal$meth.diff))
-# 
-# min(abs(DMS_diffmeth_all$meth.diff))
-# max(abs(DMS_diffmeth_all$meth.diff))
-# min(abs(DMR_diffmeth_all$meth.diff))
-# max(abs(DMR_diffmeth_all$meth.diff))
-# 
+
+#check max and min methylation changes in DMRs
+min(abs(DMS_diffmeth_fem$meth.diff))
+max(abs(DMS_diffmeth_fem$meth.diff))
+min(abs(DMR_diffmeth_fem$meth.diff))
+max(abs(DMR_diffmeth_fem$meth.diff))
+
+min(abs(DMS_diffmeth_mal$meth.diff))
+max(abs(DMS_diffmeth_mal$meth.diff))
+min(abs(DMR_diffmeth_mal$meth.diff))
+max(abs(DMR_diffmeth_mal$meth.diff))
+
+min(abs(DMS_diffmeth_all$meth.diff))
+max(abs(DMS_diffmeth_all$meth.diff))
+min(abs(DMR_diffmeth_all$meth.diff))
+max(abs(DMR_diffmeth_all$meth.diff))
+
 #get dataframes
-# DMS.hyp.data <- data.frame(direction = c("Hyper", "Hypo", "Hyper", "Hypo", "Hyper", "Hypo"),
-#              type = c("Females", "Females", "Males", "Males", "All", "All"),
-#              number = c(nrow(subset(DMS_diffmeth_fem, meth.diff > 0)), nrow(subset(DMS_diffmeth_fem, meth.diff < 0)),
-#                         nrow(subset(DMS_diffmeth_mal, meth.diff > 0)), nrow(subset(DMS_diffmeth_mal, meth.diff < 0)),
-#                         nrow(subset(DMS_diffmeth_all, meth.diff > 0)), nrow(subset(DMS_diffmeth_all, meth.diff < 0))))
-# 
-# DMR.hyp.data <- data.frame(direction = c("Hyper", "Hypo", "Hyper", "Hypo", "Hyper", "Hypo"),
-#                            type = c("Females", "Females", "Males", "Males", "All", "All"),
-#                            number = c(nrow(subset(DMR_diffmeth_fem, meth.diff > 0)), nrow(subset(DMR_diffmeth_fem, meth.diff < 0)),
-#                                       nrow(subset(DMR_diffmeth_mal, meth.diff > 0)), nrow(subset(DMR_diffmeth_mal, meth.diff < 0)),
-#                                       nrow(subset(DMR_diffmeth_all, meth.diff > 0)), nrow(subset(DMR_diffmeth_all, meth.diff < 0))))
+DMS.hyp.data <- data.frame(direction = c("Hyper", "Hypo", "Hyper", "Hypo", "Hyper", "Hypo"),
+             type = c("Females", "Females", "Males", "Males", "All", "All"),
+             number = c(nrow(subset(DMS_diffmeth_fem, meth.diff > 0)), nrow(subset(DMS_diffmeth_fem, meth.diff < 0)),
+                        nrow(subset(DMS_diffmeth_mal, meth.diff > 0)), nrow(subset(DMS_diffmeth_mal, meth.diff < 0)),
+                        nrow(subset(DMS_diffmeth_all, meth.diff > 0)), nrow(subset(DMS_diffmeth_all, meth.diff < 0))))
+
+DMR.hyp.data <- data.frame(direction = c("Hyper", "Hypo", "Hyper", "Hypo", "Hyper", "Hypo"),
+                           type = c("Females", "Females", "Males", "Males", "All", "All"),
+                           number = c(nrow(subset(DMR_diffmeth_fem, meth.diff > 0)), nrow(subset(DMR_diffmeth_fem, meth.diff < 0)),
+                                      nrow(subset(DMR_diffmeth_mal, meth.diff > 0)), nrow(subset(DMR_diffmeth_mal, meth.diff < 0)),
+                                      nrow(subset(DMR_diffmeth_all, meth.diff > 0)), nrow(subset(DMR_diffmeth_all, meth.diff < 0))))
 
 
 all.hyp.data <- data.frame(Direction = c("Hyper", "Hypo", "Hyper", "Hypo"),
@@ -465,9 +465,20 @@ hyp.fem.plot <- plot_hyp_all(fem.hyp.data)
 hyp.mal.plot <- plot_hyp_all(mal.hyp.data)
 
 #
-# #make panel
-# hype.panel <- ggarrange(hyp.DMS.plot, hyp.DMR.plot, ncol = 2, nrow = 1, labels = c("A", "B"),
-#                         common.legend = TRUE, legend = "bottom")
+# # #make panel
+# hype.panel <- ggarrange(hyp.fem.plot, hyp.mal.plot, dist_fem, dist_mal,
+#                         ncol = 2, nrow = 2, labels = c("A", "B", "C", "D"))
+# 
+# hype.panel.1 <- ggarrange(hyp.fem.plot, hyp.mal.plot, 
+#                         ncol = 2, nrow = 1, labels = c("A", "B"), common.legend = TRUE, legend = "right")
+# 
+# hype.panel.2 <- ggarrange(dist_fem, dist_mal,
+#                         ncol = 2, nrow = 1, labels = c("C", "D"), common.legend = TRUE, legend = "right")
+# 
+# full.panel <- ggarrange(hype.panel.1,hype.panel.2, ncol = 1, nrow = 1)
+# 
+# ggsave(filename = "./dev_exp/plots/finalized_tiff/panel_hyp1_dist.tiff", plot = hype.panel.1, width = 7, height = 5, units = "in", dpi = 300)
+# ggsave(filename = "./dev_exp/plots/finalized_tiff/panel_hyp2_dist.tiff", plot = hype.panel.2, width = 7, height = 5, units = "in", dpi = 300)
 
   # #save plots 
 # ggsave(filename = "./dev_exp/plots/finalized_tiff/barplots_hypo_hyper/DMS_hyp_plot.tiff", plot = hyp.DMS.plot, width = 7, height = 5, units = "in", dpi = 300)
@@ -516,34 +527,34 @@ DMS_mal_percMeth <- get_percMeth_matrix("./dev_exp/data/methylkit_res/DMS_res/DM
 
 DMS_all_percMeth <- get_percMeth_matrix("./dev_exp/data/methylkit_res/DMS_res/DMSdiffmeth_all_5X.RDS",
                                         "./dev_exp/data/methylkit_res/DMS_res/DMSmeth_all_5X.RDS")
-# 
-# #get percent methylation for all CpGs
-# #read data files
-# CpG_meth_all <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSmeth_all_5X.RDS")
-# CpG_meth_fem <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSmeth_fem_5X.RDS")
-# CpG_meth_mal <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSmeth_mal_5X.RDS")
-# 
-# #calculate percent methylation 
-# perc_meth_CpG_all <- as.data.frame(percMethylation(CpG_meth_all))
-# perc_meth_CpG_fem <- as.data.frame(percMethylation(CpG_meth_fem))
-# perc_meth_CpG_mal <- as.data.frame(percMethylation(CpG_meth_mal))
-# 
-# #add site names
-# CpG_meth_all <- nameSite(CpG_meth_all)
-# CpG_meth_fem <- nameSite(CpG_meth_fem)
-# CpG_meth_mal <- nameSite(CpG_meth_mal)
-# 
-# #add rownames to perc meth matrix  
-# rownames(perc_meth_CpG_all) <- CpG_meth_all$site_name
-# rownames(perc_meth_CpG_fem) <- CpG_meth_fem$site_name
-# rownames(perc_meth_CpG_mal) <- CpG_meth_mal$site_name
-# 
-# #remove extra file 
-# rm(CpG_meth_all)
-# rm(CpG_meth_fem)
-# rm(CpG_meth_mal)
-# 
-# #get perc meth for DMRs 
+
+#get percent methylation for all CpGs
+#read data files
+CpG_meth_all <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSmeth_all_5X.RDS")
+CpG_meth_fem <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSmeth_fem_5X.RDS")
+CpG_meth_mal <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSmeth_mal_5X.RDS")
+
+#calculate percent methylation
+perc_meth_CpG_all <- as.data.frame(percMethylation(CpG_meth_all))
+perc_meth_CpG_fem <- as.data.frame(percMethylation(CpG_meth_fem))
+perc_meth_CpG_mal <- as.data.frame(percMethylation(CpG_meth_mal))
+
+#add site names
+CpG_meth_all <- nameSite(CpG_meth_all)
+CpG_meth_fem <- nameSite(CpG_meth_fem)
+CpG_meth_mal <- nameSite(CpG_meth_mal)
+
+#add rownames to perc meth matrix
+rownames(perc_meth_CpG_all) <- CpG_meth_all$site_name
+rownames(perc_meth_CpG_fem) <- CpG_meth_fem$site_name
+rownames(perc_meth_CpG_mal) <- CpG_meth_mal$site_name
+
+#remove extra file
+rm(CpG_meth_all)
+rm(CpG_meth_fem)
+rm(CpG_meth_mal)
+
+#get perc meth for DMRs
 DMR_fem_percMeth <- get_percMeth_matrix("./dev_exp/data/methylkit_res/DMR_res/DMRdiffmeth_fem_5X.RDS",
                                         "./dev_exp/data/methylkit_res/DMR_res/DMR_tile_meth_fem_5X.RDS")
 
@@ -553,99 +564,99 @@ DMR_mal_percMeth <- get_percMeth_matrix("./dev_exp/data/methylkit_res/DMR_res/DM
 DMR_all_percMeth <- get_percMeth_matrix("./dev_exp/data/methylkit_res/DMR_res/DMRdiffmeth_all_5X.RDS",
                                         "./dev_exp/data/methylkit_res/DMR_res/DMR_tile_meth_all_5X.RDS")
 
-# #prep data
-# t_DMS_all <- prep_data(DMS_all_percMeth)
-# t_DMR_all <- prep_data(DMR_all_percMeth)
-# t_CpG_all <- prep_data(perc_meth_CpG_all)
-# 
-# t_DMS_fem <- prep_data(DMS_fem_percMeth)
-# t_DMR_fem <- prep_data(DMR_fem_percMeth)
-# t_CpG_fem <- prep_data(perc_meth_CpG_fem)
-# 
-# t_DMS_mal <- prep_data(DMS_mal_percMeth)
-# t_DMR_mal <- prep_data(DMR_mal_percMeth)
-# t_CpG_mal <- prep_data(DMR_mal_percMeth)
-# 
-# #run PCA
-# pca_DMS_all <- prcomp(t_DMS_all, center = TRUE)
-# pca_DMR_all <- prcomp(t_DMR_all, center = TRUE)
-# pca_CpG_all <- prcomp(t_CpG_all, center = TRUE)
-# 
-# pca_DMS_fem <- prcomp(t_DMS_fem, center = TRUE)
-# pca_DMR_fem <- prcomp(t_DMR_fem, center = TRUE)
-# pca_CpG_fem <- prcomp(t_CpG_fem, center = TRUE)
-# 
-# pca_DMS_mal <- prcomp(t_DMS_mal, center = TRUE)
-# pca_DMR_mal <- prcomp(t_DMR_mal, center = TRUE)
-# pca_CpG_mal <- prcomp(t_CpG_mal, center = TRUE)
-# 
-# #see results
-# summary(pca_DMS_all)
-# summary(pca_DMR_all)
-# summary(pca_CpG_all)
-# 
-# summary(pca_DMS_fem)
-# summary(pca_DMR_fem)
-# summary(pca_CpG_fem)
-# 
-# summary(pca_DMS_mal)
-# summary(pca_DMR_mal)
-# summary(pca_CpG_mal)
-# 
-# #add variables to dataframe for plotting
-# t_DMS_all_plotDat <- add_var(t_DMS_all, pca_DMS_all)
-# t_DMR_all_plotDat <- add_var(t_DMR_all, pca_DMR_all)
-# t_CpG_all_plotDat <- add_var(t_CpG_all, pca_CpG_all)
-# 
-# t_DMS_fem_plotDat <- add_var(t_DMS_fem, pca_DMS_fem)
-# t_DMR_fem_plotDat <- add_var(t_DMR_fem, pca_DMR_fem)
-# t_CpG_fem_plotDat <- add_var(t_CpG_fem, pca_CpG_fem)
-# 
-# t_DMS_mal_plotDat <- add_var(t_DMS_mal, pca_DMS_mal)
-# t_DMR_mal_plotDat <- add_var(t_DMR_mal, pca_DMR_mal)
-# t_CpG_mal_plotDat <- add_var(t_CpG_mal, pca_CpG_mal)
+#prep data
+t_DMS_all <- prep_data(DMS_all_percMeth)
+t_DMR_all <- prep_data(DMR_all_percMeth)
+t_CpG_all <- prep_data(perc_meth_CpG_all)
+
+t_DMS_fem <- prep_data(DMS_fem_percMeth)
+t_DMR_fem <- prep_data(DMR_fem_percMeth)
+t_CpG_fem <- prep_data(perc_meth_CpG_fem)
+
+t_DMS_mal <- prep_data(DMS_mal_percMeth)
+t_DMR_mal <- prep_data(DMR_mal_percMeth)
+t_CpG_mal <- prep_data(perc_meth_CpG_mal)
+
+#run PCA
+pca_DMS_all <- prcomp(t_DMS_all, center = TRUE)
+pca_DMR_all <- prcomp(t_DMR_all, center = TRUE)
+pca_CpG_all <- prcomp(t_CpG_all, center = TRUE)
+
+pca_DMS_fem <- prcomp(t_DMS_fem, center = TRUE)
+pca_DMR_fem <- prcomp(t_DMR_fem, center = TRUE)
+pca_CpG_fem <- prcomp(t_CpG_fem, center = TRUE)
+
+pca_DMS_mal <- prcomp(t_DMS_mal, center = TRUE)
+pca_DMR_mal <- prcomp(t_DMR_mal, center = TRUE)
+pca_CpG_mal <- prcomp(t_CpG_mal, center = TRUE)
+
+#see results
+summary(pca_DMS_all)
+summary(pca_DMR_all)
+summary(pca_CpG_all)
+
+summary(pca_DMS_fem)
+summary(pca_DMR_fem)
+summary(pca_CpG_fem)
+
+summary(pca_DMS_mal)
+summary(pca_DMR_mal)
+summary(pca_CpG_mal)
+
+#add variables to dataframe for plotting
+t_DMS_all_plotDat <- add_var(t_DMS_all, pca_DMS_all)
+t_DMR_all_plotDat <- add_var(t_DMR_all, pca_DMR_all)
+t_CpG_all_plotDat <- add_var(t_CpG_all, pca_CpG_all)
+
+t_DMS_fem_plotDat <- add_var(t_DMS_fem, pca_DMS_fem)
+t_DMR_fem_plotDat <- add_var(t_DMR_fem, pca_DMR_fem)
+t_CpG_fem_plotDat <- add_var(t_CpG_fem, pca_CpG_fem)
+
+t_DMS_mal_plotDat <- add_var(t_DMS_mal, pca_DMS_mal)
+t_DMR_mal_plotDat <- add_var(t_DMR_mal, pca_DMR_mal)
+t_CpG_mal_plotDat <- add_var(t_CpG_mal, pca_CpG_mal)
 
 #plot 
 # all_DMS_pca_plot_V1 <- plot_pca(t_DMS_all_plotDat, t_DMS_all_plotDat$PC1, t_DMS_all_plotDat$PC2, "PC1 (43.48%)", "PC2 (5.75%)",
 #                              "./dev_exp/plots/finalized_tiff/pca_plots/DMS_all_pca_V1.tiff")
-# 
+#
 # all_DMS_pca_plot_V2 <- plot_pca_V2(t_DMS_all_plotDat, t_DMS_all_plotDat$PC1, t_DMS_all_plotDat$PC2, "PC1 (43.48%)", "PC2 (5.75%)",
 #                                      "./dev_exp/plots/finalized_tiff/pca_plots/DMS_all_pca_V2.tiff")
-# 
+#
 # all_CpG_pca_plot_V1 <- plot_pca(t_CpG_all_plotDat, t_CpG_all_plotDat$PC1, t_CpG_all_plotDat$PC2, "PC1 (11.13%)", "PC2 (0.03%)",
 #                                 "./dev_exp/plots/finalized_tiff/pca_plots/CpG_all_pca_V1.tiff")
-# 
+#
 # all_CpG_pca_plot_V2 <- plot_pca_V2(t_CpG_all_plotDat, t_CpG_all_plotDat$PC1, t_CpG_all_plotDat$PC2, "PC1 (11.13%)", "PC2 (0.03%)",
 #                                    "./dev_exp/plots/finalized_tiff/pca_plots/CpG_all_pca_V2.tiff")
-# 
+#
 # all_DMR_pca_plot_V1 <- plot_pca(t_DMR_all_plotDat, t_DMR_all_plotDat$PC1, t_DMR_all_plotDat$PC2, "PC1 (44.37%)", "PC2 (9.13%)",
 #                                 "./dev_exp/plots/finalized_tiff/pca_plots/DMR_all_pca_V1.tiff")
-# 
+#
 # all_DMR_pca_plot_V2 <- plot_pca_V2(t_DMR_all_plotDat, t_DMR_all_plotDat$PC1, t_DMR_all_plotDat$PC2, "PC1 (44.37%)", "PC2 (9.13%)",
 #                                    "./dev_exp/plots/finalized_tiff/pca_plots/DMR_all_pca_V2.tiff")
 
 # fem_DMS_pca_plot <- plot_pca(t_DMS_fem_plotDat, t_DMS_fem_plotDat$PC1, t_DMS_fem_plotDat$PC2, "PC1 (42.91%)", "PC2 (8.39%)",
 #                            "./dev_exp/plots/finalized_tiff/pca_plots/DMS_fem_pca.tiff")
-# 
+#
 # fem_CpG_pca_plot <- plot_pca(t_CpG_fem_plotDat, t_CpG_fem_plotDat$PC1, t_CpG_fem_plotDat$PC2, "PC1 (12.72%)", "PC2 (4.79%)",
 #                               "./dev_exp/plots/finalized_tiff/pca_plots/CpG_fem_pca.tiff")
-# 
+#
 # fem_DMR_pca_plot <- plot_pca(t_DMR_fem_plotDat, t_DMR_fem_plotDat$PC1, t_DMR_fem_plotDat$PC2, "PC1 (36.83%)", "PC2 (14.42%)",
 #                              "./dev_exp/plots/finalized_tiff/pca_plots/DMR_fem_pca.tiff")
 
 # mal_DMS_pca_plot <- plot_pca(t_DMS_mal_plotDat, t_DMS_mal_plotDat$PC1, t_DMS_mal_plotDat$PC2, "PC1 (37.32%)", "PC2 (8.47%)",
 #                                  "./dev_exp/plots/finalized_tiff/pca_plots/DMS_mal_pca.tiff")
-# 
+#
 # mal_CpG_pca_plot <- plot_pca(t_CpG_mal_plotDat, t_CpG_mal_plotDat$PC1, t_CpG_mal_plotDat$PC2, "PC1 (10.44%)", "PC2 (0.06%)",
 #                              "./dev_exp/plots/finalized_tiff/pca_plots/CpG_mal_pca.tiff")
-# 
+#
 # mal_DMR_pca_plot <- plot_pca(t_DMR_mal_plotDat, t_DMR_mal_plotDat$PC1, t_DMR_mal_plotDat$PC2, "PC1 (40.22%)", "PC2 (6.97%)",
 #                              "./dev_exp/plots/finalized_tiff/pca_plots/DMR_mal_pca.tiff")
 
-# #make panel 
+# #make panel
 # ggarrange(fem_DMS_pca_plot, fem_DMR_pca_plot, mal_DMS_pca_plot, mal_DMR_pca_plot, common.legend = TRUE, legend = "bottom",
 #           labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2)
-# 
+#
 ## Plot heatmaps ##
 #make tank lists
 AC2_list <- t_DMS_all_plotDat$ID[t_DMS_all_plotDat$tank == "AC2"]
@@ -671,4 +682,34 @@ plot_heatmap(DMR_fem_percMeth, "./dev_exp/plots/finalized_tiff/heatmaps/DMR_fem_
 plot_heatmap(DMR_mal_percMeth, "./dev_exp/plots/finalized_tiff/heatmaps/DMR_mal_heatmap_notanks.tiff")
 plot_heatmap_all(DMR_all_percMeth, "./dev_exp/plots/finalized_tiff/heatmaps/DMR_all_heatmap.tiff")
 
+## check for significant difference in number of sig DMSs/DMRs ##
+#create contigency tables 
+dms.chi.data <- data.frame("sig" = c(8769,27916), "not_sig" = c(9020131,9315923))
+rownames(dms.chi.data) <- c("fem", "mal")
+dms.chi.data <- t(dms.chi.data)
 
+dmr.chi.data <- data.frame("sig" = c(51,402), "not_sig" = c(500441,501223))
+rownames(dmr.chi.data) <- c("fem", "mal")
+dmr.chi.data <- t(dmr.chi.data)
+
+dms.chi <- chisq.test(dms.chi.data, correct = TRUE)
+dms.chi
+
+dmr.chi <- chisq.test(dmr.chi.data, correct = TRUE)
+dmr.chi
+
+## check for differences in variance between males and females ## 
+#calculate stdev for each CpG 
+fem.stdev <- apply(t_CpG_fem,2,sd)
+mal.stdev <- apply(t_CpG_mal,2,sd)
+
+#look at distributions of stdv 
+hist(fem.stdev)
+hist(mal.stdev)
+
+#look at averages 
+mean(fem.stdev)
+mean(mal.stdev)
+
+#do t test 
+t.test(fem.stdev, mal.stdev)
