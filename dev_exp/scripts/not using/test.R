@@ -1,61 +1,46 @@
-##############################################################
-### Goal: Annotate CpGs, DMSs, and DMRs with genes parts
-### Author: Janay Fox
-### R script
-#############################################################
-
-## Set up ##
-#install packages 
-#install.packages("S4Vectors")
-#install.packages("IRanges")
-#install.packages("GenomicRanges")
-#install.packages("methylKit")
-#install.packages("genomation")
 
 #load packages
-library("S4Vectors", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
-library("IRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
-library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
-library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
-library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
-
-setwd("/scratch/janayfox/methylKit/dev/perc20")
+library("S4Vectors")
+library("IRanges")
+library("GenomicRanges")
+library("methylKit")
+library("genomation")
 
 ## Load in data and reformat ##
-ref.anno <- readTranscriptFeatures("/scratch/janayfox/guppyWGBS_shortterm/annotation/guppy.sorted.bed", unique.prom = FALSE, up.flank = 1500, down.flank = 500)
+ref.anno <- readTranscriptFeatures("./data/annotation/guppy.sorted.bed", unique.prom = FALSE, up.flank = 1500, down.flank = 500)
 
-DMR.diffmeth.all <- readRDS("./DMR_res/DMRdiffmeth_all_5X.RDS")
-DMR.diffmeth.fem <- readRDS("./DMR_res/DMRdiffmeth_fem_5X.RDS")
-DMR.diffmeth.mal <- readRDS("./DMR_res/DMRdiffmeth_mal_5X.RDS")
+DMR.diffmeth.all <- readRDS("./data/methylkit_res/DMR_res/DMRdiffmeth_all_5X.RDS")
+DMR.diffmeth.fem <- readRDS("./data/methylkit_res/DMR_res/DMRdiffmeth_fem_5X.RDS")
+DMR.diffmeth.mal <- readRDS("./data/methylkit_res/DMR_res/DMRdiffmeth_mal_5X.RDS")
 
-DMS.diffmeth.all <- readRDS("./DMS_res/DMSdiffmeth_all_5X.RDS")
-DMS.diffmeth.fem <- readRDS("./DMS_res/DMSdiffmeth_fem_5X.RDS")
-DMS.diffmeth.mal <- readRDS("./DMS_res/DMSdiffmeth_mal_5X.RDS")
+DMS.diffmeth.all <- readRDS("./data/methylkit_res/DMS_res/DMSdiffmeth_all_5X.RDS")
+DMS.diffmeth.fem <- readRDS("./data/methylkit_res/DMS_res/DMSdiffmeth_fem_5X.RDS")
+DMS.diffmeth.mal <- readRDS("./data/methylkit_res/DMS_res/DMSdiffmeth_mal_5X.RDS")
 
-CpG.all <- readRDS("./DMS_res/DMSmydiff_all_5X.RDS")
-CpG.fem <- readRDS("./DMS_res/DMSmydiff_fem_5X.RDS")
-CpG.mal <- readRDS("./DMS_res/DMSmydiff_mal_5X.RDS")
+CpG.all <- readRDS("./data/methylkit_res/DMS_res/DMSmydiff_all_5X.RDS")
+CpG.fem <- readRDS("./data/methylkit_res/DMS_res/DMSmydiff_fem_5X.RDS")
+CpG.mal <- readRDS("./data/methylkit_res/DMS_res/DMSmydiff_mal_5X.RDS")
 
-regions.all <- readRDS("./DMR_res/DMRmydiff_all_5X.RDS")
-regions.fem <- readRDS("./DMR_res/DMRmydiff_fem_5X.RDS")
-regions.mal <- readRDS("./DMR_res/DMRmydiff_mal_5X.RDS")
- 
+regions.all <- readRDS("./data/methylkit_res/DMR_res/DMRmydiff_all_5X.RDS")
+regions.fem <- readRDS("./data/methylkit_res/DMR_res/DMRmydiff_fem_5X.RDS")
+regions.mal <- readRDS("./data/methylkit_res/DMR_res/DMRmydiff_mal_5X.RDS")
+
 #change chromosome names to match 
 #create function that renames chromosomes
 renameChr <- function(obj) {
   obj.gr <- as(obj, "GRanges")
   gr.obj.rename <- renameSeqlevels(obj.gr, c(NC_024331.1="LG1", NC_024332.1="LG2",
-                                     NC_024333.1="LG3", NC_024334.1="LG4",
-                                     NC_024335.1="LG5",NC_024336.1="LG6",
-                                     NC_024337.1="LG7", NC_024338.1="LG8",
-                                     NC_024339.1="LG9", NC_024340.1="LG10",
-                                     NC_024341.1="LG11", NC_024342.1="LG12",
-                                     NC_024343.1="LG13", 
-                                     NC_024344.1="LG14", NC_024345.1="LG15",
-                                     NC_024346.1="LG16", NC_024347.1="LG17",
-                                     NC_024348.1="LG18", NC_024349.1="LG19",
-                                     NC_024350.1="LG20", NC_024351.1="LG21",
-                                     NC_024352.1="LG22", NC_024353.1="LG23"))
+                                             NC_024333.1="LG3", NC_024334.1="LG4",
+                                             NC_024335.1="LG5",NC_024336.1="LG6",
+                                             NC_024337.1="LG7", NC_024338.1="LG8",
+                                             NC_024339.1="LG9", NC_024340.1="LG10",
+                                             NC_024341.1="LG11", NC_024342.1="LG12",
+                                             NC_024343.1="LG13", 
+                                             NC_024344.1="LG14", NC_024345.1="LG15",
+                                             NC_024346.1="LG16", NC_024347.1="LG17",
+                                             NC_024348.1="LG18", NC_024349.1="LG19",
+                                             NC_024350.1="LG20", NC_024351.1="LG21",
+                                             NC_024352.1="LG22", NC_024353.1="LG23"))
   return(gr.obj.rename)
 }
 
@@ -123,90 +108,90 @@ CpG.mal.anno <- annotateWithGeneParts(CpG.mal.gr.rename, ref.anno)
 regions.mal.anno <- annotateWithGeneParts(regions.mal.gr.rename, ref.anno)
 
 #get percentage of DMRs that overlap with different features 
-DMR.all.ann.stats.perc <- getTargetAnnotationStats(DMR.all.anno, percentage = TRUE, precedence = TRUE)
+DMR.all.ann.stats.perc <- genomation::getTargetAnnotationStats(DMR.all.anno, percentage = TRUE, precedence = TRUE)
 DMR.all.ann.stats.perc 
-DMS.all.ann.stats.perc <- getTargetAnnotationStats(DMS.all.anno, percentage = TRUE, precedence = TRUE)
+DMS.all.ann.stats.perc <- genomation::getTargetAnnotationStats(DMS.all.anno, percentage = TRUE, precedence = TRUE)
 DMS.all.ann.stats.perc
-CpG.all.ann.stats.perc <- getTargetAnnotationStats(CpG.all.anno, percentage = TRUE, precedence = TRUE)
+CpG.all.ann.stats.perc <- genomation::getTargetAnnotationStats(CpG.all.anno, percentage = TRUE, precedence = TRUE)
 CpG.all.ann.stats.perc
-regions.all.ann.stats.perc <- getTargetAnnotationStats(regions.all.anno, percentage = TRUE, precedence = TRUE)
+regions.all.ann.stats.perc <- genomation::getTargetAnnotationStats(regions.all.anno, percentage = TRUE, precedence = TRUE)
 regions.all.ann.stats.perc
 
-DMR.all.ann.stats.num <- getTargetAnnotationStats(DMR.all.anno, percentage = FALSE, precedence = TRUE)
+DMR.all.ann.stats.num <- genomation::getTargetAnnotationStats(DMR.all.anno, percentage = FALSE, precedence = TRUE)
 DMR.all.ann.stats.num
-DMS.all.ann.stats.num <- getTargetAnnotationStats(DMS.all.anno, percentage = FALSE, precedence = TRUE)
+DMS.all.ann.stats.num <- genomation::getTargetAnnotationStats(DMS.all.anno, percentage = FALSE, precedence = TRUE)
 DMS.all.ann.stats.num
-CpG.all.ann.stats.num <- getTargetAnnotationStats(CpG.all.anno, percentage = FALSE, precedence = TRUE)
+CpG.all.ann.stats.num <- genomation::getTargetAnnotationStats(CpG.all.anno, percentage = FALSE, precedence = TRUE)
 CpG.all.ann.stats.num
-regions.all.ann.stats.num <- getTargetAnnotationStats(regions.all.anno, percentage = FALSE, precedence = TRUE)
+regions.all.ann.stats.num <- genomation::getTargetAnnotationStats(regions.all.anno, percentage = FALSE, precedence = TRUE)
 regions.all.ann.stats.num
 
-DMR.fem.ann.stats.perc <- getTargetAnnotationStats(DMR.fem.anno, percentage = TRUE, precedence = TRUE)
+DMR.fem.ann.stats.perc <- genomation::getTargetAnnotationStats(DMR.fem.anno, percentage = TRUE, precedence = TRUE)
 DMR.fem.ann.stats.perc 
-DMS.fem.ann.stats.perc <- getTargetAnnotationStats(DMS.fem.anno, percentage = TRUE, precedence = TRUE)
+DMS.fem.ann.stats.perc <- genomation::getTargetAnnotationStats(DMS.fem.anno, percentage = TRUE, precedence = TRUE)
 DMS.fem.ann.stats.perc
-DMR.fem.ann.stats.perc.hyper <- getTargetAnnotationStats(DMR.fem.anno.hyper, percentage = TRUE, precedence = TRUE)
+DMR.fem.ann.stats.perc.hyper <- genomation::getTargetAnnotationStats(DMR.fem.anno.hyper, percentage = TRUE, precedence = TRUE)
 DMR.fem.ann.stats.perc.hyper 
-DMS.fem.ann.stats.perc.hyper <- getTargetAnnotationStats(DMS.fem.anno.hyper, percentage = TRUE, precedence = TRUE)
+DMS.fem.ann.stats.perc.hyper <- genomation::getTargetAnnotationStats(DMS.fem.anno.hyper, percentage = TRUE, precedence = TRUE)
 DMS.fem.ann.stats.perc.hyper
-DMR.fem.ann.stats.perc.hypo <- getTargetAnnotationStats(DMR.fem.anno.hypo, percentage = TRUE, precedence = TRUE)
+DMR.fem.ann.stats.perc.hypo <- genomation::getTargetAnnotationStats(DMR.fem.anno.hypo, percentage = TRUE, precedence = TRUE)
 DMR.fem.ann.stats.perc.hypo 
-DMS.fem.ann.stats.perc.hypo <- getTargetAnnotationStats(DMS.fem.anno.hypo, percentage = TRUE, precedence = TRUE)
+DMS.fem.ann.stats.perc.hypo <- genomation::getTargetAnnotationStats(DMS.fem.anno.hypo, percentage = TRUE, precedence = TRUE)
 DMS.fem.ann.stats.perc.hypo
-CpG.fem.ann.stats.perc <- getTargetAnnotationStats(CpG.fem.anno, percentage = TRUE, precedence = TRUE)
+CpG.fem.ann.stats.perc <- genomation::getTargetAnnotationStats(CpG.fem.anno, percentage = TRUE, precedence = TRUE)
 CpG.fem.ann.stats.perc
-regions.fem.ann.stats.perc <- getTargetAnnotationStats(regions.fem.anno, percentage = TRUE, precedence = TRUE)
+regions.fem.ann.stats.perc <- genomation::getTargetAnnotationStats(regions.fem.anno, percentage = TRUE, precedence = TRUE)
 regions.fem.ann.stats.perc
 
-DMR.fem.ann.stats.num <- getTargetAnnotationStats(DMR.fem.anno, percentage = FALSE, precedence = TRUE)
+DMR.fem.ann.stats.num <- genomation::getTargetAnnotationStats(DMR.fem.anno, percentage = FALSE, precedence = TRUE)
 DMR.fem.ann.stats.num
-DMS.fem.ann.stats.num <- getTargetAnnotationStats(DMS.fem.anno, percentage = FALSE, precedence = TRUE)
+DMS.fem.ann.stats.num <- genomation::getTargetAnnotationStats(DMS.fem.anno, percentage = FALSE, precedence = TRUE)
 DMS.fem.ann.stats.num
-DMR.fem.ann.stats.num.hyper <- getTargetAnnotationStats(DMR.fem.anno.hyper, percentage = FALSE, precedence = TRUE)
+DMR.fem.ann.stats.num.hyper <- genomation::getTargetAnnotationStats(DMR.fem.anno.hyper, percentage = FALSE, precedence = TRUE)
 DMR.fem.ann.stats.num.hyper
-DMS.fem.ann.stats.num.hyper <- getTargetAnnotationStats(DMS.fem.anno.hyper, percentage = FALSE, precedence = TRUE)
+DMS.fem.ann.stats.num.hyper <- genomation::getTargetAnnotationStats(DMS.fem.anno.hyper, percentage = FALSE, precedence = TRUE)
 DMS.fem.ann.stats.num.hyper
-DMR.fem.ann.stats.num.hypo <- getTargetAnnotationStats(DMR.fem.anno.hypo, percentage = FALSE, precedence = TRUE)
+DMR.fem.ann.stats.num.hypo <- genomation::getTargetAnnotationStats(DMR.fem.anno.hypo, percentage = FALSE, precedence = TRUE)
 DMR.fem.ann.stats.num.hypo
-DMS.fem.ann.stats.num.hypo <- getTargetAnnotationStats(DMS.fem.anno.hypo, percentage = FALSE, precedence = TRUE)
+DMS.fem.ann.stats.num.hypo <- genomation::getTargetAnnotationStats(DMS.fem.anno.hypo, percentage = FALSE, precedence = TRUE)
 DMS.fem.ann.stats.num.hypo
-CpG.fem.ann.stats.num <- getTargetAnnotationStats(CpG.fem.anno, percentage = FALSE, precedence = TRUE)
+CpG.fem.ann.stats.num <- genomation::getTargetAnnotationStats(CpG.fem.anno, percentage = FALSE, precedence = TRUE)
 CpG.fem.ann.stats.num
-regions.fem.ann.stats.num <- getTargetAnnotationStats(regions.fem.anno, percentage = FALSE, precedence = TRUE)
+regions.fem.ann.stats.num <- genomation::getTargetAnnotationStats(regions.fem.anno, percentage = FALSE, precedence = TRUE)
 regions.fem.ann.stats.num
 
-DMR.mal.ann.stats.perc <- getTargetAnnotationStats(DMR.mal.anno, percentage = TRUE, precedence = TRUE)
+DMR.mal.ann.stats.perc <- genomation::getTargetAnnotationStats(DMR.mal.anno, percentage = TRUE, precedence = TRUE)
 DMR.mal.ann.stats.perc 
-DMS.mal.ann.stats.perc <- getTargetAnnotationStats(DMS.mal.anno, percentage = TRUE, precedence = TRUE)
+DMS.mal.ann.stats.perc <- genomation::getTargetAnnotationStats(DMS.mal.anno, percentage = TRUE, precedence = TRUE)
 DMS.mal.ann.stats.perc
-DMR.mal.ann.stats.perc.hyper <- getTargetAnnotationStats(DMR.mal.anno.hyper, percentage = TRUE, precedence = TRUE)
+DMR.mal.ann.stats.perc.hyper <- genomation::getTargetAnnotationStats(DMR.mal.anno.hyper, percentage = TRUE, precedence = TRUE)
 DMR.mal.ann.stats.perc.hyper 
-DMS.mal.ann.stats.perc.hyper <- getTargetAnnotationStats(DMS.mal.anno.hyper, percentage = TRUE, precedence = TRUE)
+DMS.mal.ann.stats.perc.hyper <- genomation::getTargetAnnotationStats(DMS.mal.anno.hyper, percentage = TRUE, precedence = TRUE)
 DMS.mal.ann.stats.perc.hyper
-DMR.mal.ann.stats.perc.hypo <- getTargetAnnotationStats(DMR.mal.anno.hypo, percentage = TRUE, precedence = TRUE)
+DMR.mal.ann.stats.perc.hypo <- genomation::getTargetAnnotationStats(DMR.mal.anno.hypo, percentage = TRUE, precedence = TRUE)
 DMR.mal.ann.stats.perc.hypo 
-DMS.mal.ann.stats.perc.hypo <- getTargetAnnotationStats(DMS.mal.anno.hypo, percentage = TRUE, precedence = TRUE)
+DMS.mal.ann.stats.perc.hypo <- genomation::getTargetAnnotationStats(DMS.mal.anno.hypo, percentage = TRUE, precedence = TRUE)
 DMS.mal.ann.stats.perc.hypo
-CpG.mal.ann.stats.perc <- getTargetAnnotationStats(CpG.mal.anno, percentage = TRUE, precedence = TRUE)
+CpG.mal.ann.stats.perc <- genomation::getTargetAnnotationStats(CpG.mal.anno, percentage = TRUE, precedence = TRUE)
 CpG.mal.ann.stats.perc
-regions.mal.ann.stats.perc <- getTargetAnnotationStats(regions.mal.anno, percentage = TRUE, precedence = TRUE)
+regions.mal.ann.stats.perc <- genomation::getTargetAnnotationStats(regions.mal.anno, percentage = TRUE, precedence = TRUE)
 regions.mal.ann.stats.perc
 
-DMR.mal.ann.stats.num <- getTargetAnnotationStats(DMR.mal.anno, percentage = FALSE, precedence = TRUE)
+DMR.mal.ann.stats.num <- genomation::getTargetAnnotationStats(DMR.mal.anno, percentage = FALSE, precedence = TRUE)
 DMR.mal.ann.stats.num
-DMS.mal.ann.stats.num <- getTargetAnnotationStats(DMS.mal.anno, percentage = FALSE, precedence = TRUE)
+DMS.mal.ann.stats.num <- genomation::getTargetAnnotationStats(DMS.mal.anno, percentage = FALSE, precedence = TRUE)
 DMS.mal.ann.stats.num
-DMR.mal.ann.stats.num.hyper <- getTargetAnnotationStats(DMR.mal.anno.hyper, percentage = FALSE, precedence = TRUE)
+DMR.mal.ann.stats.num.hyper <- genomation::getTargetAnnotationStats(DMR.mal.anno.hyper, percentage = FALSE, precedence = TRUE)
 DMR.mal.ann.stats.num.hyper
-DMS.mal.ann.stats.num.hyper <- getTargetAnnotationStats(DMS.mal.anno.hyper, percentage = FALSE, precedence = TRUE)
+DMS.mal.ann.stats.num.hyper <- genomation::getTargetAnnotationStats(DMS.mal.anno.hyper, percentage = FALSE, precedence = TRUE)
 DMS.mal.ann.stats.num.hyper
-DMR.mal.ann.stats.num.hypo <- getTargetAnnotationStats(DMR.mal.anno.hypo, percentage = FALSE, precedence = TRUE)
+DMR.mal.ann.stats.num.hypo <- genomation::getTargetAnnotationStats(DMR.mal.anno.hypo, percentage = FALSE, precedence = TRUE)
 DMR.mal.ann.stats.num.hypo
-DMS.mal.ann.stats.num.hypo <- getTargetAnnotationStats(DMS.mal.anno.hypo, percentage = FALSE, precedence = TRUE)
+DMS.mal.ann.stats.num.hypo <- genomation::getTargetAnnotationStats(DMS.mal.anno.hypo, percentage = FALSE, precedence = TRUE)
 DMS.mal.ann.stats.num.hypo
-CpG.mal.ann.stats.num <- getTargetAnnotationStats(CpG.mal.anno, percentage = FALSE, precedence = TRUE)
+CpG.mal.ann.stats.num <- genomation::getTargetAnnotationStats(CpG.mal.anno, percentage = FALSE, precedence = TRUE)
 CpG.mal.ann.stats.num
-regions.mal.ann.stats.num <- getTargetAnnotationStats(regions.mal.anno, percentage = FALSE, precedence = TRUE)
+regions.mal.ann.stats.num <- genomation::getTargetAnnotationStats(regions.mal.anno, percentage = FALSE, precedence = TRUE)
 regions.mal.ann.stats.num
 
 #get nearest TSS for DMS and DMRs
@@ -328,3 +313,25 @@ saveRDS(DMR.mal.tss.hypo, file = "./anno_res/DMR_TSS_mal_hypo.RDS")
 saveRDS(DMS.mal.tss, file = "./anno_res/DMS_TSS_mal.RDS")
 saveRDS(DMS.mal.tss.hyper, file = "./anno_res/DMS_TSS_mal_hyper.RDS")
 saveRDS(DMS.mal.tss.hypo, file = "./anno_res/DMS_TSS_mal_hypo.RDS")
+
+
+
+
+DMS_anno_stat_all <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMS_annStats_perc_all.RDS")
+DMS_anno_stat_fem <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMS_annStats_perc_fem.RDS")
+DMS_anno_stat_mal <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMS_annStats_perc_mal.RDS")
+
+DMR_anno_stat_all <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMR_annStats_perc_all.RDS")
+DMR_anno_stat_fem <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMR_annStats_perc_fem.RDS")
+DMR_anno_stat_fem <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMR_annStats_perc_fem_hyper.RDS")
+DMR_anno_stat_fem <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMR_annStats_perc_fem_hypo.RDS")
+
+DMR_anno_stat_mal <- readRDS("./dev_exp/data/methylkit_res/anno_res/DMR_annStats_perc_mal.RDS")
+
+CpG_anno_stat_all <- readRDS("./dev_exp/data/methylkit_res/anno_res/CpG_annStats_perc_all.RDS")
+CpG_anno_stat_fem <- readRDS("./dev_exp/data/methylkit_res/anno_res/CpG_annStats_perc_fem.RDS")
+CpG_anno_stat_mal <- readRDS("./dev_exp/data/methylkit_res/anno_res/CpG_annStats_perc_mal.RDS")
+
+region_anno_stat_all <- readRDS("./dev_exp/data/methylkit_res/anno_res/regions_annStats_perc_all.RDS")
+regin_anno_stat_fem <- readRDS("./dev_exp/data/methylkit_res/anno_res/regions_annStats_perc_fem.RDS")
+region_anno_stat_mal <- readRDS("./dev_exp/data/methylkit_res/anno_res/regions_annStats_perc_mal.RDS")

@@ -32,6 +32,10 @@ library(MuMIn)
 library(car)
 library(lmerTest)
 library(r2glmm)
+library(DHARMa)
+library(ggtext)
+
+setwd("/Users/janayfox/R_projects/guppy/gup_cue_exp")
 
 #read data files
 of.data <- read.csv("./dev_exp/data/clean/clean_openfield.csv")
@@ -59,85 +63,60 @@ size.plot <- of.data %>% ggplot(aes(x=sex, y=weight_g, fill=cue)) +
 size.plot
 
 ## Analysis of Open Field Data ##
+#create new boldness variable 
+of.data$boldness_score <- of.data$time_shelter_s + of.data$time_outer_s 
+
+#create new exploration variable
+count_data <- of.data[,17:44]
+cumDur_data <- of.data[,73:100]
+
+unique_data <- count_data %>%
+  rowwise() %>%
+  mutate(unique_squares = sum(c_across(starts_with("S")) > 2)) %>%
+  ungroup()
+
+unique_data_cumDur <- cumDur_data %>%
+  rowwise() %>%
+  mutate(unique_squares = sum(c_across(starts_with("S")) > 3)) %>%
+  ungroup()
+
+of.data$uni_sq <- unique_data$unique_squares
+of.data$uni_sq_cumDur <- unique_data_cumDur$unique_squares
+
+#check correlations 
+cor(of.data[,c(5,7,8,11,14,105:107)])
+
 # Exploratory plots #
 #Distance travelled plot
 dist.plot <-of.data %>% ggplot(aes(x=cue, y=dist_cm, fill=sex)) + theme_bw() +
-  geom_boxplot() + labs(y="Distance travelled (cm)", x="Cue") + 
+  geom_boxplot() + labs(y=paste0("<span style='font-size: 16pt'>Activity</span><br><br><span style='font-size: 13pt'>Distance travelled (cm)</span>"), x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=13),
-        legend.title = element_text(size=14)) +
+  theme(axis.text = element_text(size=12), axis.title.y = ggtext::element_markdown(), legend.text = element_text(size=13),
+        axis.title.x = element_text(size=13),legend.title = element_text(size=14)) + 
   scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 dist.plot
 
-#Time in shelter plot
-shelt.plot <-of.data %>% ggplot(aes(x=cue, y=time_shelter_s, fill=sex)) + theme_bw() +
-  geom_boxplot() + labs(y="Time in shelter (s)", x="Cue") + 
+#Time in shelter of frozen plot
+shelt.plot <-of.data %>% ggplot(aes(x=cue, y=boldness_score, fill=sex)) + theme_bw() +
+  geom_boxplot() + labs(y=paste0("<span style='font-size: 16pt'>Boldness</span><br><br><span style='font-size: 13pt'>Time in shelter or edge (s)</span>"), x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=13),
-        legend.title = element_text(size=14)) +
+  theme(axis.text = element_text(size=12), axis.title.y = ggtext::element_markdown(), legend.text = element_text(size=13),
+        axis.title.x = element_text(size=13),legend.title = element_text(size=14)) + 
   scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 shelt.plot
 
-#Time in outer edge
-edge.plot <-of.data %>% ggplot(aes(x=cue, y=time_outer_s, fill=sex)) + theme_bw() +
-  geom_boxplot() + labs(y="Time in outer edge (s)", x="Cue") + 
+#Number of unique squares visited
+sq.plot <-of.data %>% ggplot(aes(x=cue, y=uni_sq_cumDur, fill=sex)) + theme_bw() +
+  geom_boxplot() + labs(y=paste0("<span style='font-size: 16pt'>Exploration</span><br><br><span style='font-size: 13pt'>Number of squares explored</span>"), x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
+  theme(axis.text = element_text(size=12), axis.title.y = ggtext::element_markdown(), legend.text = element_text(size=13),
+        axis.title.x = element_text(size=13),legend.title = element_text(size=14)) + 
   scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
-edge.plot
+sq.plot
 
-#Time frozen
-frozen.plot <-of.data %>% ggplot(aes(x=cue, y=frozen_s, fill=sex)) + theme_bw() +
-  geom_boxplot() + labs(y="Time frozen (s)", x="Cue") + 
-  scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=13),
-        legend.title = element_text(size=14)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
-frozen.plot
-
-#scatterplots between variables 
-dist.shelt.scatterplot <-of.data %>% ggplot(aes(x=dist_cm, y=time_shelter_s)) + geom_point() + 
-  labs(y="Distance Travelled (cm)", x="Time Spent in Shelter (s)") + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
-dist.shelt.scatterplot
-
-dist.frozen.scatterplot <-of.data %>% ggplot(aes(x=dist_cm, y=frozen_s)) + geom_point() + 
-  labs(y="Distance Travelled (cm)", x="Time Spent in Frozen (s)") + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
-dist.frozen.scatterplot
-
-dist.edge.scatterplot <-of.data %>% ggplot(aes(x=dist_cm, y=time_outer_s)) + geom_point() + 
-  labs(y="Distance Travelled (cm)", x="Time Spent in Outer Edge (s)") + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
-dist.edge.scatterplot
-
-shelt.frozen.scatterplot <-of.data %>% ggplot(aes(x=time_shelter_s, y=frozen_s)) + geom_point() + 
-  labs(y="Time spent in shelter (s)", x="Time spent frozen (s)") + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
-shelt.frozen.scatterplot
-
-shelt.edge.scatterplot <-of.data %>% ggplot(aes(x=time_shelter_s, y=time_outer_s)) + geom_point() + 
-  labs(y="Time spent in shelter (s)", x="Time spent in outer edge (s)") + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
-shelt.edge.scatterplot
-
-frozen.edge.scatterplot <-of.data %>% ggplot(aes(x=frozen_s, y=time_outer_s)) + geom_point() + 
-  labs(y="Time spent frozen (s)", x="Time spent in outer edge (s)") + 
-  theme(legend.title = element_blank(), axis.text = element_text(size=12), axis.title = element_text(size=15)) 
-frozen.edge.scatterplot
-
-#check for correlation between variables 
-cor.test(of.data$dist_cm, of.data$time_shelter_s)
-cor.test(of.data$dist_cm, of.data$frozen_s)
-cor.test(of.data$dist_cm, of.data$time_outer_s)
-cor.test(of.data$time_shelter_s, of.data$frozen_s)
-cor.test(of.data$time_shelter_s, of.data$time_outer_s)
-cor.test(of.data$frozen_s, of.data$time_outer_s)
-
-cor(of.data[,c(5,8,11,14)])
 #run PCA
 #for all samples
-of.pca <- prcomp(of.data[,c(5,8,11,14)], scale = TRUE)
+of.pca <- prcomp(of.data[,c(5,105,107)], scale = TRUE)
 of.eig <- get_eigenvalue(of.pca) #get eignenvalues
 of.var <- get_pca_var(of.pca) #get variance
 of.var$contrib
@@ -152,6 +131,10 @@ plot.pca <- ggplot(data = of.data, aes(x = PC1, y = PC2, color = cue, shape = se
     theme(axis.title = element_text(size = 14), axis.text = element_text(size = 11), legend.text = element_text(size=12), 
           legend.title = element_text(size = 13))
 plot.pca
+
+autoplot(of.pca, data = of.data, 
+         loadings = TRUE, loadings.colour = 'blue',
+         loadings.label = TRUE, loadings.label.size = 3)
 
 # Run LMMs #
 #check for need to include tank in models
@@ -168,32 +151,15 @@ plot(lm.test.resid ~ of.data$time, xlab = "Tank", ylab = "Standardized residuals
 #run LMM
 dist.lmm <- lmer(dist_cm ~ cue * sex * weight_g + (1|tank), data = of.data, REML = TRUE)
 
-#model validation
-#homogeneity of variance
-plot(resid(dist.lmm) ~ fitted(dist.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-par(mfrow = c(1, 3), mar = c(4, 4, 0.5, 0.5))
-plot(resid(dist.lmm) ~ of.data$weight_g, xlab = "Weight (g)", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(dist.lmm) ~ of.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(dist.lmm) ~ of.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(dist.lmm))
-
 #interpret results 
 summary(dist.lmm)
 
 #calculate stats with car package 
 car::Anova(dist.lmm, type = 3)
+
+#DHARMa validation 
+simOutput_dist <- simulateResiduals(fittedModel = dist.lmm)
+plot(simOutput_dist)
 
 #remove interaction for cue 
 dist.lmm <- lmer(dist_cm ~ cue + sex * weight_g + (1|tank), data = of.data, REML = TRUE)
@@ -202,172 +168,56 @@ dist.lmm <- lmer(dist_cm ~ cue + sex * weight_g + (1|tank), data = of.data, REML
 summary(dist.lmm)
 car::Anova(dist.lmm, type = 3)
 
-#calulate signifcance of random effects 
-ranova(dist.lmm)
-
 #calculate partial R2 
-dist.R2 <- r2beta(dist.lmm, partial = TRUE,  method = 'nsj')
+r2beta(dist.lmm, partial = TRUE,  method = 'nsj')
 
-# time frozen #
+# boldness #
 #run LMM
-frozen.lmm <- lmer(frozen_s ~ cue * sex * weight_g + (1|tank), data = of.data, REML = TRUE)
+bold.lmm <- lmer(boldness_score ~ cue * sex * weight_g + (1|tank), data = of.data, REML = TRUE)
 
-#model validation
-#homogeneity of variance
-par(mar = c(4, 4, 0.5, 0.5))
-plot(resid(frozen.lmm) ~ fitted(frozen.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-par(mfrow = c(1, 3), mar = c(4, 4, 0.5, 0.5))
-plot(resid(frozen.lmm) ~ of.data$weight_g, xlab = "Weight (g)", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(frozen.lmm) ~ of.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(frozen.lmm) ~ of.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(frozen.lmm))
+#DHARMa validation 
+simOutput_bold <- simulateResiduals(fittedModel = bold.lmm)
+plot(simOutput_bold)
 
 #interpret results 
-summary(frozen.lmm)
+summary(bold.lmm)
 
 #calculate stats with car package 
-car::Anova(frozen.lmm, type = 3)
+car::Anova(bold.lmm, type = 3)
 
 #rerun without interactions 
-frozen.lmm.2 <- lmer(frozen_s ~ cue + sex + weight_g + (1|tank), data = of.data, REML = TRUE)
+bold.lmm.2 <- lmer(boldness_score ~ cue + sex + weight_g + (1|tank), data = of.data, REML = TRUE)
 
 #interpret results 
-summary(frozen.lmm.2)
-car::Anova(frozen.lmm.2, type = 2)
-
-#calulate signifcance of random effects 
-ranova(frozen.lmm.2)
+summary(bold.lmm.2)
+car::Anova(bold.lmm.2, type = 2)
 
 #calculate partial R2 
-frozen.R2 <- r2beta(frozen.lmm.2, partial = TRUE,  method = 'nsj')
+r2beta(bold.lmm.2, partial = TRUE,  method = 'nsj')
 
-#for time in outer edge
-outer.lmm <- lmer(time_outer_s ~ cue * sex * weight_g + (1|tank), data = of.data)
+# exploration #
+#run glm
+exp.glm <- glmer(uni_sq_cumDur ~ cue * sex * weight_g + (1|tank), data = of.data, family = poisson)
 
-#model validation
-#homogeneity of variance
-par(mar = c(4, 4, 0.5, 0.5))
-plot(resid(outer.lmm) ~ fitted(outer.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-par(mfrow = c(1, 3), mar = c(4, 4, 0.5, 0.5))
-plot(resid(outer.lmm) ~ of.data$weight_g, xlab = "Weight (g)", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(outer.lmm) ~ of.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(outer.lmm) ~ of.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(outer.lmm))
+#DHARMa validation 
+simOutput_exp_glm <- simulateResiduals(fittedModel = exp.glm)
+plot(simOutput_exp_glm)
 
 #interpret results 
-summary(outer.lmm)
+summary(exp.glm)
 
 #calculate stats with car package 
-car::Anova(outer.lmm, type = 3)
+car::Anova(exp.glm, type = 3)
 
 #rerun without interactions 
-outer.lmm.2 <- lmer(time_outer_s ~ cue + sex + weight_g + (1|tank), data = of.data)
+exp.glm.2 <- glmer(uni_sq_cumDur ~ cue + weight_g + sex + (1|tank), data = of.data, family = poisson)
 
 #interpret results 
-summary(outer.lmm.2)
-car::Anova(outer.lmm.2, type = 2)
-
-#calulate signifcance of random effects 
-ranova(outer.lmm.2)
+summary(exp.glm.2)
+car::Anova(exp.glm.2, type = 3)
 
 #calculate partial R2 
-outer.R2 <- r2beta(outer.lmm.2, partial = TRUE,  method = 'nsj')
-
-#for time in shelter edge
-shelter.lmm <- lmer(time_shelter_s ~ cue * sex * weight_g + (1|tank), data = of.data)
-
-#model validation
-#homogeneity of variance
-par(mar = c(4, 4, 0.5, 0.5))
-plot(resid(shelter.lmm) ~ fitted(shelter.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-par(mfrow = c(1, 3), mar = c(4, 4, 0.5, 0.5))
-plot(resid(shelter.lmm) ~ of.data$weight_g, xlab = "Weight (g)", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(shelter.lmm) ~ of.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(shelter.lmm) ~ of.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(shelter.lmm))
-
-#interpret results 
-summary(shelter.lmm)
-
-#calculate stats with car package 
-car::Anova(shelter.lmm, type = 3)
-
-#rerun without interactions 
-shelter.lmm.2 <- lmer(time_shelter_s ~ cue + sex + weight_g + (1|tank), data = of.data)
-
-#interpret results 
-summary(shelter.lmm.2)
-car::Anova(shelter.lmm.2, type = 2)
-
-#calulate signifcance of random effects 
-ranova(shelter.lmm.2)
-
-#calculate partial R2 
-shelter.R2 <- r2beta(shelter.lmm.2, partial = TRUE,  method = 'nsj')
-
-##Correct p values 
-dist.cue.p <- car::Anova(dist.lmm, type = 3)["cue", "Pr(>Chisq)"]
-outer.cue.p <- car::Anova(outer.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
-frozen.cue.p <- car::Anova(frozen.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
-shelter.cue.p <- car::Anova(shelter.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
-
-cue.p.unadj <- c(dist.cue.p,frozen.cue.p,outer.cue.p,shelter.cue.p)
-cue.p.hommel <- p.adjust(cue.p.unadj, method = "hommel")
-cue.p.hommel
-
-dist.sex.p <- car::Anova(dist.lmm, type = 3)["sex", "Pr(>Chisq)"]
-outer.sex.p <- car::Anova(outer.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
-frozen.sex.p <- car::Anova(frozen.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
-shelter.sex.p <- car::Anova(shelter.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
-
-sex.p.unadj <- c(dist.sex.p,frozen.sex.p,outer.sex.p,shelter.sex.p)
-sex.p.hommel <- p.adjust(sex.p.unadj, method = "hommel")
-sex.p.hommel
-
-dist.weight.p <- car::Anova(dist.lmm, type = 3)["weight", "Pr(>Chisq)"]
-outer.weight.p <- car::Anova(outer.lmm.2, type = 2)["weight", "Pr(>Chisq)"]
-frozen.weight.p <- car::Anova(frozen.lmm.2, type = 2)["weight", "Pr(>Chisq)"]
-shelter.weight.p <- car::Anova(shelter.lmm.2, type = 2)["weight", "Pr(>Chisq)"]
-
-weight.p.unadj <- c(dist.weight.p,frozen.weight.p,outer.weight.p,shelter.weight.p)
-weight.p.hommel <- p.adjust(weight.p.unadj, method = "hommel")
-weight.p.hommel
+r2beta(exp.glm.2, partial = TRUE,  method = 'nsj')
 
 ## Analysis of shoaling test data ##
 #calculate total time shoaling 
@@ -380,26 +230,19 @@ sh.data$lse_diff_s <- sh.data$lse_shoal_s - sh.data$lse_emp_s
 sh.data$total_diff_s <- sh.data$total_shoal_s - sh.data$total_emp_s
 
 # Exploratory plots #
-#Time loose shoaling
-lse.plot <- sh.data %>% ggplot(aes(x=cue, y=lse_diff_s, fill=sex)) + theme_bw() + 
-  geom_boxplot() + labs(y="Preference for loose shoaling (s)", x="Cue") + 
-  scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) +
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
-lse.plot
-
-tight.plot <- sh.data %>% ggplot(aes(x=cue, y=tight_diff_s, fill=sex)) + theme_bw() + 
-  geom_boxplot() + labs(y="Preference for tight shoaling (s)", x="Cue") + 
-  scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=12), axis.title = element_text(size=15), legend.text = element_text(size=11)) + 
-  scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
-tight.plot
+# total.plot <- sh.data %>% ggplot(aes(x=cue, y=total_diff_s, fill=sex)) + theme_bw() + 
+#   geom_boxplot() + labs(y=expression(atop("Shoaling", "Preference for shoaling (s)")), x="Cue") + 
+#   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
+#   theme(axis.text = element_text(size=13), axis.title = element_text(size=15), legend.text = element_text(size=13),
+#         legend.title = element_text(size=14)) + 
+#   scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
+# total.plot
 
 total.plot <- sh.data %>% ggplot(aes(x=cue, y=total_diff_s, fill=sex)) + theme_bw() + 
-  geom_boxplot() + labs(y="Preference for shoaling (s)", x="Cue") + 
+  geom_boxplot() + labs(y=paste0("<span style='font-size: 16pt'>Shoaling</span><br><br><span style='font-size: 13pt'>Preference for shoal (s)</span>"), x="Cue") + 
   scale_x_discrete(labels=c("ac" = "Alarm cue", "c" = "Control cue")) + 
-  theme(axis.text = element_text(size=13), axis.title = element_text(size=15), legend.text = element_text(size=13),
-        legend.title = element_text(size=14)) + 
+  theme(axis.text = element_text(size=13), axis.title.y = ggtext::element_markdown(), legend.text = element_text(size=13), 
+        axis.title.x = element_text(size=13),legend.title = element_text(size=14)) + 
   scale_fill_manual(labels = c("Females", "Males"), name = "Sex", values = c("#FFE17B", "skyblue")) 
 total.plot
 
@@ -415,121 +258,12 @@ plot(lm.test.resid ~ sh.data$tank, xlab = "Tank", ylab = "Standardized residuals
 #check for need to include time of day in models
 plot(lm.test.resid ~ sh.data$time.x, xlab = "Time of day", ylab = "Standardized residuals")
 
-# tight shoaling #
-#run LMM
-tight.lmm <- lmer(tight_diff_s ~ cue * sex + (1|tank), data = sh.data, REML = TRUE)
-
-#model validation
-#homogeneity of variance
-plot(resid(tight.lmm) ~ fitted(tight.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-boxplot(resid(tight.lmm) ~ sh.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(tight.lmm) ~ sh.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(tight.lmm))
-
-#interpret results 
-summary(tight.lmm)
-
-#calculate stats with car package 
-car::Anova(tight.lmm, type = 3)
-
-#rerun without interactions 
-tight.lmm.2 <- lmer(tight_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
-
-#interpret results 
-summary(tight.lmm.2)
-car::Anova(tight.lmm.2, type = 2)
-
-#calulate signifcance of random effects 
-ranova(tight.lmm.2)
-
-#calculate partial R2 
-tight.R2 <- r2beta(tight.lmm.2, partial = TRUE,  method = 'nsj')
-
-# loose shoaling #
 #run lmm
-loose.lmm <- lmer(lse_diff_s ~ cue * sex + (1|tank), data = sh.data, REML = TRUE)
+combined.lmm <- lmer(total_diff_s ~ cue * sex * weight_g + (1|tank), data = sh.data, REML = TRUE)
 
-#model validation
-#homogeneity of variance
-plot(resid(loose.lmm) ~ fitted(loose.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-boxplot(resid(loose.lmm) ~ sh.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(loose.lmm) ~ sh.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(loose.lmm))
-
-#interpret results 
-summary(loose.lmm)
-
-#calculate stats with car package 
-car::Anova(loose.lmm, type = 3)
-
-#rerun without interactions 
-loose.lmm.2 <- lmer(lse_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
-
-#interpret results 
-summary(loose.lmm.2)
-car::Anova(loose.lmm.2, type = 2)
-
-#calulate signifcance of random effects 
-ranova(loose.lmm.2)
-
-#calculate partial R2 
-loose.R2 <- r2beta(loose.lmm.2, partial = TRUE,  method = 'nsj')
-
-#correct p values
-loose.cue.p <- car::Anova(loose.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
-tight.cue.p <- car::Anova(tight.lmm.2, type = 2)["cue", "Pr(>Chisq)"]
-
-cue.p.unadj <- c(loose.cue.p,tight.cue.p)
-cue.p.hommel <- p.adjust(cue.p.unadj, method = "hommel")
-cue.p.hommel
-
-loose.sex.p <- car::Anova(loose.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
-tight.sex.p <- car::Anova(tight.lmm.2, type = 2)["sex", "Pr(>Chisq)"]
-
-sex.p.unadj <- c(loose.sex.p,tight.sex.p)
-sex.p.hommel <- p.adjust(sex.p.unadj, method = "hommel")
-sex.p.hommel
-
-#try running model with both measuerments of shoaling combined 
-#run lmm
-combined.lmm <- lmer(total_diff_s ~ cue * sex + (1|tank), data = sh.data, REML = TRUE)
-
-#model validation
-#homogeneity of variance
-plot(resid(combined.lmm) ~ fitted(combined.lmm), xlab = "Predicted values", ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#independence of model residuals
-boxplot(resid(combined.lmm) ~ sh.data$cue, xlab = "Cue",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-boxplot(resid(combined.lmm) ~ sh.data$sex, xlab = "Sex",
-        ylab = "Normalized residuals")
-abline(h = 0, lty = 2)
-
-#normality of residuals
-hist(resid(combined.lmm))
+#DHARMa validation 
+simOutput_sh <- simulateResiduals(fittedModel = combined.lmm)
+plot(simOutput_sh)
 
 #interpret results 
 summary(combined.lmm)
@@ -537,15 +271,12 @@ summary(combined.lmm)
 #calculate stats with car package 
 car::Anova(combined.lmm, type = 3)
 
-#rerun without interactions 
+#rerun without interactions and weight
 combined.lmm.2 <- lmer(total_diff_s ~ cue + sex + (1|tank), data = sh.data, REML = TRUE)
 
 #interpret results 
 summary(combined.lmm.2)
 car::Anova(combined.lmm.2, type = 3)
-
-#calulate signifcance of random effects 
-ranova(combined.lmm.2)
 
 #calculate partial R2 
 r2beta(combined.lmm.2, partial = TRUE,  method = 'nsj')
@@ -557,11 +288,11 @@ of.panel
 shoal.panel <- ggarrange(lse.plot, tight.plot, labels = c("A", "B"), ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
 shoal.panel
 
-mix.panel <- ggarrange(dist.plot, shelt.plot, total.plot,  labels = c("A", "B", "C"), ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
+mix.panel <- ggarrange(dist.plot, shelt.plot, sq.plot, total.plot,  labels = c("A", "B", "C", "D"), ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
 mix.panel
 
 #save panels
-tiff("mixed_panel.tiff", units="in", width = 7, height = 8, res = 600)
+tiff("mixed_panel_v3.tiff", units="in", width = 7, height = 8, res = 600)
 mix.panel
 dev.off()
 
@@ -574,3 +305,11 @@ shoal.panel
 dev.off()
 
 ggsave(plot = total.plot, filename =  "total_shoaling.tiff", width = 5, height = 5, units = "in", dpi = 600)
+
+## Check for preference of shoal container ## 
+sh.data %>% filter(sex == 'f' & cue == 'ac') %>% with(t.test(total_shoal_s, total_emp_s, paired = TRUE))
+sh.data %>% filter(sex == 'f' & cue == 'c') %>% with(t.test(total_shoal_s, total_emp_s, paired = TRUE))
+sh.data %>% filter(sex == 'm' & cue == 'ac') %>% with(t.test(total_shoal_s, total_emp_s, paired = TRUE))
+sh.data %>% filter(sex == 'm' & cue == 'c') %>% with(t.test(total_shoal_s, total_emp_s, paired = TRUE))
+
+
