@@ -80,6 +80,8 @@ all.cue.data$matbehav_prop <- all.cue.data$matbehav_s/all.cue.data$length_obs_s
 cue.data$sig_prop <- cue.data$sig_s/cue.data$length_obs_s
 all.cue.data$sig_prop <- all.cue.data$sig_s/all.cue.data$length_obs_s
 
+cue.data$chase_prop <- cue.data$chasing_s/cue.data$length_obs_s
+
 #calculate change in substrate use
 diff.sub <- cue.data %>% dcast(fish_ID ~ time, value.var = "subuse_prop", fill=0) %>%
   mutate(diff_sub_use = after - before) %>% select(fish_ID, diff_sub_use)
@@ -96,6 +98,12 @@ mean(filter(cue.data, time == "after" & cue == "control")$subuse_prop)
 #calculate change in mating behaviour
 diff.mating <- cue.data %>% dcast(fish_ID ~ time, value.var = "matbehav_prop", fill=0) %>%
   mutate(diff_mating = after - before) %>% select(fish_ID, diff_mating)
+
+diff.sig<- cue.data %>% dcast(fish_ID ~ time, value.var = "sig_prop", fill=0) %>%
+  mutate(diff_sig = after - before) %>% select(fish_ID, diff_sig)
+
+diff.chasing <- cue.data %>% dcast(fish_ID ~ time, value.var = "chase_prop", fill=0) %>%
+  mutate(diff_chase = after - before) %>% select(fish_ID, diff_chase)
 
 all.diff.mating <- all.cue.data %>% dcast(fish_ID + bin ~ time, value.var = "matbehav_prop", fill=0) %>%
   mutate(diff_mating = after - before) %>% select(fish_ID, bin, diff_mating)
@@ -119,6 +127,8 @@ total.trial <- cue.data %>% dcast(fish_ID ~ time, value.var = "length_obs_s", fi
 #merge mating dataframes
 mating.data <- merge(diff.mating, total.mating, by = "fish_ID")
 mating.data <- merge(mating.data, total.trial, by = "fish_ID")
+mating.data <- merge(mating.data, diff.sig, by = "fish_ID")
+mating.data <- merge(mating.data, diff.chasing, by = "fish_ID")
 
 #need to add cue and tank back onto new dataframes
 diff.sub <- distinct(merge(diff.sub, cue.data[, c("fish_ID", "tank", "cue", "sex")], by = "fish_ID")) 
@@ -247,6 +257,14 @@ prop.mating.test.t <- t.test(total_matingProp ~ cue, mating.data)
 prop.mating.test.t
 #difference in change in proportion
 mating.test.t <- t.test(diff_mating ~ cue, mating.data)
+mating.test.t
+
+#difference in change in sig
+mating.test.t <- t.test(diff_sig ~ cue, mating.data)
+mating.test.t
+
+#difference in change in chase
+mating.test.t <- t.test(diff_chase ~ cue, mating.data)
 mating.test.t
 
 panel_plot <- ggarrange(subusediff.plot,tank.matbehav.plot, labels = c("A", "B"))

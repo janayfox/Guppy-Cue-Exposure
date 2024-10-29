@@ -14,4 +14,4 @@
 module load StdEnv/2020
 module load r/4.3.1
 
-Rscript 06a_geneAnnotation.R
+Rscript 05a_geneAnnotation.R

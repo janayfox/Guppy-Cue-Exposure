@@ -48,87 +48,87 @@ get_percMeth_matrix <- function(diffMethfile, methFile){
 }
 
 #run for all datasets
-DMS_fem_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSdiffmeth_all_fem_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSmeth_all_fem_5X.RDS")
+DMS_fem_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSdiffmeth_all_fem_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSmeth_all_fem_5X.RDS")
 
-DMS_fem_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_05h/DMSdiffmeth_05h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_05h/DMSmeth_05h_fem_5X.RDS")
+DMS_fem_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_05h/DMSdiffmeth_05h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_05h/DMSmeth_05h_fem_5X.RDS")
 
-DMS_fem_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_1h/DMSdiffmeth_1h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_1h/DMSmeth_1h_fem_5X.RDS")
+DMS_fem_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_1h/DMSdiffmeth_1h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_1h/DMSmeth_1h_fem_5X.RDS")
 
-DMS_fem_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_4h/DMSdiffmeth_4h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_4h/DMSmeth_4h_fem_5X.RDS")
+DMS_fem_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_4h/DMSdiffmeth_4h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_4h/DMSmeth_4h_fem_5X.RDS")
 
-DMS_fem_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_24h/DMSdiffmeth_24h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_24h/DMSmeth_24h_fem_5X.RDS")
+DMS_fem_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_24h/DMSdiffmeth_24h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_24h/DMSmeth_24h_fem_5X.RDS")
 
-DMS_fem_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_72h/DMSdiffmeth_72h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_72h/DMSmeth_72h_fem_5X.RDS")
+DMS_fem_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_72h/DMSdiffmeth_72h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_72h/DMSmeth_72h_fem_5X.RDS")
 
-DMS_mal_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSdiffmeth_all_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSmeth_all_mal_5X.RDS")
+DMS_mal_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSdiffmeth_all_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSmeth_all_mal_5X.RDS")
 
-DMS_mal_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_05h/DMSdiffmeth_05h_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMS_res_05h/DMSmeth_05h_mal_5X.RDS")
+DMS_mal_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_05h/DMSdiffmeth_05h_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMS_res_05h/DMSmeth_05h_mal_5X.RDS")
 
-DMS_mal_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_1h/DMSdiffmeth_1h_mal_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_1h/DMSmeth_1h_mal_5X.RDS")
+DMS_mal_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_1h/DMSdiffmeth_1h_mal_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_1h/DMSmeth_1h_mal_5X.RDS")
 
-DMS_mal_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_4h/DMSdiffmeth_4h_mal_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMS_res_4h/DMSmeth_4h_mal_5X.RDS")
+DMS_mal_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_4h/DMSdiffmeth_4h_mal_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMS_res_4h/DMSmeth_4h_mal_5X.RDS")
 
-DMS_mal_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_24h/DMSdiffmeth_24h_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMS_res_24h/DMSmeth_24h_mal_5X.RDS")
+DMS_mal_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_24h/DMSdiffmeth_24h_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMS_res_24h/DMSmeth_24h_mal_5X.RDS")
 
-DMS_mal_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMS_res_72h/DMSdiffmeth_72h_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMS_res_72h/DMSmeth_72h_mal_5X.RDS")
+DMS_mal_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMS_res_72h/DMSdiffmeth_72h_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMS_res_72h/DMSmeth_72h_mal_5X.RDS")
 
-DMR_fem_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_all/DMRdiffmeth_all_fem_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_all/DMRmeth_all_fem_5X.RDS")
+DMR_fem_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMRdiffmeth_all_fem_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMRmeth_all_fem_5X.RDS")
 
-DMR_fem_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_05h/DMRdiffmeth_05h_fem_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_05h/DMR_tile_meth_05h_fem_5X.RDS")
+DMR_fem_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_05h/DMRdiffmeth_05h_fem_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_05h/DMR_tile_meth_05h_fem_5X.RDS")
 
-DMR_fem_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_1h/DMRdiffmeth_1h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMR_res_1h/DMR_tile_meth_1h_fem_5X.RDS")
+DMR_fem_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_1h/DMRdiffmeth_1h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMR_res_1h/DMR_tile_meth_1h_fem_5X.RDS")
 
-DMR_fem_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_4h/DMRdiffmeth_4h_fem_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMR_res_4h/DMR_tile_meth_4h_fem_5X.RDS")
+DMR_fem_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_4h/DMRdiffmeth_4h_fem_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMR_res_4h/DMR_tile_meth_4h_fem_5X.RDS")
 
-DMR_fem_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_24h/DMRdiffmeth_24h_fem_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_24h/DMR_tile_meth_24h_fem_5X.RDS")
+DMR_fem_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_24h/DMRdiffmeth_24h_fem_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_24h/DMR_tile_meth_24h_fem_5X.RDS")
 
-DMR_fem_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_72h/DMRdiffmeth_72h_fem_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_72h/DMR_tile_meth_72h_fem_5X.RDS")
+DMR_fem_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_72h/DMRdiffmeth_72h_fem_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_72h/DMR_tile_meth_72h_fem_5X.RDS")
 
-DMR_mal_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_all/DMRdiffmeth_all_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_all/DMR_tile_meth_all_mal_5X.RDS")
+DMR_mal_all_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMRdiffmeth_all_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMR_tile_meth_all_mal_5X.RDS")
 
-DMR_mal_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_05h/DMRdiffmeth_05h_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_05h/DMR_tile_meth_05h_mal_5X.RDS")
+DMR_mal_05h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_05h/DMRdiffmeth_05h_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_05h/DMR_tile_meth_05h_mal_5X.RDS")
 
-DMR_mal_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_1h/DMRdiffmeth_1h_mal_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMR_res_1h/DMR_tile_meth_1h_mal_5X.RDS")
+DMR_mal_1h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_1h/DMRdiffmeth_1h_mal_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMR_res_1h/DMR_tile_meth_1h_mal_5X.RDS")
 
-DMR_mal_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_4h/DMRdiffmeth_4h_mal_5X.RDS",
-                                           "./shortTerm_exp/data/methylkit_res/DMR_res_4h/DMR_tile_meth_4h_mal_5X.RDS")
+DMR_mal_4h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_4h/DMRdiffmeth_4h_mal_5X.RDS",
+                                           "./shortTerm_exp/data/methylkit_res_od/DMR_res_4h/DMR_tile_meth_4h_mal_5X.RDS")
 
-DMR_mal_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_24h/DMRdiffmeth_24h_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_24h/DMR_tile_meth_24h_mal_5X.RDS")
+DMR_mal_24h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_24h/DMRdiffmeth_24h_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_24h/DMR_tile_meth_24h_mal_5X.RDS")
 
-DMR_mal_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res/DMR_res_72h/DMRdiffmeth_72h_mal_5X.RDS",
-                                            "./shortTerm_exp/data/methylkit_res/DMR_res_72h/DMR_tile_meth_72h_mal_5X.RDS")
+DMR_mal_72h_percMeth <- get_percMeth_matrix("./shortTerm_exp/data/methylkit_res_od/DMR_res_72h/DMRdiffmeth_72h_mal_5X.RDS",
+                                            "./shortTerm_exp/data/methylkit_res_od/DMR_res_72h/DMR_tile_meth_72h_mal_5X.RDS")
 
 #get methylation matrix for all sites and regions 
 #read data files
-meth_allsites <- readRDS("./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSmeth_all_5X.RDS")
-meth_allsites_fem <- readRDS("./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSmeth_all_fem_5X.RDS")
-meth_allsites_mal <- readRDS("./shortTerm_exp/data/methylkit_res/DMS_res_all/DMSmeth_all_mal_5X.RDS")
+meth_allsites <- readRDS("./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSmeth_all_5X.RDS")
+meth_allsites_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSmeth_all_fem_5X.RDS")
+meth_allsites_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/DMS_res_all/DMSmeth_all_mal_5X.RDS")
 
-meth_allregions <- readRDS("./shortTerm_exp/data/methylkit_res/DMR_res_all/DMR_tile_meth_all_5X.RDS")
-meth_allregions_fem <- readRDS("./shortTerm_exp/data/methylkit_res/DMR_res_all/DMR_tile_meth_all_fem_5X.RDS")
-meth_allregions_mal <- readRDS("./shortTerm_exp/data/methylkit_res/DMR_res_all/DMR_tile_meth_all_mal_5X.RDS")
+meth_allregions <- readRDS("./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMR_tile_meth_all_5X.RDS")
+meth_allregions_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMR_tile_meth_all_fem_5X.RDS")
+meth_allregions_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/DMR_res_all/DMR_tile_meth_all_mal_5X.RDS")
 
 #calculate percent methylation 
 perc_meth_allsites <- as.data.frame(percMethylation(meth_allsites))
@@ -321,25 +321,40 @@ plot_pca <- function(pca.data, pca.x, pca.y, xlabel, ylabel, plotname){
   ggsave(filename = plotname, plot = p, width = 6, height = 5, units = "in", dpi = 300)
 }
 
-plot_pca(t_DMS_combined_meth_all, t_DMS_combined_meth_all$PC1, t_DMS_combined_meth_all$PC2, "PC1 (26.31%)", "PC2 (13.46%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_combined_all_pca.tiff")
-plot_pca(t_DMR_combined_meth_all, t_DMR_combined_meth_all$PC1, t_DMR_combined_meth_all$PC2, "PC1 (12.78%)", "PC2 (6.58%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMR_combined_all_pca.tiff")
+plot_pca(t_DMS_combined_meth_all, t_DMS_combined_meth_all$PC1, t_DMS_combined_meth_all$PC2, "PC1 (20.25%)", "PC2 (10.94%)",
+         "./shortTerm_exp/plots/finalized_tiff/pca_plots_od/DMS_combined_all_pca.tiff")
+plot_pca(t_DMR_combined_meth_all, t_DMR_combined_meth_all$PC1, t_DMR_combined_meth_all$PC2, "PC1 (9.11%)", "PC2 (5.02%)",
+         "./shortTerm_exp/plots/finalized_tiff/pca_plots_od/DMR_combined_all_pca.tiff")
 
-plot_pca(t_DMS_combined_meth_fem, t_DMS_combined_meth_fem$PC1, t_DMS_combined_meth_fem$PC2, "PC1 (33.84%)", "PC2 (14.16%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_combined_fem_pca.tiff")
-plot_pca(t_DMR_combined_meth_fem, t_DMR_combined_meth_fem$PC1, t_DMR_combined_meth_fem$PC2, "PC1 (16.55%)", "PC2 (8.37%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMR_combined_fem_pca.tiff")
+plot_pca(t_DMS_combined_meth_fem, t_DMS_combined_meth_fem$PC1, t_DMS_combined_meth_fem$PC2, "PC1 (29.62%)", "PC2 (12.17%)",
+         "./shortTerm_exp/plots/finalized_tiff/pca_plots_od/DMS_combined_fem_pca.tiff")
+plot_pca(t_DMR_combined_meth_fem, t_DMR_combined_meth_fem$PC1, t_DMR_combined_meth_fem$PC2, "PC1 (13.21%)", "PC2 (8.49%)",
+         "./shortTerm_exp/plots/finalized_tiff/pca_plots_od/DMR_combined_fem_pca.tiff")
 
-plot_pca(t_DMS_combined_meth_mal, t_DMS_combined_meth_mal$PC1, t_DMS_combined_meth_mal$PC2, "PC1 (24.88%)", "PC2 (16.09%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_combined_mal_pca.tiff")
-plot_pca(t_DMR_combined_meth_mal, t_DMR_combined_meth_mal$PC1, t_DMR_combined_meth_mal$PC2, "PC1 (13.74%)", "PC2 (8.67%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMR_combined_mal_pca.tiff")
+plot_pca(t_DMS_combined_meth_mal, t_DMS_combined_meth_mal$PC1, t_DMS_combined_meth_mal$PC2, "PC1 (20.48%)", "PC2 (11.42%)",
+         "./shortTerm_exp/plots/finalized_tiff/pca_plots_od/DMS_combined_mal_pca.tiff")
+plot_pca(t_DMR_combined_meth_mal, t_DMR_combined_meth_mal$PC1, t_DMR_combined_meth_mal$PC2, "PC1 (10.68%)", "PC2 (7.04%)",
+         "./shortTerm_exp/plots/finalized_tiff/pca_plots_od/DMR_combined_mal_pca.tiff")
 
-plot_pca(t_DMS_fem_all, t_DMS_fem_all$PC1, t_DMS_fem_all$PC2, "PC1 (30.9%)", "PC2 (13.08%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_all_fem_pca.tiff")
-plot_pca(t_DMS_mal_all, t_DMS_mal_all$PC1, t_DMS_mal_all$PC2, "PC1 (36.9%)", "PC2 (11.5%)",
-         "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_all_mal_pca.tiff")
+# plot_pca(t_DMS_combined_meth_all, t_DMS_combined_meth_all$PC1, t_DMS_combined_meth_all$PC2, "PC1 (26.31%)", "PC2 (13.46%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_combined_all_pca.tiff")
+# plot_pca(t_DMR_combined_meth_all, t_DMR_combined_meth_all$PC1, t_DMR_combined_meth_all$PC2, "PC1 (12.78%)", "PC2 (6.58%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMR_combined_all_pca.tiff")
+# 
+# plot_pca(t_DMS_combined_meth_fem, t_DMS_combined_meth_fem$PC1, t_DMS_combined_meth_fem$PC2, "PC1 (33.84%)", "PC2 (14.16%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_combined_fem_pca.tiff")
+# plot_pca(t_DMR_combined_meth_fem, t_DMR_combined_meth_fem$PC1, t_DMR_combined_meth_fem$PC2, "PC1 (16.55%)", "PC2 (8.37%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMR_combined_fem_pca.tiff")
+# 
+# plot_pca(t_DMS_combined_meth_mal, t_DMS_combined_meth_mal$PC1, t_DMS_combined_meth_mal$PC2, "PC1 (24.88%)", "PC2 (16.09%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_combined_mal_pca.tiff")
+# plot_pca(t_DMR_combined_meth_mal, t_DMR_combined_meth_mal$PC1, t_DMR_combined_meth_mal$PC2, "PC1 (13.74%)", "PC2 (8.67%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMR_combined_mal_pca.tiff")
+
+# plot_pca(t_DMS_fem_all, t_DMS_fem_all$PC1, t_DMS_fem_all$PC2, "PC1 (30.9%)", "PC2 (13.08%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_all_fem_pca.tiff")
+# plot_pca(t_DMS_mal_all, t_DMS_mal_all$PC1, t_DMS_mal_all$PC2, "PC1 (36.9%)", "PC2 (11.5%)",
+#          "./shortTerm_exp/plots/finalized_tiff/pca_plots/DMS_all_mal_pca.tiff")
 
 ##Make heat maps ##
 #make function to plot heatmaps of individual time points
@@ -372,32 +387,32 @@ plot_heatmap <- function(data, plotname){
 }
 
 #plot for each time point/sex
-plot_heatmap(DMS_fem_all_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/allTP_DMS_fem_heatmap.tiff")
-plot_heatmap(DMS_fem_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/05h_DMS_fem_heatmap.tiff")
-plot_heatmap(DMS_fem_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/1h_DMS_fem_heatmap.tiff")
-plot_heatmap(DMS_fem_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/4h_DMS_fem_heatmap.tiff")
-plot_heatmap(DMS_fem_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/24h_DMS_fem_heatmap.tiff")
-plot_heatmap(DMS_fem_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/72h_DMS_fem_heatmap.tiff")
+plot_heatmap(DMS_fem_all_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/allTP_DMS_fem_heatmap.tiff")
+plot_heatmap(DMS_fem_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/05h_DMS_fem_heatmap.tiff")
+plot_heatmap(DMS_fem_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/1h_DMS_fem_heatmap.tiff")
+plot_heatmap(DMS_fem_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/4h_DMS_fem_heatmap.tiff")
+plot_heatmap(DMS_fem_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/24h_DMS_fem_heatmap.tiff")
+plot_heatmap(DMS_fem_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/72h_DMS_fem_heatmap.tiff")
 
-plot_heatmap(DMS_mal_all_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/allTP_DMS_mal_heatmap.tiff")
-plot_heatmap(DMS_mal_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/05h_DMS_mal_heatmap.tiff")
-plot_heatmap(DMS_mal_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/1h_DMS_mal_heatmap.tiff")
-plot_heatmap(DMS_mal_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/4h_DMS_mal_heatmap.tiff")
-plot_heatmap(DMS_mal_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/24h_DMS_mal_heatmap.tiff")
-plot_heatmap(DMS_mal_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/72h_DMS_mal_heatmap.tiff")
+plot_heatmap(DMS_mal_all_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/allTP_DMS_mal_heatmap.tiff")
+plot_heatmap(DMS_mal_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/05h_DMS_mal_heatmap.tiff")
+plot_heatmap(DMS_mal_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/1h_DMS_mal_heatmap.tiff")
+plot_heatmap(DMS_mal_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/4h_DMS_mal_heatmap.tiff")
+plot_heatmap(DMS_mal_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/24h_DMS_mal_heatmap.tiff")
+plot_heatmap(DMS_mal_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/72h_DMS_mal_heatmap.tiff")
 
 #DMRs
-plot_heatmap(DMR_fem_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/05h_DMR_fem_heatmap.tiff")
-plot_heatmap(DMR_fem_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/1h_DMR_fem_heatmap.tiff")
-plot_heatmap(DMR_fem_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/4h_DMR_fem_heatmap.tiff")
-plot_heatmap(DMR_fem_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/24h_DMR_fem_heatmap.tiff")
-plot_heatmap(DMR_fem_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/72h_DMR_fem_heatmap.tiff")
+plot_heatmap(DMR_fem_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/05h_DMR_fem_heatmap.tiff")
+plot_heatmap(DMR_fem_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/1h_DMR_fem_heatmap.tiff")
+plot_heatmap(DMR_fem_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/4h_DMR_fem_heatmap.tiff")
+plot_heatmap(DMR_fem_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/24h_DMR_fem_heatmap.tiff")
+plot_heatmap(DMR_fem_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/72h_DMR_fem_heatmap.tiff")
 
-plot_heatmap(DMR_mal_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/05h_DMR_mal_heatmap.tiff")
-plot_heatmap(DMR_mal_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/1h_DMR_mal_heatmap.tiff")
-plot_heatmap(DMR_mal_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/4h_DMR_mal_heatmap.tiff")
-plot_heatmap(DMR_mal_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/24h_DMR_mal_heatmap.tiff")
-plot_heatmap(DMR_mal_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/72h_DMR_mal_heatmap.tiff")
+plot_heatmap(DMR_mal_05h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/05h_DMR_mal_heatmap.tiff")
+plot_heatmap(DMR_mal_1h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/1h_DMR_mal_heatmap.tiff")
+plot_heatmap(DMR_mal_4h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/4h_DMR_mal_heatmap.tiff")
+plot_heatmap(DMR_mal_24h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/24h_DMR_mal_heatmap.tiff")
+plot_heatmap(DMR_mal_72h_percMeth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/72h_DMR_mal_heatmap.tiff")
 
 #make function for plotting all time points together
 plot_heatmap_combined <- function(data, plotname){
@@ -436,9 +451,9 @@ plot_heatmap_combined <- function(data, plotname){
   dev.off()
 }
 
-plot_heatmap_combined(DMS_combined_fem_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/DMS_combined_fem_heatmap.tiff")
-plot_heatmap_combined(DMS_combined_mal_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/DMS_combined_mal_heatmap.tiff")
+plot_heatmap_combined(DMS_combined_fem_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/DMS_combined_fem_heatmap.tiff")
+plot_heatmap_combined(DMS_combined_mal_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/DMS_combined_mal_heatmap.tiff")
 
-plot_heatmap_combined(DMR_combined_fem_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/DMR_combined_fem_heatmap.tiff")
-plot_heatmap_combined(DMR_combined_mal_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps/DMR_combined_mal_heatmap.tiff")
+plot_heatmap_combined(DMR_combined_fem_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/DMR_combined_fem_heatmap.tiff")
+plot_heatmap_combined(DMR_combined_mal_meth, "./shortTerm_exp/plots/finalized_tiff/heatmaps_od/DMR_combined_mal_heatmap.tiff")
 
