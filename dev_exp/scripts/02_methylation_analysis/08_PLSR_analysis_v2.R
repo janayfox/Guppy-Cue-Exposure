@@ -328,32 +328,84 @@ mal.act.DMR <- enet.caret.function.v2(act.data, DMR_mal_percMeth, "dist_cm", "ga
 fem.shoal.DMR <- enet.caret.function.v2(shoal.data, DMR_fem_percMeth, "total_diff_s", "gaussian")
 mal.shoal.DMR <- enet.caret.function.v2(shoal.data, DMR_mal_percMeth, "total_diff_s","gaussian")
 
-## RESUME here so read back in data ##
-#DMS
-fem.bold.DMS <- readRDS("./dev_exp/data/enet_res/fem_bold_DMS.RDS")
-mal.bold.DMS <- readRDS("./dev_exp/data/enet_res/mal_bold_DMS.RDS")
+#try running separate for AC and C 
+#doing for shoaling model only as this is the only behaviour I retain in the paper
+#make lists of AC ind and C ind 
+ac.id <- subset(sh.data, cue == "ac")$ID
+c.id <- subset(sh.data, cue == "c")$ID
 
-fem.exp.DMS <- readRDS("./dev_exp/data/enet_res/fem_exp_DMS.RDS")
-mal.exp.DMS <- readRDS("./dev_exp/data/enet_res/mal_exp_DMS.RDS")
+#make separate dataframes
 
-fem.act.DMS <- readRDS("./dev_exp/data/enet_res/fem_act_DMS.RDS")
-mal.act.DMS <- readRDS("./dev_exp/data/enet_res/mal_act_DMS.RDS")
 
-fem.shoal.DMS <- readRDS("./dev_exp/data/enet_res/fem_shoal_DMS.RDS")
-mal.shoal.DMS <- readRDS("./dev_exp/data/enet_res/mal_shoal_DMS.RDS")
+# check for near 0 variance 
+nearZeroVar(DMS_fem_percMeth[DMS_fem_percMeth$ID %in% ac.id,])
+nearZeroVar(DMR_fem_percMeth[DMR_fem_percMeth$ID %in% ac.id,])
 
-#DMR
-fem.bold.DMR <- readRDS("./dev_exp/data/enet_res/fem_bold_DMR.RDS")
-mal.bold.DMR <- readRDS("./dev_exp/data/enet_res/mal_bold_DMR.RDS")
+nearZeroVar(DMS_fem_percMeth[DMS_fem_percMeth$ID %in% c.id,])
+nearZeroVar(DMR_fem_percMeth[DMR_fem_percMeth$ID %in% c.id,])
 
-fem.exp.DMR <- readRDS("./dev_exp/data/enet_res/fem_exp_DMR.RDS")
-mal.exp.DMR <- readRDS("./dev_exp/data/enet_res/mal_exp_DMR.RDS")
+nearZeroVar(DMS_mal_percMeth[DMS_mal_percMeth$ID %in% ac.id,])
+nearZeroVar(DMR_mal_percMeth[DMR_mal_percMeth$ID %in% ac.id,])
 
-fem.act.DMR <- readRDS("./dev_exp/data/enet_res/fem_act_DMR.RDS")
-mal.act.DMR <- readRDS("./dev_exp/data/enet_res/mal_act_DMR.RDS")
+nearZeroVar(DMS_mal_percMeth[DMS_mal_percMeth$ID %in% c.id,])
+nearZeroVar(DMR_mal_percMeth[DMR_mal_percMeth$ID %in% c.id,])
 
-fem.shoal.DMR <- readRDS("./dev_exp/data/enet_res/fem_shoal_DMR.RDS")
-mal.shoal.DMR <- readRDS("./dev_exp/data/enet_res/mal_shoal_DMR.RDS")
+#run
+fem.shoal.DMS.AC <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% ac.id,], 
+                                           DMS_fem_percMeth[DMS_fem_percMeth$ID %in% ac.id,], 
+                                           "total_diff_s", "gaussian")
+mal.shoal.DMS.AC <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% ac.id,], 
+                                           DMS_mal_percMeth[DMS_mal_percMeth$ID %in% ac.id,], 
+                                           "total_diff_s","gaussian")
+
+fem.shoal.DMR.AC <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% ac.id,], 
+                                           DMR_fem_percMeth[DMR_fem_percMeth$ID %in% ac.id,], 
+                                           "total_diff_s", "gaussian")
+mal.shoal.DMR.AC <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% ac.id,], 
+                                           DMR_mal_percMeth[DMR_mal_percMeth$ID %in% ac.id,], 
+                                           "total_diff_s","gaussian")
+
+fem.shoal.DMS.C <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% c.id,], 
+                                          DMS_fem_percMeth[DMS_fem_percMeth$ID %in% c.id,], 
+                                          "total_diff_s", "gaussian")
+mal.shoal.DMS.C <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% c.id,], 
+                                          DMS_mal_percMeth[DMS_mal_percMeth$ID %in% c.id,], 
+                                          "total_diff_s","gaussian")
+
+fem.shoal.DMR.C <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% c.id,], 
+                                          DMR_fem_percMeth[DMR_fem_percMeth$ID %in% c.id,], 
+                                          "total_diff_s", "gaussian")
+mal.shoal.DMR.C <- enet.caret.function.v2(shoal.data[shoal.data$ID %in% c.id,], 
+                                          DMR_mal_percMeth[DMR_mal_percMeth$ID %in% c.id,], 
+                                          "total_diff_s","gaussian")
+
+# 
+# ## RESUME here so read back in data ##
+# #DMS
+# fem.bold.DMS <- readRDS("./dev_exp/data/enet_res/fem_bold_DMS.RDS")
+# mal.bold.DMS <- readRDS("./dev_exp/data/enet_res/mal_bold_DMS.RDS")
+# 
+# fem.exp.DMS <- readRDS("./dev_exp/data/enet_res/fem_exp_DMS.RDS")
+# mal.exp.DMS <- readRDS("./dev_exp/data/enet_res/mal_exp_DMS.RDS")
+# 
+# fem.act.DMS <- readRDS("./dev_exp/data/enet_res/fem_act_DMS.RDS")
+# mal.act.DMS <- readRDS("./dev_exp/data/enet_res/mal_act_DMS.RDS")
+# 
+# fem.shoal.DMS <- readRDS("./dev_exp/data/enet_res/fem_shoal_DMS.RDS")
+# mal.shoal.DMS <- readRDS("./dev_exp/data/enet_res/mal_shoal_DMS.RDS")
+# 
+# #DMR
+# fem.bold.DMR <- readRDS("./dev_exp/data/enet_res/fem_bold_DMR.RDS")
+# mal.bold.DMR <- readRDS("./dev_exp/data/enet_res/mal_bold_DMR.RDS")
+# 
+# fem.exp.DMR <- readRDS("./dev_exp/data/enet_res/fem_exp_DMR.RDS")
+# mal.exp.DMR <- readRDS("./dev_exp/data/enet_res/mal_exp_DMR.RDS")
+# 
+# fem.act.DMR <- readRDS("./dev_exp/data/enet_res/fem_act_DMR.RDS")
+# mal.act.DMR <- readRDS("./dev_exp/data/enet_res/mal_act_DMR.RDS")
+# 
+# fem.shoal.DMR <- readRDS("./dev_exp/data/enet_res/fem_shoal_DMR.RDS")
+# mal.shoal.DMR <- readRDS("./dev_exp/data/enet_res/mal_shoal_DMR.RDS")
 
 #get top coefficients 
 fem.act.DMS.top.coef <- get.top.coefficients(fem.act.DMS, top_n = 10)
