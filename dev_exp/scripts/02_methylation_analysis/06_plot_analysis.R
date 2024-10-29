@@ -699,17 +699,66 @@ dmr.chi <- chisq.test(dmr.chi.data, correct = TRUE)
 dmr.chi
 
 ## check for differences in variance between males and females ## 
+#make separate df for ac and c 
+#columns to remove 
+col.rem <- c("PC1", "PC2", "PC3", "PC4", "sex", "cue", "tank", "ID")
+
+CpG_AC_fem <- subset(t_CpG_fem_plotDat, cue == "A")
+CpG_AC_mal <- subset(t_CpG_mal_plotDat, cue == "A")
+
+CpG_C_fem <- subset(t_CpG_fem_plotDat, cue == "C")
+CpG_C_mal <- subset(t_CpG_mal_plotDat, cue == "C")
+
+CpG_AC_fem <- CpG_AC_fem[,!(names(CpG_AC_fem) %in% col.rem)]
+CpG_AC_mal <- CpG_AC_mal[,!(names(CpG_AC_mal) %in% col.rem)]
+
+CpG_C_fem <- CpG_C_fem[,!(names(CpG_C_fem) %in% col.rem)]
+CpG_C_mal <- CpG_C_mal[,!(names(CpG_C_mal) %in% col.rem)]
+
 #calculate stdev for each CpG 
 fem.stdev <- apply(t_CpG_fem,2,sd)
 mal.stdev <- apply(t_CpG_mal,2,sd)
+
+fem.ac.stdev <- apply(CpG_AC_fem,2,sd)
+fem.c.stdev <- apply(CpG_C_fem,2,sd)
+
+mal.ac.stdev <- apply(CpG_AC_mal,2,sd)
+mal.c.stdev <- apply(CpG_C_mal,2,sd)
 
 #look at distributions of stdv 
 hist(fem.stdev)
 hist(mal.stdev)
 
+hist(fem.ac.stdev)
+hist(fem.c.stdev)
+
+hist(mal.ac.stdev)
+hist(mal.c.stdev)
+
 #look at averages 
 mean(fem.stdev)
 mean(mal.stdev)
 
+mean(fem.ac.stdev)
+mean(fem.c.stdev)
+
+mean(mal.ac.stdev)
+mean(mal.c.stdev)
+
 #do t test 
 t.test(fem.stdev, mal.stdev)
+
+#try a PCA on AC inidividuals only 
+pca.fem.ac <- prcomp(CpG_AC_fem, center = TRUE)
+pca.mal.ac <- prcomp(CpG_AC_mal, center = TRUE)
+
+cpg.fem.ac.plotDat <- add_var(CpG_AC_fem, pca.fem.ac)
+cpg.mal.ac.plotDat <- add_var(CpG_AC_mal, pca.mal.ac)
+
+fem_ac_pca_plot <- plot_pca(cpg.fem.ac.plotDat, cpg.fem.ac.plotDat$PC1, cpg.fem.ac.plotDat$PC2, "PC1 (%)", "PC2 (7%)",
+                              "./dev_exp/plots/fem_ac_pca.tiff")
+fem_ac_pca_plot
+
+mal_ac_pca_plot <- plot_pca(cpg.mal.ac.plotDat, cpg.mal.ac.plotDat$PC1, cpg.mal.ac.plotDat$PC2, "PC1 (%)", "PC2 (7%)",
+                            "./dev_exp/plots/mal_ac_pca.tiff")
+mal_ac_pca_plot
