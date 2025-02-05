@@ -38,9 +38,9 @@ library(ggtext)
 setwd("/Users/janayfox/R_projects/guppy/gup_cue_exp")
 
 #read data files
-of.data <- read.csv("./dev_exp/data/clean/clean_openfield.csv")
-sh.data <- read.csv("./dev_exp/data/clean/clean_shoaling.csv")
-wt.data <- read.csv("./dev_exp/data/clean/dev_size.csv") 
+of.data <- read.csv("./dev_exp/data/clean/clean_openfield_gupEpi_2024.csv")
+sh.data <- read.csv("./dev_exp/data/clean/clean_shoaling_gupEpi_2024.csv")
+wt.data <- read.csv("./dev_exp/data/clean/clean_size_gupEpi_2024.csv") 
 
 #merge datasets
 of.data <- merge(of.data, wt.data[,1:4], by = "ID") 
