@@ -21,7 +21,7 @@ All required packages and functions are listed at the top of each script. 
 1. Download project repository from Github or Dryad (When published: https://doi.org/10.5061/dryad.dbrv15fch)
 2. Download data folders:
  - Behavioural data: from Github or Dryad (When published: https://doi.org/10.5061/dryad.dbrv15fch)
- - Sequencing data: from SRA (Accession #TBD)
+ - Sequencing data: from SRA (SubmissionID:SUB15053806; BioProject ID: PRJNA1220133)
 
  #Code Runnnig
  All code for analysis is provided in the github repository or in scripts.zip file on Dryadd. Each folder contains all scripts for a specific type of analysis (01_behavioural_analysis and 02_methylation_analysis) and the files within the folder should be run in order of numbering. Files with a and b lettering represent code paired with its slurm submission file. Note that any code with this pairing was written to be run on Compute Canada HPC system and may need to be adapted to your needs if you do not have access. All required software is commented at top of each script. Uncomment and run install lines if required. Analysis was originally run on R v4.3.2. The nf-core/methylseq pipeline v1.6.1 was used to process sequencing reads. Other details on versions of software used can be found in manuscript.
