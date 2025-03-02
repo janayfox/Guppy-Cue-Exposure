@@ -11,7 +11,7 @@
 
 **Short-term Paper:** Adult guppies were exposed to either alarm cue or control cue one time. Behaviour was measured for 5 minute before and after cue exposure. At set time points following cue exposure (0.5h, 1h, 4h, 24h, 72h), brains were dissected out for whole genome bisulfite sequencing.
 
-#File structure: Raw and clean behavioural and weight data files are provided but can also be downloaded along with metadata from Dryad (Accession # TBD). Sequencing data are stored on SRA. Analysis scripts are provided in separate folders for each project (dev_exp and shortTerm_exp) and then each analysis type (01_behavioural_analysis and 02_methylation_analysis). Within each folder, each script should be run in order of numbering. 
+#File structure: Raw and clean behavioural and weight data files are provided but can also be downloaded along with metadata from Dryad. Sequencing data are stored on SRA. Analysis scripts are provided in separate folders for each project (dev_exp and shortTerm_exp) and then each analysis type (01_behavioural_analysis and 02_methylation_analysis). Within each folder, each script should be run in order of numbering. Note that folder structure for loading data may need to be adjusted in scripts depending on how you set up data and scripts. As some scripts were meant to run on compute Canada clusters while others were ran locally, file structure varies between scripts.
 
 All variables and abbreviations defined in metadata. Missing data = NA. 
 
