@@ -19,10 +19,10 @@ library("GenomicRanges", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4
 library("methylKit", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 library("genomation", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
 
-setwd("/scratch/janayfox/methylKit/dev/perc20")
+setwd("/scratch/janayfox/guppyWGBS_final/methylKit/dev/perc20_od")
 
 ## Load in data and reformat ##
-ref.anno <- readTranscriptFeatures("/scratch/janayfox/guppyWGBS_shortterm/annotation/guppy.sorted.bed", unique.prom = FALSE, up.flank = 1500, down.flank = 500)
+ref.anno <- readTranscriptFeatures("/scratch/janayfox/guppyWGBS_final/annotation/guppy.sorted.bed", unique.prom = FALSE, up.flank = 1500, down.flank = 500)
 
 DMR.diffmeth.all <- readRDS("./DMR_res/DMRdiffmeth_all_5X.RDS")
 DMR.diffmeth.fem <- readRDS("./DMR_res/DMRdiffmeth_fem_5X.RDS")
