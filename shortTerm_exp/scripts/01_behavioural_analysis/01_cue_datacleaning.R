@@ -61,21 +61,6 @@ fivemin.before.cue.data <- subset(before.cue.data, bin >= 5 & bin <= 9) %>% grou
                                                                                                             Q4_s = sum(Q4_s), Q5_s = sum(Q5_s), Q6_s = sum(Q6_s),
                                                                                                            dash_nb = sum(dash_nb))
 
-twomin.before.cue.data <- subset(before.cue.data, bin >= 8 & bin <= 9) %>% group_by(fish_ID, sex, time, cue, tank) %>% summarize(length_obs_s = sum(length_obs_s),
-                                                                                                                             sig_s = sum(sig_s), sig_nb = sum(sig_nb), 
-                                                                                                                             chasing_s = sum(chasing_s),
-                                                                                                                             feeding_s = sum(feeding_s), frozen_s = sum(frozen_s), 
-                                                                                                                             Q1_s = sum(Q1_s), Q2_s = sum(Q2_s), Q3_s = sum(Q3_s),
-                                                                                                                             Q4_s = sum(Q4_s), Q5_s = sum(Q5_s), Q6_s = sum(Q6_s),
-                                                                                                                             dash_nb = sum(dash_nb))
-
-tenmin.before.cue.data <- subset(before.cue.data, bin >= 0 & bin <= 9) %>% group_by(fish_ID, sex, time, cue, tank) %>% summarize(length_obs_s = sum(length_obs_s),
-                                                                                                                                  sig_s = sum(sig_s), sig_nb = sum(sig_nb), 
-                                                                                                                                  chasing_s = sum(chasing_s),
-                                                                                                                                  feeding_s = sum(feeding_s), frozen_s = sum(frozen_s), 
-                                                                                                                                  Q1_s = sum(Q1_s), Q2_s = sum(Q2_s), Q3_s = sum(Q3_s),
-                                                                                                                                  Q4_s = sum(Q4_s), Q5_s = sum(Q5_s), Q6_s = sum(Q6_s),
-                                                                                                                                  dash_nb = sum(dash_nb))
 #after cue
 fivemin.after.cue.data <- subset(after.cue.data, bin >= 0 & bin <= 4) %>% group_by(fish_ID, sex, time, cue, tank) %>% summarize(length_obs_s = sum(length_obs_s),
                                                                                                                              sig_s = sum(sig_s), sig_nb = sum(sig_nb), 
@@ -85,27 +70,9 @@ fivemin.after.cue.data <- subset(after.cue.data, bin >= 0 & bin <= 4) %>% group_
                                                                                                                              Q4_s = sum(Q4_s), Q5_s = sum(Q5_s), Q6_s = sum(Q6_s),
                                                                                                                              dash_nb = sum(dash_nb))
 
-twomin.after.cue.data <- subset(after.cue.data, bin >= 0 & bin <= 1) %>% group_by(fish_ID, sex, time, cue, tank) %>% summarize(length_obs_s = sum(length_obs_s),
-                                                                                                                            sig_s = sum(sig_s), sig_nb = sum(sig_nb), 
-                                                                                                                            chasing_s = sum(chasing_s),
-                                                                                                                            feeding_s = sum(feeding_s), frozen_s = sum(frozen_s), 
-                                                                                                                            Q1_s = sum(Q1_s), Q2_s = sum(Q2_s), Q3_s = sum(Q3_s),
-                                                                                                                            Q4_s = sum(Q4_s), Q5_s = sum(Q5_s), Q6_s = sum(Q6_s),
-                                                                                                                            dash_nb = sum(dash_nb))
-
-tenmin.before.cue.data <- subset(after.cue.data, bin >= 0 & bin <= 9) %>% group_by(fish_ID, sex, time, cue, tank) %>% summarize(length_obs_s = sum(length_obs_s),
-                                                                                                                                 sig_s = sum(sig_s), sig_nb = sum(sig_nb), 
-                                                                                                                                 chasing_s = sum(chasing_s),
-                                                                                                                                 feeding_s = sum(feeding_s), frozen_s = sum(frozen_s), 
-                                                                                                                                 Q1_s = sum(Q1_s), Q2_s = sum(Q2_s), Q3_s = sum(Q3_s),
-                                                                                                                                 Q4_s = sum(Q4_s), Q5_s = sum(Q5_s), Q6_s = sum(Q6_s),
-                                                                                                                                 dash_nb = sum(dash_nb))
 #merge before and after subsets 
 fivemin.cue.data <- rbind(fivemin.before.cue.data,fivemin.after.cue.data)
-twomin.cue.data <- rbind(twomin.before.cue.data, twomin.after.cue.data)
 
 #export data 
 write_csv(fivemin.cue.data, "./shortTerm_exp/data/clean/clean_cue_fivemin.csv")
-write_csv(twomin.cue.data, "./shortTerm_exp/data/clean/clean_cue_twomin.csv")
-
 write_csv(cue.data, "./shortTerm_exp/data/clean/all_cue_data.csv")
