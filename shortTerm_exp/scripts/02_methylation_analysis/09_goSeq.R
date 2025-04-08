@@ -23,193 +23,8 @@ library(GSEABase)
 library(ggpubr)
 library(stringr)
 
-#load in data
-#DMS_TSS_all <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all.RDS")
-DMS_TSS_05h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h.RDS")
-DMS_TSS_1h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h.RDS")
-DMS_TSS_4h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h.RDS")
-DMS_TSS_24h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h.RDS")
-DMS_TSS_72h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h.RDS")
-
-#DMS_TSS_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_fem.RDS")
-DMS_TSS_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_fem.RDS")
-DMS_TSS_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_fem.RDS")
-DMS_TSS_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_fem.RDS")
-DMS_TSS_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_fem.RDS")
-DMS_TSS_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_fem.RDS")
-
-#DMS_TSS_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_mal.RDS")
-DMS_TSS_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_mal.RDS")
-DMS_TSS_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_mal.RDS")
-DMS_TSS_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_mal.RDS")
-DMS_TSS_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_mal.RDS")
-DMS_TSS_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_mal.RDS")
-
-#DMR_TSS_all <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all.RDS")
-DMR_TSS_05h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h.RDS")
-DMR_TSS_1h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h.RDS")
-DMR_TSS_4h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h.RDS")
-DMR_TSS_24h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h.RDS")
-DMR_TSS_72h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h.RDS")
-
-#DMR_TSS_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_fem.RDS")
-DMR_TSS_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_fem.RDS")
-DMR_TSS_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_fem.RDS")
-DMR_TSS_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_fem.RDS")
-DMR_TSS_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_fem.RDS")
-DMR_TSS_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_fem.RDS")
-
-#DMR_TSS_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_mal.RDS")
-DMR_TSS_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_mal.RDS")
-DMR_TSS_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_mal.RDS")
-DMR_TSS_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_mal.RDS")
-DMR_TSS_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_mal.RDS")
-DMR_TSS_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_mal.RDS")
-
-#DMS_TSS_all_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_hyper.RDS")
-DMS_TSS_05h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_hyper.RDS")
-DMS_TSS_1h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_hyper.RDS")
-DMS_TSS_4h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_hyper.RDS")
-DMS_TSS_24h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_hyper.RDS")
-DMS_TSS_72h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_hyper.RDS")
-
-#DMS_TSS_all_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_fem_hyper.RDS")
-DMS_TSS_05h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_fem_hyper.RDS")
-DMS_TSS_1h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_fem_hyper.RDS")
-DMS_TSS_4h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_fem_hyper.RDS")
-DMS_TSS_24h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_fem_hyper.RDS")
-DMS_TSS_72h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_fem_hyper.RDS")
-
-#DMS_TSS_all_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_mal_hyper.RDS")
-DMS_TSS_05h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_mal_hyper.RDS")
-DMS_TSS_1h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_mal_hyper.RDS")
-DMS_TSS_4h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_mal_hyper.RDS")
-DMS_TSS_24h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_mal_hyper.RDS")
-DMS_TSS_72h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_mal_hyper.RDS")
-
-#DMR_TSS_all_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_hyper.RDS")
-DMR_TSS_05h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_hyper.RDS")
-DMR_TSS_1h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_hyper.RDS")
-DMR_TSS_4h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_hyper.RDS")
-DMR_TSS_24h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_hyper.RDS")
-DMR_TSS_72h_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_hyper.RDS")
-
-#DMR_TSS_all_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_fem_hyper.RDS")
-DMR_TSS_05h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_fem_hyper.RDS")
-DMR_TSS_1h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_fem_hyper.RDS")
-DMR_TSS_4h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_fem_hyper.RDS")
-DMR_TSS_24h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_fem_hyper.RDS")
-DMR_TSS_72h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_fem_hyper.RDS")
-
-#DMR_TSS_all_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_mal_hyper.RDS")
-DMR_TSS_05h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_mal_hyper.RDS")
-DMR_TSS_1h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_mal_hyper.RDS")
-DMR_TSS_4h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_mal_hyper.RDS")
-DMR_TSS_24h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_mal_hyper.RDS")
-DMR_TSS_72h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_mal_hyper.RDS")
-
-#DMS_TSS_all_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_hypo.RDS")
-DMS_TSS_05h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_hypo.RDS")
-DMS_TSS_1h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_hypo.RDS")
-DMS_TSS_4h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_hypo.RDS")
-DMS_TSS_24h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_hypo.RDS")
-DMS_TSS_72h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_hypo.RDS")
-
-#DMS_TSS_all_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_fem_hypo.RDS")
-DMS_TSS_05h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_fem_hypo.RDS")
-DMS_TSS_1h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_fem_hypo.RDS")
-DMS_TSS_4h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_fem_hypo.RDS")
-DMS_TSS_24h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_fem_hypo.RDS")
-DMS_TSS_72h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_fem_hypo.RDS")
-
-#DMS_TSS_all_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMS_TSS_all_mal_hypo.RDS")
-DMS_TSS_05h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMS_TSS_05h_mal_hypo.RDS")
-DMS_TSS_1h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMS_TSS_1h_mal_hypo.RDS")
-DMS_TSS_4h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMS_TSS_4h_mal_hypo.RDS")
-DMS_TSS_24h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMS_TSS_24h_mal_hypo.RDS")
-DMS_TSS_72h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMS_TSS_72h_mal_hypo.RDS")
-
-#DMR_TSS_all_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_hypo.RDS")
-DMR_TSS_05h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_hypo.RDS")
-DMR_TSS_1h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_hypo.RDS")
-DMR_TSS_4h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_hypo.RDS")
-DMR_TSS_24h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_hypo.RDS")
-DMR_TSS_72h_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_hypo.RDS")
-
-#DMR_TSS_all_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_fem_hypo.RDS")
-DMR_TSS_05h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_fem_hypo.RDS")
-DMR_TSS_1h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_fem_hypo.RDS")
-DMR_TSS_4h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_fem_hypo.RDS")
-DMR_TSS_24h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_fem_hypo.RDS")
-DMR_TSS_72h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_fem_hypo.RDS")
-
-#DMR_TSS_all_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/DMR_TSS_all_mal_hypo.RDS")
-DMR_TSS_05h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/DMR_TSS_05h_mal_hypo.RDS")
-DMR_TSS_1h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/DMR_TSS_1h_mal_hypo.RDS")
-DMR_TSS_4h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/DMR_TSS_4h_mal_hypo.RDS")
-DMR_TSS_24h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/DMR_TSS_24h_mal_hypo.RDS")
-DMR_TSS_72h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/DMR_TSS_72h_mal_hypo.RDS")
-
-#CpG_anno_all <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/CpG_anno_all.RDS")
-CpG_anno_05h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/CpG_anno_05h.RDS")
-CpG_anno_1h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/CpG_anno_1h.RDS")
-CpG_anno_4h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/CpG_anno_4h.RDS")
-CpG_anno_24h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/CpG_anno_24h.RDS")
-CpG_anno_72h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/CpG_anno_72h.RDS")
-
-#CpG_anno_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/CpG_anno_all_fem.RDS")
-CpG_anno_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/CpG_anno_05h_fem.RDS")
-CpG_anno_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/CpG_anno_1h_fem.RDS")
-CpG_anno_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/CpG_anno_4h_fem.RDS")
-CpG_anno_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/CpG_anno_24h_fem.RDS")
-CpG_anno_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/CpG_anno_72h_fem.RDS")
-
-#CpG_anno_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/CpG_anno_all_mal.RDS")
-CpG_anno_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/CpG_anno_05h_mal.RDS")
-CpG_anno_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/CpG_anno_1h_mal.RDS")
-CpG_anno_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/CpG_anno_4h_mal.RDS")
-CpG_anno_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/CpG_anno_24h_mal.RDS")
-CpG_anno_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/CpG_anno_72h_mal.RDS")
-
-#regions_anno_all <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/regions_anno_all.RDS")
-regions_anno_05h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/regions_anno_05h.RDS")
-regions_anno_1h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/regions_anno_1h.RDS")
-regions_anno_4h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/regions_anno_4h.RDS")
-regions_anno_24h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/regions_anno_24h.RDS")
-regions_anno_72h <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/regions_anno_72h.RDS")
-
-#regions_anno_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/regions_anno_all_fem.RDS")
-regions_anno_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/regions_anno_05h_fem.RDS")
-regions_anno_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/regions_anno_1h_fem.RDS")
-regions_anno_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/regions_anno_4h_fem.RDS")
-regions_anno_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/regions_anno_24h_fem.RDS")
-regions_anno_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/regions_anno_72h_fem.RDS")
-
-#regions_anno_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_all/regions_anno_all_mal.RDS")
-regions_anno_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_05h/regions_anno_05h_mal.RDS")
-regions_anno_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_1h/regions_anno_1h_mal.RDS")
-regions_anno_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_4h/regions_anno_4h_mal.RDS")
-regions_anno_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_24h/regions_anno_24h_mal.RDS")
-regions_anno_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res_od/anno_res_72h/regions_anno_72h_mal.RDS")
-
-## Go seq analysis ##
-#get proper biomart
-bm <- useEnsembl(biomart = "ensembl")
-bm <- useDataset("preticulata_gene_ensembl", mart = bm)
-
-#grab go terms
-go_list <- getBM(mart = bm, attributes = c('ensembl_transcript_id','external_gene_name','go_id', "name_1006", 
-                                                                              "namespace_1003", "go_linkage_type"))
-#prep go terms for gene mappings
-go_list_data <- go_list[,c(3,6,1)] #limit to needed data
-go_list_data <- go_list_data[go_list_data$go_id != '',] #remove empty go terms
-
-#set go frame
-goFrame <- GOFrame(go_list_data, organism = "guppy")
-goAllFrame <- GOAllFrame(goFrame)
-#set gene set
-gsc <- GeneSetCollection(goAllFrame, setType = GOCollection())
-
+#write functions 
+#function for running goseq
 run.gostat <- function(test.data, uni.data, ont){
   #get background gene sets from all CpGs
   uni.data <- getAssociationWithTSS(uni.data)
@@ -235,127 +50,350 @@ run.gostat <- function(test.data, uni.data, ont){
   return(sum.over)
 }
 
-#run on all gene sets
-#DMS_all_gostat_BP <- run.gostat(DMS_TSS_all, CpG_anno_all, "BP")
-DMS_05h_gostat_BP <- run.gostat(DMS_TSS_05h, CpG_anno_05h, "BP")
-DMS_1h_gostat_BP <- run.gostat(DMS_TSS_1h, CpG_anno_1h, "BP")
-DMS_4h_gostat_BP <- run.gostat(DMS_TSS_4h, CpG_anno_4h, "BP")
-DMS_24h_gostat_BP <- run.gostat(DMS_TSS_24h, CpG_anno_24h, "BP")
-DMS_72h_gostat_BP<- run.gostat(DMS_TSS_72h, CpG_anno_72h, "BP")
+#function for plotting go seq
+plot.funct <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
+                       total.05h, total.1h, total.4h, total.24h, total.72h,
+                       name.plot){
+  #calculate percent
+  data.05h$perc <- data.05h$Count / total.05h * 100
+  data.1h$perc <- data.1h$Count / total.1h * 100
+  data.4h$perc <- data.4h$Count / total.4h * 100
+  data.24h$perc <- data.24h$Count / total.24h * 100
+  data.72h$perc <- data.72h$Count / total.72h * 100
+  
+  #select top 10 by p value and percent
+  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  
+  #add time point variable
+  data.05h$tp <- "0.5h"
+  data.1h$tp <- "1h"
+  data.4h$tp <- "4h"
+  data.24h$tp <- "24h"
+  data.72h$tp <- "72h"
+  
+  #bind all data
+  data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
+  
+  #convert time point to ordered factor
+  data$tp <- factor(data$tp, levels = c("0.5h", "1h", "4h", "24h", "72h"), ordered = TRUE)
+  
+  #plot
+  p <- data %>% ggplot(aes(x = tp, y = Term, size = perc, color = tp, alpha = FDR)) + geom_point() + theme_bw() +
+    scale_color_manual(values = c("#B8DE29FF", "#55C667FF", "#1F968BFF", "#39568CFF", "#481567FF")) +
+    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
+    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
+                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
+    scale_y_discrete(labels = function(Term) str_wrap(Term, width = 100)) +
+    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14))
+  
+  ggsave(filename = name.plot, plot = p, width = 8, height = 10, units = "in", dpi = 300)
+  
+  return(p)
+}
 
-#DMS_all_fem_gostat_BP <- run.gostat(DMS_TSS_all_fem, CpG_anno_all_fem, "BP")
+#function for plotting top 5
+plot.funct.top5 <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
+                            total.05h, total.1h, total.4h, total.24h, total.72h,
+                            name.plot){
+  #calculate percent
+  data.05h$perc <- data.05h$Count / total.05h * 100
+  data.1h$perc <- data.1h$Count / total.1h * 100
+  data.4h$perc <- data.4h$Count / total.4h * 100
+  data.24h$perc <- data.24h$Count / total.24h * 100
+  data.72h$perc <- data.72h$Count / total.72h * 100
+  
+  #select top 10 by p value and percent
+  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
+  
+  #add time point variable
+  data.05h$tp <- "0.5h"
+  data.1h$tp <- "1h"
+  data.4h$tp <- "4h"
+  data.24h$tp <- "24h"
+  data.72h$tp <- "72h"
+  
+  #bind all data
+  data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
+  
+  #convert time point to ordered factor
+  data$tp <- factor(data$tp, levels = c("0.5h", "1h", "4h", "24h", "72h"), ordered = TRUE)
+  
+  #plot
+  p <- data %>% ggplot(aes(x = tp, y = Term, size = perc, color = tp, alpha = FDR)) + geom_point() + theme_bw() +
+    scale_color_manual(values = c("#B8DE29FF", "#55C667FF", "#1F968BFF", "#39568CFF", "#481567FF")) +
+    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
+    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
+                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
+    scale_y_discrete(labels = function(Term) str_wrap(Term, width = 60)) +
+    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14))
+  
+  ggsave(filename = name.plot, plot = p, width = 9, height = 10, units = "in", dpi = 300)
+  
+  return(p)
+}
+
+#function for getting genes
+gene.list.funct <- function(data, name.csv){
+  #limit to genes within 10kb
+  data <- subset(data, dist.to.feature >= -10000 & dist.to.feature <= 10000)
+  #get list to seach in biomart
+  val <- data$feature.name
+  #search biomart
+  gene.data <- getBM(mart = bm, attributes = c('ensembl_transcript_id','external_gene_name','go_id', "name_1006",
+                                               "namespace_1003", "go_linkage_type"), filters = "ensembl_transcript_id", values = val)
+  gene.data <- gene.data[!duplicated(gene.data),]
+  write.csv(gene.data, name.csv, row.names = FALSE)
+}
+
+#function for plotting pooled analysis 
+plot_pooled <- function(data.hyper, total.hyper, data.hypo, total.hypo, name.plot){
+  #add labels
+  data.hyper$direction <- "hyper"
+  data.hypo$direction <- "hypo"
+  
+  #calculate percent
+  data.hyper$perc <- data.hyper$Count / total.hyper * 100
+  data.hypo$perc <- data.hypo$Count / total.hypo * 100
+  
+  #select top 10 by p value and percent
+  data.hyper <- data.hyper %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  data.hypo <- data.hypo %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
+  
+  #merge data
+  data <- rbind(data.hyper, data.hypo)
+  
+  #plot
+  p <- data %>% ggplot(aes(x = direction, y = Term, color = direction, size = perc, alpha = FDR)) + geom_point() + theme_bw() +
+    scale_color_manual(values = c("#55C667FF", "#39568CFF")) +
+    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
+    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
+                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
+    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
+          legend.title = element_text(size = 14))
+  
+  ggsave(filename = name.plot, plot = p, width = 8, height = 10, units = "in", dpi = 300)
+}
+
+#load in data
+DMS_TSS_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_TSS_all_fem.RDS")
+DMS_TSS_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMS_TSS_05h_fem.RDS")
+DMS_TSS_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMS_TSS_1h_fem.RDS")
+DMS_TSS_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMS_TSS_4h_fem.RDS")
+DMS_TSS_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMS_TSS_24h_fem.RDS")
+DMS_TSS_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMS_TSS_72h_fem.RDS")
+
+DMS_TSS_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_TSS_all_mal.RDS")
+DMS_TSS_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMS_TSS_05h_mal.RDS")
+DMS_TSS_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMS_TSS_1h_mal.RDS")
+DMS_TSS_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMS_TSS_4h_mal.RDS")
+DMS_TSS_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMS_TSS_24h_mal.RDS")
+DMS_TSS_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMS_TSS_72h_mal.RDS")
+
+DMR_TSS_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMR_TSS_all_fem.RDS")
+DMR_TSS_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMR_TSS_05h_fem.RDS")
+DMR_TSS_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMR_TSS_1h_fem.RDS")
+DMR_TSS_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMR_TSS_4h_fem.RDS")
+DMR_TSS_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMR_TSS_24h_fem.RDS")
+DMR_TSS_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMR_TSS_72h_fem.RDS")
+
+DMR_TSS_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMR_TSS_all_mal.RDS")
+DMR_TSS_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMR_TSS_05h_mal.RDS")
+DMR_TSS_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMR_TSS_1h_mal.RDS")
+DMR_TSS_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMR_TSS_4h_mal.RDS")
+DMR_TSS_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMR_TSS_24h_mal.RDS")
+DMR_TSS_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMR_TSS_72h_mal.RDS")
+
+DMS_TSS_all_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_TSS_all_fem_hyper.RDS")
+DMS_TSS_05h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMS_TSS_05h_fem_hyper.RDS")
+DMS_TSS_1h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMS_TSS_1h_fem_hyper.RDS")
+DMS_TSS_4h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMS_TSS_4h_fem_hyper.RDS")
+DMS_TSS_24h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMS_TSS_24h_fem_hyper.RDS")
+DMS_TSS_72h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMS_TSS_72h_fem_hyper.RDS")
+
+DMS_TSS_all_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_TSS_all_mal_hyper.RDS")
+DMS_TSS_05h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMS_TSS_05h_mal_hyper.RDS")
+DMS_TSS_1h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMS_TSS_1h_mal_hyper.RDS")
+DMS_TSS_4h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMS_TSS_4h_mal_hyper.RDS")
+DMS_TSS_24h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMS_TSS_24h_mal_hyper.RDS")
+DMS_TSS_72h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMS_TSS_72h_mal_hyper.RDS")
+
+DMR_TSS_all_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMR_TSS_all_fem_hyper.RDS")
+DMR_TSS_05h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMR_TSS_05h_fem_hyper.RDS")
+DMR_TSS_1h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMR_TSS_1h_fem_hyper.RDS")
+DMR_TSS_4h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMR_TSS_4h_fem_hyper.RDS")
+DMR_TSS_24h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMR_TSS_24h_fem_hyper.RDS")
+DMR_TSS_72h_fem_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMR_TSS_72h_fem_hyper.RDS")
+
+DMR_TSS_all_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMR_TSS_all_mal_hyper.RDS")
+DMR_TSS_05h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMR_TSS_05h_mal_hyper.RDS")
+DMR_TSS_1h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMR_TSS_1h_mal_hyper.RDS")
+DMR_TSS_4h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMR_TSS_4h_mal_hyper.RDS")
+DMR_TSS_24h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMR_TSS_24h_mal_hyper.RDS")
+DMR_TSS_72h_mal_hyper <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMR_TSS_72h_mal_hyper.RDS")
+
+DMS_TSS_all_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_TSS_all_fem_hypo.RDS")
+DMS_TSS_05h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMS_TSS_05h_fem_hypo.RDS")
+DMS_TSS_1h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMS_TSS_1h_fem_hypo.RDS")
+DMS_TSS_4h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMS_TSS_4h_fem_hypo.RDS")
+DMS_TSS_24h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMS_TSS_24h_fem_hypo.RDS")
+DMS_TSS_72h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMS_TSS_72h_fem_hypo.RDS")
+
+DMS_TSS_all_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMS_TSS_all_mal_hypo.RDS")
+DMS_TSS_05h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMS_TSS_05h_mal_hypo.RDS")
+DMS_TSS_1h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMS_TSS_1h_mal_hypo.RDS")
+DMS_TSS_4h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMS_TSS_4h_mal_hypo.RDS")
+DMS_TSS_24h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMS_TSS_24h_mal_hypo.RDS")
+DMS_TSS_72h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMS_TSS_72h_mal_hypo.RDS")
+
+DMR_TSS_all_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMR_TSS_all_fem_hypo.RDS")
+DMR_TSS_05h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMR_TSS_05h_fem_hypo.RDS")
+DMR_TSS_1h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMR_TSS_1h_fem_hypo.RDS")
+DMR_TSS_4h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMR_TSS_4h_fem_hypo.RDS")
+DMR_TSS_24h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMR_TSS_24h_fem_hypo.RDS")
+DMR_TSS_72h_fem_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMR_TSS_72h_fem_hypo.RDS")
+
+DMR_TSS_all_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/DMR_TSS_all_mal_hypo.RDS")
+DMR_TSS_05h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/DMR_TSS_05h_mal_hypo.RDS")
+DMR_TSS_1h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/DMR_TSS_1h_mal_hypo.RDS")
+DMR_TSS_4h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/DMR_TSS_4h_mal_hypo.RDS")
+DMR_TSS_24h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/DMR_TSS_24h_mal_hypo.RDS")
+DMR_TSS_72h_mal_hypo <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/DMR_TSS_72h_mal_hypo.RDS")
+
+CpG_anno_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/CpG_anno_all_fem.RDS")
+CpG_anno_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/CpG_anno_05h_fem.RDS")
+CpG_anno_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/CpG_anno_1h_fem.RDS")
+CpG_anno_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/CpG_anno_4h_fem.RDS")
+CpG_anno_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/CpG_anno_24h_fem.RDS")
+CpG_anno_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/CpG_anno_72h_fem.RDS")
+
+CpG_anno_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/CpG_anno_all_mal.RDS")
+CpG_anno_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/CpG_anno_05h_mal.RDS")
+CpG_anno_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/CpG_anno_1h_mal.RDS")
+CpG_anno_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/CpG_anno_4h_mal.RDS")
+CpG_anno_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/CpG_anno_24h_mal.RDS")
+CpG_anno_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/CpG_anno_72h_mal.RDS")
+
+regions_anno_all_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/regions_anno_all_fem.RDS")
+regions_anno_05h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/regions_anno_05h_fem.RDS")
+regions_anno_1h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/regions_anno_1h_fem.RDS")
+regions_anno_4h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/regions_anno_4h_fem.RDS")
+regions_anno_24h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/regions_anno_24h_fem.RDS")
+regions_anno_72h_fem <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/regions_anno_72h_fem.RDS")
+
+regions_anno_all_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_all/regions_anno_all_mal.RDS")
+regions_anno_05h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_05h/regions_anno_05h_mal.RDS")
+regions_anno_1h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_1h/regions_anno_1h_mal.RDS")
+regions_anno_4h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_4h/regions_anno_4h_mal.RDS")
+regions_anno_24h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_24h/regions_anno_24h_mal.RDS")
+regions_anno_72h_mal <- readRDS("./shortTerm_exp/data/methylkit_res/anno_res_72h/regions_anno_72h_mal.RDS")
+
+## Go seq analysis ##
+#get proper biomart
+bm <- useEnsembl(biomart = "ensembl")
+bm <- useDataset("preticulata_gene_ensembl", mart = bm)
+
+#grab go terms
+go_list <- getBM(mart = bm, attributes = c('ensembl_transcript_id','external_gene_name','go_id', "name_1006", 
+                                                                              "namespace_1003", "go_linkage_type"))
+#prep go terms for gene mappings
+go_list_data <- go_list[,c(3,6,1)] #limit to needed data
+go_list_data <- go_list_data[go_list_data$go_id != '',] #remove empty go terms
+
+#set go frame
+goFrame <- GOFrame(go_list_data, organism = "guppy")
+goAllFrame <- GOAllFrame(goFrame)
+#set gene set
+gsc <- GeneSetCollection(goAllFrame, setType = GOCollection())
+
+#run go seg on all gene sets
+DMS_all_fem_gostat_BP <- run.gostat(DMS_TSS_all_fem, CpG_anno_all_fem, "BP")
 DMS_05h_fem_gostat_BP <- run.gostat(DMS_TSS_05h_fem, CpG_anno_05h_fem, "BP")
 DMS_1h_fem_gostat_BP <- run.gostat(DMS_TSS_1h_fem, CpG_anno_1h_fem, "BP")
 DMS_4h_fem_gostat_BP<- run.gostat(DMS_TSS_4h_fem, CpG_anno_4h_fem, "BP")
 DMS_24h_fem_gostat_BP <- run.gostat(DMS_TSS_24h_fem, CpG_anno_24h_fem, "BP")
 DMS_72h_fem_gostat_BP <- run.gostat(DMS_TSS_72h_fem, CpG_anno_72h_fem, "BP")
 
-#DMS_all_mal_gostat_BP <- run.gostat(DMS_TSS_all_mal, CpG_anno_all_mal, "BP")
+DMS_all_mal_gostat_BP <- run.gostat(DMS_TSS_all_mal, CpG_anno_all_mal, "BP")
 DMS_05h_mal_gostat_BP <- run.gostat(DMS_TSS_05h_mal, CpG_anno_05h_mal, "BP")
 DMS_1h_mal_gostat_BP <- run.gostat(DMS_TSS_1h_mal, CpG_anno_1h_mal, "BP")
 DMS_4h_mal_gostat_BP <- run.gostat(DMS_TSS_4h_mal, CpG_anno_4h_mal, "BP")
 DMS_24h_mal_gostat_BP <- run.gostat(DMS_TSS_24h_mal, CpG_anno_24h_mal, "BP")
 DMS_72h_mal_gostat_BP <- run.gostat(DMS_TSS_72h_mal, CpG_anno_72h_mal, "BP")
 
-#DMS_all_gostat_MF <- run.gostat(DMS_TSS_all, CpG_anno_all, "MF")
-DMS_05h_gostat_MF <- run.gostat(DMS_TSS_05h, CpG_anno_05h, "MF")
-DMS_1h_gostat_MF <- run.gostat(DMS_TSS_1h, CpG_anno_1h, "MF")
-DMS_4h_gostat_MF <- run.gostat(DMS_TSS_4h, CpG_anno_4h, "MF")
-DMS_24h_gostat_MF <- run.gostat(DMS_TSS_24h, CpG_anno_24h, "MF")
-DMS_72h_gostat_MF<- run.gostat(DMS_TSS_72h, CpG_anno_72h, "MF")
-
-#DMS_all_fem_gostat_MF <- run.gostat(DMS_TSS_all_fem, CpG_anno_all_fem, "MF")
+DMS_all_fem_gostat_MF <- run.gostat(DMS_TSS_all_fem, CpG_anno_all_fem, "MF")
 DMS_05h_fem_gostat_MF <- run.gostat(DMS_TSS_05h_fem, CpG_anno_05h_fem, "MF")
 DMS_1h_fem_gostat_MF <- run.gostat(DMS_TSS_1h_fem, CpG_anno_1h_fem, "MF")
 DMS_4h_fem_gostat_MF<- run.gostat(DMS_TSS_4h_fem, CpG_anno_4h_fem, "MF")
 DMS_24h_fem_gostat_MF <- run.gostat(DMS_TSS_24h_fem, CpG_anno_24h_fem, "MF")
 DMS_72h_fem_gostat_MF <- run.gostat(DMS_TSS_72h_fem, CpG_anno_72h_fem, "MF")
 
-#DMS_all_mal_gostat_MF <- run.gostat(DMS_TSS_all_mal, CpG_anno_all_mal, "MF")
+DMS_all_mal_gostat_MF <- run.gostat(DMS_TSS_all_mal, CpG_anno_all_mal, "MF")
 DMS_05h_mal_gostat_MF <- run.gostat(DMS_TSS_05h_mal, CpG_anno_05h_mal, "MF")
 DMS_1h_mal_gostat_MF <- run.gostat(DMS_TSS_1h_mal, CpG_anno_1h_mal, "MF")
 DMS_4h_mal_gostat_MF <- run.gostat(DMS_TSS_4h_mal, CpG_anno_4h_mal, "MF")
 DMS_24h_mal_gostat_MF <- run.gostat(DMS_TSS_24h_mal, CpG_anno_24h_mal, "MF")
 DMS_72h_mal_gostat_MF <- run.gostat(DMS_TSS_72h_mal, CpG_anno_72h_mal, "MF")
 
-#DMS_all_gostat_CC <- run.gostat(DMS_TSS_all, CpG_anno_all, "CC")
-DMS_05h_gostat_CC <- run.gostat(DMS_TSS_05h, CpG_anno_05h, "CC")
-DMS_1h_gostat_CC <- run.gostat(DMS_TSS_1h, CpG_anno_1h, "CC")
-DMS_4h_gostat_CC <- run.gostat(DMS_TSS_4h, CpG_anno_4h, "CC")
-DMS_24h_gostat_CC <- run.gostat(DMS_TSS_24h, CpG_anno_24h, "CC")
-DMS_72h_gostat_CC<- run.gostat(DMS_TSS_72h, CpG_anno_72h, "CC")
-
-#DMS_all_fem_gostat_CC <- run.gostat(DMS_TSS_all_fem, CpG_anno_all_fem, "CC")
+DMS_all_fem_gostat_CC <- run.gostat(DMS_TSS_all_fem, CpG_anno_all_fem, "CC")
 DMS_05h_fem_gostat_CC <- run.gostat(DMS_TSS_05h_fem, CpG_anno_05h_fem, "CC")
 DMS_1h_fem_gostat_CC <- run.gostat(DMS_TSS_1h_fem, CpG_anno_1h_fem, "CC")
 DMS_4h_fem_gostat_CC<- run.gostat(DMS_TSS_4h_fem, CpG_anno_4h_fem, "CC")
 DMS_24h_fem_gostat_CC <- run.gostat(DMS_TSS_24h_fem, CpG_anno_24h_fem, "CC")
 DMS_72h_fem_gostat_CC <- run.gostat(DMS_TSS_72h_fem, CpG_anno_72h_fem, "CC")
 
-#DMS_all_mal_gostat_CC <- run.gostat(DMS_TSS_all_mal, CpG_anno_all_mal, "CC")
+DMS_all_mal_gostat_CC <- run.gostat(DMS_TSS_all_mal, CpG_anno_all_mal, "CC")
 DMS_05h_mal_gostat_CC <- run.gostat(DMS_TSS_05h_mal, CpG_anno_05h_mal, "CC")
 DMS_1h_mal_gostat_CC <- run.gostat(DMS_TSS_1h_mal, CpG_anno_1h_mal, "CC")
 DMS_4h_mal_gostat_CC <- run.gostat(DMS_TSS_4h_mal, CpG_anno_4h_mal, "CC")
 DMS_24h_mal_gostat_CC <- run.gostat(DMS_TSS_24h_mal, CpG_anno_24h_mal, "CC")
 DMS_72h_mal_gostat_CC <- run.gostat(DMS_TSS_72h_mal, CpG_anno_72h_mal, "CC")
 
-#DMR_all_gostat_BP <- run.gostat(DMR_TSS_all, regions_anno_all, "BP")
-DMR_05h_gostat_BP <- run.gostat(DMR_TSS_05h, regions_anno_05h, "BP")
-DMR_1h_gostat_BP <- run.gostat(DMR_TSS_1h, regions_anno_1h, "BP")
-DMR_4h_gostat_BP <- run.gostat(DMR_TSS_4h, regions_anno_4h, "BP")
-DMR_24h_gostat_BP <- run.gostat(DMR_TSS_24h, regions_anno_24h, "BP")
-DMR_72h_gostat_BP<- run.gostat(DMR_TSS_72h, regions_anno_72h, "BP")
-
-#DMR_all_fem_gostat_BP <- run.gostat(DMR_TSS_all_fem, regions_anno_all_fem, "BP")
+DMR_all_fem_gostat_BP <- run.gostat(DMR_TSS_all_fem, regions_anno_all_fem, "BP")
 DMR_05h_fem_gostat_BP <- run.gostat(DMR_TSS_05h_fem, regions_anno_05h_fem, "BP")
 DMR_1h_fem_gostat_BP <- run.gostat(DMR_TSS_1h_fem, regions_anno_1h_fem, "BP")
 DMR_4h_fem_gostat_BP<- run.gostat(DMR_TSS_4h_fem, regions_anno_4h_fem, "BP")
 DMR_24h_fem_gostat_BP <- run.gostat(DMR_TSS_24h_fem, regions_anno_24h_fem, "BP")
 DMR_72h_fem_gostat_BP <- run.gostat(DMR_TSS_72h_fem, regions_anno_72h_fem, "BP")
 
-#DMR_all_mal_gostat_BP <- run.gostat(DMR_TSS_all_mal, regions_anno_all_mal, "BP")
+DMR_all_mal_gostat_BP <- run.gostat(DMR_TSS_all_mal, regions_anno_all_mal, "BP")
 DMR_05h_mal_gostat_BP <- run.gostat(DMR_TSS_05h_mal, regions_anno_05h_mal, "BP")
 DMR_1h_mal_gostat_BP <- run.gostat(DMR_TSS_1h_mal, regions_anno_1h_mal, "BP")
 DMR_4h_mal_gostat_BP <- run.gostat(DMR_TSS_4h_mal, regions_anno_4h_mal, "BP")
 DMR_24h_mal_gostat_BP <- run.gostat(DMR_TSS_24h_mal, regions_anno_24h_mal, "BP")
 DMR_72h_mal_gostat_BP <- run.gostat(DMR_TSS_72h_mal, regions_anno_72h_mal, "BP")
 
-#DMR_all_gostat_MF <- run.gostat(DMR_TSS_all, regions_anno_all, "MF")
-DMR_05h_gostat_MF <- run.gostat(DMR_TSS_05h, regions_anno_05h, "MF")
-DMR_1h_gostat_MF <- run.gostat(DMR_TSS_1h, regions_anno_1h, "MF")
-DMR_4h_gostat_MF <- run.gostat(DMR_TSS_4h, regions_anno_4h, "MF")
-DMR_24h_gostat_MF <- run.gostat(DMR_TSS_24h, regions_anno_24h, "MF")
-DMR_72h_gostat_MF<- run.gostat(DMR_TSS_72h, regions_anno_72h, "MF")
-
-#DMR_all_fem_gostat_MF <- run.gostat(DMR_TSS_all_fem, regions_anno_all_fem, "MF")
+DMR_all_fem_gostat_MF <- run.gostat(DMR_TSS_all_fem, regions_anno_all_fem, "MF")
 DMR_05h_fem_gostat_MF <- run.gostat(DMR_TSS_05h_fem, regions_anno_05h_fem, "MF")
 DMR_1h_fem_gostat_MF <- run.gostat(DMR_TSS_1h_fem, regions_anno_1h_fem, "MF")
 DMR_4h_fem_gostat_MF<- run.gostat(DMR_TSS_4h_fem, regions_anno_4h_fem, "MF")
 DMR_24h_fem_gostat_MF <- run.gostat(DMR_TSS_24h_fem, regions_anno_24h_fem, "MF")
 DMR_72h_fem_gostat_MF <- run.gostat(DMR_TSS_72h_fem, regions_anno_72h_fem, "MF")
 
-#DMR_all_mal_gostat_MF <- run.gostat(DMR_TSS_all_mal, regions_anno_all_mal, "MF")
+DMR_all_mal_gostat_MF <- run.gostat(DMR_TSS_all_mal, regions_anno_all_mal, "MF")
 DMR_05h_mal_gostat_MF <- run.gostat(DMR_TSS_05h_mal, regions_anno_05h_mal, "MF")
 DMR_1h_mal_gostat_MF <- run.gostat(DMR_TSS_1h_mal, regions_anno_1h_mal, "MF")
 DMR_4h_mal_gostat_MF <- run.gostat(DMR_TSS_4h_mal, regions_anno_4h_mal, "MF")
 DMR_24h_mal_gostat_MF <- run.gostat(DMR_TSS_24h_mal, regions_anno_24h_mal, "MF")
 DMR_72h_mal_gostat_MF <- run.gostat(DMR_TSS_72h_mal, regions_anno_72h_mal, "MF")
 
-#DMR_all_gostat_CC <- run.gostat(DMR_TSS_all, regions_anno_all, "CC")
-DMR_05h_gostat_CC <- run.gostat(DMR_TSS_05h, regions_anno_05h, "CC")
-DMR_1h_gostat_CC <- run.gostat(DMR_TSS_1h, regions_anno_1h, "CC")
-DMR_4h_gostat_CC <- run.gostat(DMR_TSS_4h, regions_anno_4h, "CC")
-DMR_24h_gostat_CC <- run.gostat(DMR_TSS_24h, regions_anno_24h, "CC")
-DMR_72h_gostat_CC<- run.gostat(DMR_TSS_72h, regions_anno_72h, "CC")
-
-#DMR_all_fem_gostat_CC <- run.gostat(DMR_TSS_all_fem, regions_anno_all_fem, "CC")
+DMR_all_fem_gostat_CC <- run.gostat(DMR_TSS_all_fem, regions_anno_all_fem, "CC")
 DMR_05h_fem_gostat_CC <- run.gostat(DMR_TSS_05h_fem, regions_anno_05h_fem, "CC")
 DMR_1h_fem_gostat_CC <- run.gostat(DMR_TSS_1h_fem, regions_anno_1h_fem, "CC")
 DMR_4h_fem_gostat_CC<- run.gostat(DMR_TSS_4h_fem, regions_anno_4h_fem, "CC")
 DMR_24h_fem_gostat_CC <- run.gostat(DMR_TSS_24h_fem, regions_anno_24h_fem, "CC")
 DMR_72h_fem_gostat_CC <- run.gostat(DMR_TSS_72h_fem, regions_anno_72h_fem, "CC")
 
-#DMR_all_mal_gostat_CC <- run.gostat(DMR_TSS_all_mal, regions_anno_all_mal, "CC")
+DMR_all_mal_gostat_CC <- run.gostat(DMR_TSS_all_mal, regions_anno_all_mal, "CC")
 DMR_05h_mal_gostat_CC <- run.gostat(DMR_TSS_05h_mal, regions_anno_05h_mal, "CC")
 DMR_1h_mal_gostat_CC <- run.gostat(DMR_TSS_1h_mal, regions_anno_1h_mal, "CC")
 DMR_4h_mal_gostat_CC <- run.gostat(DMR_TSS_4h_mal, regions_anno_4h_mal, "CC")
@@ -363,126 +401,84 @@ DMR_24h_mal_gostat_CC <- run.gostat(DMR_TSS_24h_mal, regions_anno_24h_mal, "CC")
 DMR_72h_mal_gostat_CC <- run.gostat(DMR_TSS_72h_mal, regions_anno_72h_mal, "CC")
 
 #run on hyper gene sets 
-#DMS_all_gostat_BP_hyper <- run.gostat(DMS_TSS_all_hyper, CpG_anno_all, "BP")
-DMS_05h_gostat_BP_hyper <- run.gostat(DMS_TSS_05h_hyper, CpG_anno_05h, "BP")
-DMS_1h_gostat_BP_hyper <- run.gostat(DMS_TSS_1h_hyper, CpG_anno_1h, "BP")
-DMS_4h_gostat_BP_hyper <- run.gostat(DMS_TSS_4h_hyper, CpG_anno_4h, "BP")
-DMS_24h_gostat_BP_hyper <- run.gostat(DMS_TSS_24h_hyper, CpG_anno_24h, "BP")
-DMS_72h_gostat_BP_hyper <- run.gostat(DMS_TSS_72h_hyper, CpG_anno_72h, "BP")
-
-#DMS_all_fem_gostat_BP_hyper <- run.gostat(DMS_TSS_all_fem_hyper, CpG_anno_all_fem, "BP")
+DMS_all_fem_gostat_BP_hyper <- run.gostat(DMS_TSS_all_fem_hyper, CpG_anno_all_fem, "BP")
 DMS_05h_fem_gostat_BP_hyper <- run.gostat(DMS_TSS_05h_fem_hyper, CpG_anno_05h_fem, "BP")
 DMS_1h_fem_gostat_BP_hyper <- run.gostat(DMS_TSS_1h_fem_hyper, CpG_anno_1h_fem, "BP")
 DMS_4h_fem_gostat_BP_hyper<- run.gostat(DMS_TSS_4h_fem_hyper, CpG_anno_4h_fem, "BP")
 DMS_24h_fem_gostat_BP_hyper <- run.gostat(DMS_TSS_24h_fem_hyper, CpG_anno_24h_fem, "BP")
 DMS_72h_fem_gostat_BP_hyper <- run.gostat(DMS_TSS_72h_fem_hyper, CpG_anno_72h_fem, "BP")
 
-#DMS_all_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_all_mal_hyper, CpG_anno_all_mal, "BP")
+DMS_all_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_all_mal_hyper, CpG_anno_all_mal, "BP")
 DMS_05h_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_05h_mal_hyper, CpG_anno_05h_mal, "BP")
 DMS_1h_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_1h_mal_hyper, CpG_anno_1h_mal, "BP")
 DMS_4h_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_4h_mal_hyper, CpG_anno_4h_mal, "BP")
 DMS_24h_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_24h_mal_hyper, CpG_anno_24h_mal, "BP")
 DMS_72h_mal_gostat_BP_hyper <- run.gostat(DMS_TSS_72h_mal_hyper, CpG_anno_72h_mal, "BP")
 
-#DMS_all_gostat_MF_hyper <- run.gostat(DMS_TSS_all_hyper, CpG_anno_all, "MF")
-DMS_05h_gostat_MF_hyper <- run.gostat(DMS_TSS_05h_hyper, CpG_anno_05h, "MF")
-DMS_1h_gostat_MF_hyper <- run.gostat(DMS_TSS_1h_hyper, CpG_anno_1h, "MF")
-DMS_4h_gostat_MF_hyper <- run.gostat(DMS_TSS_4h_hyper, CpG_anno_4h, "MF")
-DMS_24h_gostat_MF_hyper <- run.gostat(DMS_TSS_24h_hyper, CpG_anno_24h, "MF")
-DMS_72h_gostat_MF_hyper<- run.gostat(DMS_TSS_72h_hyper, CpG_anno_72h, "MF")
-
-#DMS_all_fem_gostat_MF_hyper <- run.gostat(DMS_TSS_all_fem_hyper, CpG_anno_all_fem, "MF")
+DMS_all_fem_gostat_MF_hyper <- run.gostat(DMS_TSS_all_fem_hyper, CpG_anno_all_fem, "MF")
 DMS_05h_fem_gostat_MF_hyper <- run.gostat(DMS_TSS_05h_fem_hyper, CpG_anno_05h_fem, "MF")
 DMS_1h_fem_gostat_MF_hyper <- run.gostat(DMS_TSS_1h_fem_hyper, CpG_anno_1h_fem, "MF")
 DMS_4h_fem_gostat_MF_hyper<- run.gostat(DMS_TSS_4h_fem_hyper, CpG_anno_4h_fem, "MF")
 DMS_24h_fem_gostat_MF_hyper <- run.gostat(DMS_TSS_24h_fem_hyper, CpG_anno_24h_fem, "MF")
 DMS_72h_fem_gostat_MF_hyper <- run.gostat(DMS_TSS_72h_fem_hyper, CpG_anno_72h_fem, "MF")
 
-#DMS_all_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_all_mal_hyper, CpG_anno_all_mal, "MF")
+DMS_all_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_all_mal_hyper, CpG_anno_all_mal, "MF")
 DMS_05h_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_05h_mal_hyper, CpG_anno_05h_mal, "MF")
 DMS_1h_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_1h_mal_hyper, CpG_anno_1h_mal, "MF")
 DMS_4h_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_4h_mal_hyper, CpG_anno_4h_mal, "MF")
 DMS_24h_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_24h_mal_hyper, CpG_anno_24h_mal, "MF")
 DMS_72h_mal_gostat_MF_hyper <- run.gostat(DMS_TSS_72h_mal_hyper, CpG_anno_72h_mal, "MF")
 
-#DMS_all_gostat_CC_hyper <- run.gostat(DMS_TSS_all_hyper, CpG_anno_all, "CC")
-DMS_05h_gostat_CC_hyper <- run.gostat(DMS_TSS_05h_hyper, CpG_anno_05h, "CC")
-DMS_1h_gostat_CC_hyper <- run.gostat(DMS_TSS_1h_hyper, CpG_anno_1h, "CC")
-DMS_4h_gostat_CC_hyper <- run.gostat(DMS_TSS_4h_hyper, CpG_anno_4h, "CC")
-DMS_24h_gostat_CC_hyper <- run.gostat(DMS_TSS_24h_hyper, CpG_anno_24h, "CC")
-DMS_72h_gostat_CC_hyper<- run.gostat(DMS_TSS_72h_hyper, CpG_anno_72h, "CC")
-
-#DMS_all_fem_gostat_CC_hyper <- run.gostat(DMS_TSS_all_fem_hyper, CpG_anno_all_fem, "CC")
+DMS_all_fem_gostat_CC_hyper <- run.gostat(DMS_TSS_all_fem_hyper, CpG_anno_all_fem, "CC")
 DMS_05h_fem_gostat_CC_hyper <- run.gostat(DMS_TSS_05h_fem_hyper, CpG_anno_05h_fem, "CC")
 DMS_1h_fem_gostat_CC_hyper <- run.gostat(DMS_TSS_1h_fem_hyper, CpG_anno_1h_fem, "CC")
 DMS_4h_fem_gostat_CC_hyper<- run.gostat(DMS_TSS_4h_fem_hyper, CpG_anno_4h_fem, "CC")
 DMS_24h_fem_gostat_CC_hyper <- run.gostat(DMS_TSS_24h_fem_hyper, CpG_anno_24h_fem, "CC")
 DMS_72h_fem_gostat_CC_hyper <- run.gostat(DMS_TSS_72h_fem_hyper, CpG_anno_72h_fem, "CC")
 
-#DMS_all_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_all_mal_hyper, CpG_anno_all_mal, "CC")
+DMS_all_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_all_mal_hyper, CpG_anno_all_mal, "CC")
 DMS_05h_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_05h_mal_hyper, CpG_anno_05h_mal, "CC")
 DMS_1h_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_1h_mal_hyper, CpG_anno_1h_mal, "CC")
 DMS_4h_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_4h_mal_hyper, CpG_anno_4h_mal, "CC")
 DMS_24h_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_24h_mal_hyper, CpG_anno_24h_mal, "CC")
 DMS_72h_mal_gostat_CC_hyper <- run.gostat(DMS_TSS_72h_mal_hyper, CpG_anno_72h_mal, "CC")
 
-#DMR_all_gostat_BP_hyper <- run.gostat(DMR_TSS_all_hyper, regions_anno_all, "BP")
-DMR_05h_gostat_BP_hyper <- run.gostat(DMR_TSS_05h_hyper, regions_anno_05h, "BP")
-DMR_1h_gostat_BP_hyper <- run.gostat(DMR_TSS_1h_hyper, regions_anno_1h, "BP")
-DMR_4h_gostat_BP_hyper <- run.gostat(DMR_TSS_4h_hyper, regions_anno_4h, "BP")
-DMR_24h_gostat_BP_hyper <- run.gostat(DMR_TSS_24h_hyper, regions_anno_24h, "BP")
-DMR_72h_gostat_BP_hyper<- run.gostat(DMR_TSS_72h_hyper, regions_anno_72h, "BP")
-
-#DMR_all_fem_gostat_BP_hyper <- run.gostat(DMR_TSS_all_fem_hyper, regions_anno_all_fem, "BP")
+DMR_all_fem_gostat_BP_hyper <- run.gostat(DMR_TSS_all_fem_hyper, regions_anno_all_fem, "BP")
 DMR_05h_fem_gostat_BP_hyper <- run.gostat(DMR_TSS_05h_fem_hyper, regions_anno_05h_fem, "BP")
 DMR_1h_fem_gostat_BP_hyper <- run.gostat(DMR_TSS_1h_fem_hyper, regions_anno_1h_fem, "BP")
 DMR_4h_fem_gostat_BP_hyper<- run.gostat(DMR_TSS_4h_fem_hyper, regions_anno_4h_fem, "BP")
 DMR_24h_fem_gostat_BP_hyper <- run.gostat(DMR_TSS_24h_fem_hyper, regions_anno_24h_fem, "BP")
 DMR_72h_fem_gostat_BP_hyper <- run.gostat(DMR_TSS_72h_fem_hyper, regions_anno_72h_fem, "BP")
 
-#DMR_all_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_all_mal_hyper, regions_anno_all_mal, "BP")
+DMR_all_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_all_mal_hyper, regions_anno_all_mal, "BP")
 DMR_05h_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_05h_mal_hyper, regions_anno_05h_mal, "BP")
 DMR_1h_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_1h_mal_hyper, regions_anno_1h_mal, "BP")
 DMR_4h_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_4h_mal_hyper, regions_anno_4h_mal, "BP")
 DMR_24h_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_24h_mal_hyper, regions_anno_24h_mal, "BP")
 DMR_72h_mal_gostat_BP_hyper <- run.gostat(DMR_TSS_72h_mal_hyper, regions_anno_72h_mal, "BP")
 
-#DMR_all_gostat_MF_hyper <- run.gostat(DMR_TSS_all_hyper, regions_anno_all, "MF")
-DMR_05h_gostat_MF_hyper <- run.gostat(DMR_TSS_05h_hyper, regions_anno_05h, "MF")
-DMR_1h_gostat_MF_hyper <- run.gostat(DMR_TSS_1h_hyper, regions_anno_1h, "MF")
-DMR_4h_gostat_MF_hyper <- run.gostat(DMR_TSS_4h_hyper, regions_anno_4h, "MF")
-DMR_24h_gostat_MF_hyper <- run.gostat(DMR_TSS_24h_hyper, regions_anno_24h, "MF")
-DMR_72h_gostat_MF_hyper<- run.gostat(DMR_TSS_72h_hyper, regions_anno_72h, "MF")
-
-#DMR_all_fem_gostat_MF_hyper <- run.gostat(DMR_TSS_all_fem_hyper, regions_anno_all_fem, "MF")
+DMR_all_fem_gostat_MF_hyper <- run.gostat(DMR_TSS_all_fem_hyper, regions_anno_all_fem, "MF")
 DMR_05h_fem_gostat_MF_hyper <- run.gostat(DMR_TSS_05h_fem_hyper, regions_anno_05h_fem, "MF")
 DMR_1h_fem_gostat_MF_hyper <- run.gostat(DMR_TSS_1h_fem_hyper, regions_anno_1h_fem, "MF")
 DMR_4h_fem_gostat_MF_hyper<- run.gostat(DMR_TSS_4h_fem_hyper, regions_anno_4h_fem, "MF")
 DMR_24h_fem_gostat_MF_hyper <- run.gostat(DMR_TSS_24h_fem_hyper, regions_anno_24h_fem, "MF")
 DMR_72h_fem_gostat_MF_hyper <- run.gostat(DMR_TSS_72h_fem_hyper, regions_anno_72h_fem, "MF")
 
-#DMR_all_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_all_mal_hyper, regions_anno_all_mal, "MF")
+DMR_all_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_all_mal_hyper, regions_anno_all_mal, "MF")
 DMR_05h_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_05h_mal_hyper, regions_anno_05h_mal, "MF")
 DMR_1h_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_1h_mal_hyper, regions_anno_1h_mal, "MF")
 DMR_4h_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_4h_mal_hyper, regions_anno_4h_mal, "MF")
 DMR_24h_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_24h_mal_hyper, regions_anno_24h_mal, "MF")
 DMR_72h_mal_gostat_MF_hyper <- run.gostat(DMR_TSS_72h_mal_hyper, regions_anno_72h_mal, "MF")
 
-#DMR_all_gostat_CC_hyper <- run.gostat(DMR_TSS_all_hyper, regions_anno_all, "CC")
-DMR_05h_gostat_CC_hyper <- run.gostat(DMR_TSS_05h_hyper, regions_anno_05h, "CC")
-DMR_1h_gostat_CC_hyper <- run.gostat(DMR_TSS_1h_hyper, regions_anno_1h, "CC")
-DMR_4h_gostat_CC_hyper <- run.gostat(DMR_TSS_4h_hyper, regions_anno_4h, "CC")
-DMR_24h_gostat_CC_hyper <- run.gostat(DMR_TSS_24h_hyper, regions_anno_24h, "CC")
-DMR_72h_gostat_CC_hyper<- run.gostat(DMR_TSS_72h_hyper, regions_anno_72h, "CC")
-
-#DMR_all_fem_gostat_CC_hyper <- run.gostat(DMR_TSS_all_fem_hyper, regions_anno_all_fem, "CC")
+DMR_all_fem_gostat_CC_hyper <- run.gostat(DMR_TSS_all_fem_hyper, regions_anno_all_fem, "CC")
 DMR_05h_fem_gostat_CC_hyper <- run.gostat(DMR_TSS_05h_fem_hyper, regions_anno_05h_fem, "CC")
 DMR_1h_fem_gostat_CC_hyper <- run.gostat(DMR_TSS_1h_fem_hyper, regions_anno_1h_fem, "CC")
 DMR_4h_fem_gostat_CC_hyper<- run.gostat(DMR_TSS_4h_fem_hyper, regions_anno_4h_fem, "CC")
 DMR_24h_fem_gostat_CC_hyper <- run.gostat(DMR_TSS_24h_fem_hyper, regions_anno_24h_fem, "CC")
 DMR_72h_fem_gostat_CC_hyper <- run.gostat(DMR_TSS_72h_fem_hyper, regions_anno_72h_fem, "CC")
 
-#DMR_all_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_all_mal_hyper, regions_anno_all_mal, "CC")
+DMR_all_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_all_mal_hyper, regions_anno_all_mal, "CC")
 DMR_05h_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_05h_mal_hyper, regions_anno_05h_mal, "CC")
 DMR_1h_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_1h_mal_hyper, regions_anno_1h_mal, "CC")
 DMR_4h_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_4h_mal_hyper, regions_anno_4h_mal, "CC")
@@ -490,126 +486,84 @@ DMR_24h_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_24h_mal_hyper, regions_anno_24
 DMR_72h_mal_gostat_CC_hyper <- run.gostat(DMR_TSS_72h_mal_hyper, regions_anno_72h_mal, "CC")
 
 #run on hypo gene sets 
-#DMS_all_gostat_BP_hypo <- run.gostat(DMS_TSS_all_hypo, CpG_anno_all, "BP")
-DMS_05h_gostat_BP_hypo <- run.gostat(DMS_TSS_05h_hypo, CpG_anno_05h, "BP")
-DMS_1h_gostat_BP_hypo <- run.gostat(DMS_TSS_1h_hypo, CpG_anno_1h, "BP")
-DMS_4h_gostat_BP_hypo <- run.gostat(DMS_TSS_4h_hypo, CpG_anno_4h, "BP")
-DMS_24h_gostat_BP_hypo <- run.gostat(DMS_TSS_24h_hypo, CpG_anno_24h, "BP")
-DMS_72h_gostat_BP_hypo <- run.gostat(DMS_TSS_72h_hypo, CpG_anno_72h, "BP")
-
-#DMS_all_fem_gostat_BP_hypo <- run.gostat(DMS_TSS_all_fem_hypo, CpG_anno_all_fem, "BP")
+DMS_all_fem_gostat_BP_hypo <- run.gostat(DMS_TSS_all_fem_hypo, CpG_anno_all_fem, "BP")
 DMS_05h_fem_gostat_BP_hypo <- run.gostat(DMS_TSS_05h_fem_hypo, CpG_anno_05h_fem, "BP")
 DMS_1h_fem_gostat_BP_hypo <- run.gostat(DMS_TSS_1h_fem_hypo, CpG_anno_1h_fem, "BP")
 DMS_4h_fem_gostat_BP_hypo<- run.gostat(DMS_TSS_4h_fem_hypo, CpG_anno_4h_fem, "BP")
 DMS_24h_fem_gostat_BP_hypo <- run.gostat(DMS_TSS_24h_fem_hypo, CpG_anno_24h_fem, "BP")
 DMS_72h_fem_gostat_BP_hypo <- run.gostat(DMS_TSS_72h_fem_hypo, CpG_anno_72h_fem, "BP")
 
-#DMS_all_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_all_mal_hypo, CpG_anno_all_mal, "BP")
+DMS_all_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_all_mal_hypo, CpG_anno_all_mal, "BP")
 DMS_05h_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_05h_mal_hypo, CpG_anno_05h_mal, "BP")
 DMS_1h_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_1h_mal_hypo, CpG_anno_1h_mal, "BP")
 DMS_4h_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_4h_mal_hypo, CpG_anno_4h_mal, "BP")
 DMS_24h_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_24h_mal_hypo, CpG_anno_24h_mal, "BP")
 DMS_72h_mal_gostat_BP_hypo <- run.gostat(DMS_TSS_72h_mal_hypo, CpG_anno_72h_mal, "BP")
 
-#DMS_all_gostat_MF_hypo <- run.gostat(DMS_TSS_all_hypo, CpG_anno_all, "MF")
-DMS_05h_gostat_MF_hypo <- run.gostat(DMS_TSS_05h_hypo, CpG_anno_05h, "MF")
-DMS_1h_gostat_MF_hypo <- run.gostat(DMS_TSS_1h_hypo, CpG_anno_1h, "MF")
-DMS_4h_gostat_MF_hypo <- run.gostat(DMS_TSS_4h_hypo, CpG_anno_4h, "MF")
-DMS_24h_gostat_MF_hypo <- run.gostat(DMS_TSS_24h_hypo, CpG_anno_24h, "MF")
-DMS_72h_gostat_MF_hypo<- run.gostat(DMS_TSS_72h_hypo, CpG_anno_72h, "MF")
-
-#DMS_all_fem_gostat_MF_hypo <- run.gostat(DMS_TSS_all_fem_hypo, CpG_anno_all_fem, "MF")
+DMS_all_fem_gostat_MF_hypo <- run.gostat(DMS_TSS_all_fem_hypo, CpG_anno_all_fem, "MF")
 DMS_05h_fem_gostat_MF_hypo <- run.gostat(DMS_TSS_05h_fem_hypo, CpG_anno_05h_fem, "MF")
 DMS_1h_fem_gostat_MF_hypo <- run.gostat(DMS_TSS_1h_fem_hypo, CpG_anno_1h_fem, "MF")
 DMS_4h_fem_gostat_MF_hypo<- run.gostat(DMS_TSS_4h_fem_hypo, CpG_anno_4h_fem, "MF")
 DMS_24h_fem_gostat_MF_hypo <- run.gostat(DMS_TSS_24h_fem_hypo, CpG_anno_24h_fem, "MF")
 DMS_72h_fem_gostat_MF_hypo <- run.gostat(DMS_TSS_72h_fem_hypo, CpG_anno_72h_fem, "MF")
 
-#DMS_all_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_all_mal_hypo, CpG_anno_all_mal, "MF")
+DMS_all_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_all_mal_hypo, CpG_anno_all_mal, "MF")
 DMS_05h_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_05h_mal_hypo, CpG_anno_05h_mal, "MF")
 DMS_1h_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_1h_mal_hypo, CpG_anno_1h_mal, "MF")
 DMS_4h_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_4h_mal_hypo, CpG_anno_4h_mal, "MF")
 DMS_24h_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_24h_mal_hypo, CpG_anno_24h_mal, "MF")
 DMS_72h_mal_gostat_MF_hypo <- run.gostat(DMS_TSS_72h_mal_hypo, CpG_anno_72h_mal, "MF")
 
-#DMS_all_gostat_CC_hypo <- run.gostat(DMS_TSS_all_hypo, CpG_anno_all, "CC")
-DMS_05h_gostat_CC_hypo <- run.gostat(DMS_TSS_05h_hypo, CpG_anno_05h, "CC")
-DMS_1h_gostat_CC_hypo <- run.gostat(DMS_TSS_1h_hypo, CpG_anno_1h, "CC")
-DMS_4h_gostat_CC_hypo <- run.gostat(DMS_TSS_4h_hypo, CpG_anno_4h, "CC")
-DMS_24h_gostat_CC_hypo <- run.gostat(DMS_TSS_24h_hypo, CpG_anno_24h, "CC")
-DMS_72h_gostat_CC_hypo<- run.gostat(DMS_TSS_72h_hypo, CpG_anno_72h, "CC")
-
-#DMS_all_fem_gostat_CC_hypo <- run.gostat(DMS_TSS_all_fem_hypo, CpG_anno_all_fem, "CC")
+DMS_all_fem_gostat_CC_hypo <- run.gostat(DMS_TSS_all_fem_hypo, CpG_anno_all_fem, "CC")
 DMS_05h_fem_gostat_CC_hypo <- run.gostat(DMS_TSS_05h_fem_hypo, CpG_anno_05h_fem, "CC")
 DMS_1h_fem_gostat_CC_hypo <- run.gostat(DMS_TSS_1h_fem_hypo, CpG_anno_1h_fem, "CC")
 DMS_4h_fem_gostat_CC_hypo<- run.gostat(DMS_TSS_4h_fem_hypo, CpG_anno_4h_fem, "CC")
 DMS_24h_fem_gostat_CC_hypo <- run.gostat(DMS_TSS_24h_fem_hypo, CpG_anno_24h_fem, "CC")
 DMS_72h_fem_gostat_CC_hypo <- run.gostat(DMS_TSS_72h_fem_hypo, CpG_anno_72h_fem, "CC")
 
-#DMS_all_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_all_mal_hypo, CpG_anno_all_mal, "CC")
+DMS_all_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_all_mal_hypo, CpG_anno_all_mal, "CC")
 DMS_05h_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_05h_mal_hypo, CpG_anno_05h_mal, "CC")
 DMS_1h_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_1h_mal_hypo, CpG_anno_1h_mal, "CC")
 DMS_4h_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_4h_mal_hypo, CpG_anno_4h_mal, "CC")
 DMS_24h_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_24h_mal_hypo, CpG_anno_24h_mal, "CC")
 DMS_72h_mal_gostat_CC_hypo <- run.gostat(DMS_TSS_72h_mal_hypo, CpG_anno_72h_mal, "CC")
 
-#DMR_all_gostat_BP_hypo <- run.gostat(DMR_TSS_all_hypo, regions_anno_all, "BP")
-DMR_05h_gostat_BP_hypo <- run.gostat(DMR_TSS_05h_hypo, regions_anno_05h, "BP")
-DMR_1h_gostat_BP_hypo <- run.gostat(DMR_TSS_1h_hypo, regions_anno_1h, "BP")
-DMR_4h_gostat_BP_hypo <- run.gostat(DMR_TSS_4h_hypo, regions_anno_4h, "BP")
-DMR_24h_gostat_BP_hypo <- run.gostat(DMR_TSS_24h_hypo, regions_anno_24h, "BP")
-DMR_72h_gostat_BP_hypo<- run.gostat(DMR_TSS_72h_hypo, regions_anno_72h, "BP")
-
-#DMR_all_fem_gostat_BP_hypo <- run.gostat(DMR_TSS_all_fem_hypo, regions_anno_all_fem, "BP")
+DMR_all_fem_gostat_BP_hypo <- run.gostat(DMR_TSS_all_fem_hypo, regions_anno_all_fem, "BP")
 DMR_05h_fem_gostat_BP_hypo <- run.gostat(DMR_TSS_05h_fem_hypo, regions_anno_05h_fem, "BP")
 DMR_1h_fem_gostat_BP_hypo <- run.gostat(DMR_TSS_1h_fem_hypo, regions_anno_1h_fem, "BP")
 DMR_4h_fem_gostat_BP_hypo<- run.gostat(DMR_TSS_4h_fem_hypo, regions_anno_4h_fem, "BP")
 DMR_24h_fem_gostat_BP_hypo <- run.gostat(DMR_TSS_24h_fem_hypo, regions_anno_24h_fem, "BP")
 DMR_72h_fem_gostat_BP_hypo <- run.gostat(DMR_TSS_72h_fem_hypo, regions_anno_72h_fem, "BP")
 
-#DMR_all_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_all_mal_hypo, regions_anno_all_mal, "BP")
+DMR_all_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_all_mal_hypo, regions_anno_all_mal, "BP")
 DMR_05h_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_05h_mal_hypo, regions_anno_05h_mal, "BP")
 DMR_1h_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_1h_mal_hypo, regions_anno_1h_mal, "BP")
 DMR_4h_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_4h_mal_hypo, regions_anno_4h_mal, "BP")
 DMR_24h_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_24h_mal_hypo, regions_anno_24h_mal, "BP")
 DMR_72h_mal_gostat_BP_hypo <- run.gostat(DMR_TSS_72h_mal_hypo, regions_anno_72h_mal, "BP")
 
-#DMR_all_gostat_MF_hypo <- run.gostat(DMR_TSS_all_hypo, regions_anno_all, "MF")
-DMR_05h_gostat_MF_hypo <- run.gostat(DMR_TSS_05h_hypo, regions_anno_05h, "MF")
-DMR_1h_gostat_MF_hypo <- run.gostat(DMR_TSS_1h_hypo, regions_anno_1h, "MF")
-DMR_4h_gostat_MF_hypo <- run.gostat(DMR_TSS_4h_hypo, regions_anno_4h, "MF")
-DMR_24h_gostat_MF_hypo <- run.gostat(DMR_TSS_24h_hypo, regions_anno_24h, "MF")
-DMR_72h_gostat_MF_hypo<- run.gostat(DMR_TSS_72h_hypo, regions_anno_72h, "MF")
-
-#DMR_all_fem_gostat_MF_hypo <- run.gostat(DMR_TSS_all_fem_hypo, regions_anno_all_fem, "MF")
+DMR_all_fem_gostat_MF_hypo <- run.gostat(DMR_TSS_all_fem_hypo, regions_anno_all_fem, "MF")
 DMR_05h_fem_gostat_MF_hypo <- run.gostat(DMR_TSS_05h_fem_hypo, regions_anno_05h_fem, "MF")
 DMR_1h_fem_gostat_MF_hypo <- run.gostat(DMR_TSS_1h_fem_hypo, regions_anno_1h_fem, "MF")
 DMR_4h_fem_gostat_MF_hypo<- run.gostat(DMR_TSS_4h_fem_hypo, regions_anno_4h_fem, "MF")
 DMR_24h_fem_gostat_MF_hypo <- run.gostat(DMR_TSS_24h_fem_hypo, regions_anno_24h_fem, "MF")
 DMR_72h_fem_gostat_MF_hypo <- run.gostat(DMR_TSS_72h_fem_hypo, regions_anno_72h_fem, "MF")
 
-#DMR_all_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_all_mal_hypo, regions_anno_all_mal, "MF")
+DMR_all_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_all_mal_hypo, regions_anno_all_mal, "MF")
 DMR_05h_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_05h_mal_hypo, regions_anno_05h_mal, "MF")
 DMR_1h_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_1h_mal_hypo, regions_anno_1h_mal, "MF")
 DMR_4h_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_4h_mal_hypo, regions_anno_4h_mal, "MF")
 DMR_24h_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_24h_mal_hypo, regions_anno_24h_mal, "MF")
 DMR_72h_mal_gostat_MF_hypo <- run.gostat(DMR_TSS_72h_mal_hypo, regions_anno_72h_mal, "MF")
 
-#DMR_all_gostat_CC_hypo <- run.gostat(DMR_TSS_all_hypo, regions_anno_all, "CC")
-DMR_05h_gostat_CC_hypo <- run.gostat(DMR_TSS_05h_hypo, regions_anno_05h, "CC")
-DMR_1h_gostat_CC_hypo <- run.gostat(DMR_TSS_1h_hypo, regions_anno_1h, "CC")
-DMR_4h_gostat_CC_hypo <- run.gostat(DMR_TSS_4h_hypo, regions_anno_4h, "CC")
-DMR_24h_gostat_CC_hypo <- run.gostat(DMR_TSS_24h_hypo, regions_anno_24h, "CC")
-DMR_72h_gostat_CC_hypo<- run.gostat(DMR_TSS_72h_hypo, regions_anno_72h, "CC")
-
-#DMR_all_fem_gostat_CC_hypo <- run.gostat(DMR_TSS_all_fem_hypo, regions_anno_all_fem, "CC")
+DMR_all_fem_gostat_CC_hypo <- run.gostat(DMR_TSS_all_fem_hypo, regions_anno_all_fem, "CC")
 DMR_05h_fem_gostat_CC_hypo <- run.gostat(DMR_TSS_05h_fem_hypo, regions_anno_05h_fem, "CC")
 DMR_1h_fem_gostat_CC_hypo <- run.gostat(DMR_TSS_1h_fem_hypo, regions_anno_1h_fem, "CC")
 DMR_4h_fem_gostat_CC_hypo<- run.gostat(DMR_TSS_4h_fem_hypo, regions_anno_4h_fem, "CC")
 DMR_24h_fem_gostat_CC_hypo <- run.gostat(DMR_TSS_24h_fem_hypo, regions_anno_24h_fem, "CC")
 DMR_72h_fem_gostat_CC_hypo <- run.gostat(DMR_TSS_72h_fem_hypo, regions_anno_72h_fem, "CC")
 
-#DMR_all_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_all_mal_hypo, regions_anno_all_mal, "CC")
+DMR_all_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_all_mal_hypo, regions_anno_all_mal, "CC")
 DMR_05h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_05h_mal_hypo, regions_anno_05h_mal, "CC")
 DMR_1h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_1h_mal_hypo, regions_anno_1h_mal, "CC")
 DMR_4h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_4h_mal_hypo, regions_anno_4h_mal, "CC")
@@ -617,253 +571,162 @@ DMR_24h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_24h_mal_hypo, regions_anno_24h_
 DMR_72h_mal_gostat_CC_hypo <- run.gostat(DMR_TSS_72h_mal_hypo, regions_anno_72h_mal, "CC")
 
 #save results as a table
-#write.csv(DMS_all_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_BP.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_BP.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_BP.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_BP.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_BP.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_BP.csv", row.names = FALSE)
 
-#write.csv(DMS_all_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_MF.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_MF.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_MF.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_MF.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_MF.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_MF.csv", row.names = FALSE)
 
-#write.csv(DMS_all_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_CC.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_CC.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_CC.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_CC.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_CC.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_CC.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_CC.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_BP.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_BP.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_BP.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_BP.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_BP.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_BP.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_24h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_BP.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_BP, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_BP.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_MF.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_MF.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_MF.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_MF.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_MF.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_MF.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_24h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_MF.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_MF, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_MF.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_CC.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_CC.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_CC.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_CC.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_05h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_1h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_4h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_24h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_CC.csv", row.names = FALSE)
-write.csv(DMR_72h_mal_gostat_CC, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_CC.csv", row.names = FALSE)
-
 #hyper
-#write.csv(DMS_all_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_BP_hyper.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_BP_hyper.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_BP_hyper.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 
-#write.csv(DMS_all_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_MF_hyper.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_MF_hyper.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_MF_hyper.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 
-#write.csv(DMS_all_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_CC_hyper.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_CC_hyper.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_CC_hyper.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_BP_hyper.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_BP_hyper.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_BP_hyper.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_BP_hyper.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_BP_hyper.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_24h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_BP_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_BP_hyper.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_MF_hyper.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_MF_hyper.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_MF_hyper.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_MF_hyper.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_MF_hyper.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_24h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_MF_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_MF_hyper.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_CC_hyper.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_CC_hyper.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_CC_hyper.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_CC_hyper.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_CC_hyper.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_CC_hyper.csv", row.names = FALSE)
@@ -871,126 +734,84 @@ write.csv(DMR_24h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_24h_m
 write.csv(DMR_72h_mal_gostat_CC_hyper, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_CC_hyper.csv", row.names = FALSE)
 
 #hypo
-#write.csv(DMS_all_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_BP_hypo.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_BP_hypo.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_BP_hypo.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 
-#write.csv(DMS_all_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_MF_hypo.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_MF_hypo.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_MF_hypo.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 
-#write.csv(DMS_all_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMS_05h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMS_1h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMS_4h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMS_24h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMS_72h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_gostat_CC_hypo.csv", row.names = FALSE)
-
-#write.csv(DMS_all_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_CC_hypo.csv", row.names = FALSE)
+write.csv(DMS_all_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_4h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_24h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_72h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 
-#write.csv(DMS_all_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_CC_hypo.csv", row.names = FALSE)
+write.csv(DMS_all_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_all_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_05h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_05h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_1h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_1h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_4h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_4h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_24h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_24h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMS_72h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMS_72h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_BP_hypo.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_BP_hypo.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_BP_hypo.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_BP_hypo.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_BP_hypo.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_24h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_BP_hypo.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_MF_hypo.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_MF_hypo.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_MF_hypo.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_MF_hypo.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_MF_hypo.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_24h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_72h_mal_gostat_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_mal_gostat_MF_hypo.csv", row.names = FALSE)
 
-#write.csv(DMR_all_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMR_05h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMR_1h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMR_4h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMR_24h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_gostat_CC_hypo.csv", row.names = FALSE)
-write.csv(DMR_72h_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_gostat_CC_hypo.csv", row.names = FALSE)
-
-#write.csv(DMR_all_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_CC_hypo.csv", row.names = FALSE)
+write.csv(DMR_all_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_05h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_1h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_4h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_24h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_24h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_72h_fem_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_72h_fem_gostat_CC_hypo.csv", row.names = FALSE)
 
-#write.csv(DMR_all_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_CC_hypo.csv", row.names = FALSE)
+write.csv(DMR_all_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_all_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_05h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_05h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_1h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_1h_mal_gostat_CC_hypo.csv", row.names = FALSE)
 write.csv(DMR_4h_mal_gostat_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_4h_mal_gostat_CC_hypo.csv", row.names = FALSE)
@@ -1312,52 +1133,7 @@ write.csv(DMR_mal_all_BP_hypo, "./shortTerm_exp/data/go_res_od/DMR_mal_combined_
 write.csv(DMR_mal_all_MF_hypo, "./shortTerm_exp/data/go_res_od/DMR_mal_combined_gostat_MF_hypo.csv", row.names = FALSE)
 write.csv(DMR_mal_all_CC_hypo, "./shortTerm_exp/data/go_res_od/DMR_mal_combined_gostat_CC_hypo.csv", row.names = FALSE)
  
-#plot go seq analysis
-plot.funct <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
-                       total.05h, total.1h, total.4h, total.24h, total.72h,
-                       name.plot){
-  #calculate percent
-  data.05h$perc <- data.05h$Count / total.05h * 100
-  data.1h$perc <- data.1h$Count / total.1h * 100
-  data.4h$perc <- data.4h$Count / total.4h * 100
-  data.24h$perc <- data.24h$Count / total.24h * 100
-  data.72h$perc <- data.72h$Count / total.72h * 100
-
-  #select top 10 by p value and percent
-  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-
-  #add time point variable
-  data.05h$tp <- "0.5h"
-  data.1h$tp <- "1h"
-  data.4h$tp <- "4h"
-  data.24h$tp <- "24h"
-  data.72h$tp <- "72h"
-
-  #bind all data
-  data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
-
-  #convert time point to ordered factor
-  data$tp <- factor(data$tp, levels = c("0.5h", "1h", "4h", "24h", "72h"), ordered = TRUE)
-
-  #plot
-  p <- data %>% ggplot(aes(x = tp, y = Term, size = perc, color = tp, alpha = FDR)) + geom_point() + theme_bw() +
-    scale_color_manual(values = c("#B8DE29FF", "#55C667FF", "#1F968BFF", "#39568CFF", "#481567FF")) +
-    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
-    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
-                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
-    scale_y_discrete(labels = function(Term) str_wrap(Term, width = 100)) +
-    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
-          legend.title = element_text(size = 14))
-
-  ggsave(filename = name.plot, plot = p, width = 8, height = 10, units = "in", dpi = 300)
-
-  return(p)
-}
-
+## plot go seq analysis ##
 DMS.fem.BP <- plot.funct(DMS_05h_fem_gostat_BP, DMS_1h_fem_gostat_BP, DMS_4h_fem_gostat_BP, DMS_24h_fem_gostat_BP, DMS_72h_fem_gostat_BP,
                nrow(DMS_TSS_05h_fem), nrow(DMS_TSS_1h_fem), nrow(DMS_TSS_4h_fem), nrow(DMS_TSS_24h_fem), nrow(DMS_TSS_72h_fem),
                "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMS_fem_goplot_BP.tiff")
@@ -1457,51 +1233,6 @@ DMR.mal.MF <- plot.funct(DMR_05h_mal_gostat_MF_hypo, DMR_1h_mal_gostat_MF_hypo, 
                          "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMR_mal_goplot_MF_hypo.tiff")
 
 #plot go seq analysis
-plot.funct.top5 <- function(data.05h, data.1h, data.4h, data.24h, data.72h,
-                       total.05h, total.1h, total.4h, total.24h, total.72h,
-                       name.plot){
-  #calculate percent
-  data.05h$perc <- data.05h$Count / total.05h * 100
-  data.1h$perc <- data.1h$Count / total.1h * 100
-  data.4h$perc <- data.4h$Count / total.4h * 100
-  data.24h$perc <- data.24h$Count / total.24h * 100
-  data.72h$perc <- data.72h$Count / total.72h * 100
-  
-  #select top 10 by p value and percent
-  data.05h <- data.05h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
-  data.1h <- data.1h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
-  data.4h <- data.4h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
-  data.24h <- data.24h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
-  data.72h <- data.72h %>% slice_min(tibble(FDR, perc), n = 5, with_ties = FALSE)
-  
-  #add time point variable
-  data.05h$tp <- "0.5h"
-  data.1h$tp <- "1h"
-  data.4h$tp <- "4h"
-  data.24h$tp <- "24h"
-  data.72h$tp <- "72h"
-  
-  #bind all data
-  data <- rbind(data.05h, data.1h, data.4h, data.24h, data.72h)
-  
-  #convert time point to ordered factor
-  data$tp <- factor(data$tp, levels = c("0.5h", "1h", "4h", "24h", "72h"), ordered = TRUE)
-  
-  #plot
-  p <- data %>% ggplot(aes(x = tp, y = Term, size = perc, color = tp, alpha = FDR)) + geom_point() + theme_bw() +
-    scale_color_manual(values = c("#B8DE29FF", "#55C667FF", "#1F968BFF", "#39568CFF", "#481567FF")) +
-    scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
-    scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
-                           breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
-    scale_y_discrete(labels = function(Term) str_wrap(Term, width = 60)) +
-    theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
-          legend.title = element_text(size = 14))
-  
-  ggsave(filename = name.plot, plot = p, width = 9, height = 10, units = "in", dpi = 300)
-  
-  return(p)
-}
-
 DMS.fem.BP <- plot.funct.top5(DMS_05h_fem_gostat_BP, DMS_1h_fem_gostat_BP, DMS_4h_fem_gostat_BP, DMS_24h_fem_gostat_BP, DMS_72h_fem_gostat_BP,
                          nrow(DMS_TSS_05h_fem), nrow(DMS_TSS_1h_fem), nrow(DMS_TSS_4h_fem), nrow(DMS_TSS_24h_fem), nrow(DMS_TSS_72h_fem),
                          "./shortTerm_exp/plots/finalized_tiff/go_plots_od/top5/DMS_fem_goplot_BP.tiff")
@@ -1618,100 +1349,45 @@ ggsave(plot = DMS.mal.panel, filename = "./shortTerm_exp/plots/finalized_tiff/go
        width = 8, height = 11, units = "in", dpi = 300)
 
 # plot results of pooled analysis 
-#plot
-# plot_pooled <- function(data.hyper, total.hyper, data.hypo, total.hypo, name.plot){
-#   #add labels 
-#   data.hyper$direction <- "hyper"
-#   data.hypo$direction <- "hypo"
-#   
-#   #calculate percent
-#   data.hyper$perc <- data.hyper$Count / total.hyper * 100
-#   data.hypo$perc <- data.hypo$Count / total.hypo * 100
-#   
-#   #select top 10 by p value and percent
-#   data.hyper <- data.hyper %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-#   data.hypo <- data.hypo %>% slice_min(tibble(FDR, perc), n = 10, with_ties = FALSE)
-#   
-#   #merge data 
-#   data <- rbind(data.hyper, data.hypo)
-#   
-#   #plot
-#   p <- data %>% ggplot(aes(x = direction, y = Term, color = direction, size = perc, alpha = FDR)) + geom_point() + theme_bw() +
-#     scale_color_manual(values = c("#55C667FF", "#39568CFF")) +
-#     scale_size(range = c(3,10), name = "% of total", breaks = c(5,10,25), limits = c(0,50)) + ylab(NULL) + xlab("Time Point") +
-#     scale_alpha_continuous(name = "Adj. P value", limits = c(0,0.05), range = c(0.8,0.1),
-#                            breaks = c(0.0001, 0.001, 0.01, 0.05), labels = c("0.0001", 0.001, 0.01, 0.05)) + guides(color="none") +
-#     theme(axis.title = element_text(size = 14), axis.text = element_text(size = 10), legend.text = element_text(size = 12),
-#           legend.title = element_text(size = 14))
-#   
-#   ggsave(filename = name.plot, plot = p, width = 8, height = 10, units = "in", dpi = 300)
-# }
-# 
-# plot_pooled(DMR_all_fem_gostat_BP_hyper, nrow(DMR_TSS_all_fem_hyper), 
-#             DMR_all_fem_gostat_BP_hypo, nrow(DMR_TSS_all_fem_hypo), 
-#             "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMR_fem_pooled_goplot_BP.tiff")
-# 
-# plot_pooled(DMS_all_fem_gostat_BP_hyper, nrow(DMS_TSS_all_fem_hyper), 
-#             DMS_all_fem_gostat_BP_hypo, nrow(DMS_TSS_all_fem_hypo), 
-#             "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMS_fem_pooled_goplot_BP.tiff")
-# 
-# plot_pooled(DMR_all_mal_gostat_BP_hyper, nrow(DMR_TSS_all_mal_hyper), 
-#             DMR_all_mal_gostat_BP_hypo, nrow(DMR_TSS_all_mal_hypo), 
-#             "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMR_mal_pooled_goplot_BP.tiff")
-# 
-# plot_pooled(DMS_all_mal_gostat_BP_hyper, nrow(DMS_TSS_all_mal_hyper), 
-#             DMS_all_mal_gostat_BP_hypo, nrow(DMS_TSS_all_mal_hypo), 
-#             "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMS_mal_pooled_goplot_BP.tiff")
+plot_pooled(DMR_all_fem_gostat_BP_hyper, nrow(DMR_TSS_all_fem_hyper),
+            DMR_all_fem_gostat_BP_hypo, nrow(DMR_TSS_all_fem_hypo),
+            "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMR_fem_pooled_goplot_BP.tiff")
+
+plot_pooled(DMS_all_fem_gostat_BP_hyper, nrow(DMS_TSS_all_fem_hyper),
+            DMS_all_fem_gostat_BP_hypo, nrow(DMS_TSS_all_fem_hypo),
+            "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMS_fem_pooled_goplot_BP.tiff")
+
+plot_pooled(DMR_all_mal_gostat_BP_hyper, nrow(DMR_TSS_all_mal_hyper),
+            DMR_all_mal_gostat_BP_hypo, nrow(DMR_TSS_all_mal_hypo),
+            "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMR_mal_pooled_goplot_BP.tiff")
+
+plot_pooled(DMS_all_mal_gostat_BP_hyper, nrow(DMS_TSS_all_mal_hyper),
+            DMS_all_mal_gostat_BP_hypo, nrow(DMS_TSS_all_mal_hypo),
+            "./shortTerm_exp/plots/finalized_tiff/go_plots_od/DMS_mal_pooled_goplot_BP.tiff")
 
 ## Get lists of differentially methylated genes ##
-gene.list.funct <- function(data, name.csv){
-  #limit to genes within 10kb
-  data <- subset(data, dist.to.feature >= -10000 & dist.to.feature <= 10000)
-  #get list to seach in biomart
-  val <- data$feature.name
-  #search biomart
-  gene.data <- getBM(mart = bm, attributes = c('ensembl_transcript_id','external_gene_name','go_id', "name_1006",
-                                  "namespace_1003", "go_linkage_type"), filters = "ensembl_transcript_id", values = val)
-  gene.data <- gene.data[!duplicated(gene.data),]
-  write.csv(gene.data, name.csv, row.names = FALSE)
-}
-
-#gene.list.funct(DMS_TSS_all, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_05h, "./shortTerm_exp/data/gene_lists_od/DMS_05h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_1h, "./shortTerm_exp/data/gene_lists_od/DMS_1h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_4h, "./shortTerm_exp/data/gene_lists_od/DMS_4h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_24h, "./shortTerm_exp/data/gene_lists_od/DMS_24h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_72h, "./shortTerm_exp/data/gene_lists_od/DMS_72h_allSex_genelist.csv")
-
-#gene.list.funct(DMS_TSS_all_fem, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_fem_genelist.csv")
+gene.list.funct(DMS_TSS_all_fem, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_fem_genelist.csv")
 gene.list.funct(DMS_TSS_05h_fem, "./shortTerm_exp/data/gene_lists_od/DMS_05h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_1h_fem, "./shortTerm_exp/data/gene_lists_od/DMS_1h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_4h_fem, "./shortTerm_exp/data/gene_lists_od/DMS_4h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_24h_fem, "./shortTerm_exp/data/gene_lists_od/DMS_24h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_72h_fem, "./shortTerm_exp/data/gene_lists_od/DMS_72h_fem_genelist.csv")
 
-#gene.list.funct(DMS_TSS_all_mal, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_mal_genelist.csv")
+gene.list.funct(DMS_TSS_all_mal, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_mal_genelist.csv")
 gene.list.funct(DMS_TSS_05h_mal, "./shortTerm_exp/data/gene_lists_od/DMS_05h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_1h_mal, "./shortTerm_exp/data/gene_lists_od/DMS_1h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_4h_mal, "./shortTerm_exp/data/gene_lists_od/DMS_4h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_24h_mal, "./shortTerm_exp/data/gene_lists_od/DMS_24h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_72h_mal, "./shortTerm_exp/data/gene_lists_od/DMS_72h_mal_genelist.csv")
 
-#gene.list.funct(DMR_TSS_all, "./shortTerm_exp/data/gene_lists_od/DMR_allTP_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_05h, "./shortTerm_exp/data/gene_lists_od/DMR_05h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_1h, "./shortTerm_exp/data/gene_lists_od/DMR_1h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_4h, "./shortTerm_exp/data/gene_lists_od/DMR_4h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_24h, "./shortTerm_exp/data/gene_lists_od/DMR_24h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_72h, "./shortTerm_exp/data/gene_lists_od/DMR_72h_allSex_genelist.csv")
-
-#gene.list.funct(DMR_TSS_all_fem, "./shortTerm_exp/data/gene_lists_od/DMR_allTP_fem_genelist.csv")
+gene.list.funct(DMR_TSS_all_fem, "./shortTerm_exp/data/gene_lists_od/DMR_allTP_fem_genelist.csv")
 gene.list.funct(DMR_TSS_05h_fem, "./shortTerm_exp/data/gene_lists_od/DMR_05h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_1h_fem, "./shortTerm_exp/data/gene_lists_od/DMR_1h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_4h_fem, "./shortTerm_exp/data/gene_lists_od/DMR_4h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_24h_fem, "./shortTerm_exp/data/gene_lists_od/DMR_24h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_72h_fem, "./shortTerm_exp/data/gene_lists_od/DMR_72h_fem_genelist.csv")
 
-#gene.list.funct(DMR_TSS_all_mal, "./shortTerm_exp/data/gene_lists_od/DMR_allTP_mal_genelist.csv")
+gene.list.funct(DMR_TSS_all_mal, "./shortTerm_exp/data/gene_lists_od/DMR_allTP_mal_genelist.csv")
 gene.list.funct(DMR_TSS_05h_mal, "./shortTerm_exp/data/gene_lists_od/DMR_05h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_1h_mal, "./shortTerm_exp/data/gene_lists_od/DMR_1h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_4h_mal, "./shortTerm_exp/data/gene_lists_od/DMR_4h_mal_genelist.csv")
@@ -1719,42 +1395,28 @@ gene.list.funct(DMR_TSS_24h_mal, "./shortTerm_exp/data/gene_lists_od/DMR_24h_mal
 gene.list.funct(DMR_TSS_72h_mal, "./shortTerm_exp/data/gene_lists_od/DMR_72h_mal_genelist.csv")
 
 #hyper
-#gene.list.funct(DMS_TSS_all_hyper, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_05h_hyper, "./shortTerm_exp/data/gene_lists_od/DMS_05h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_1h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_1h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_4h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_4h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_24h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_24h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_72h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_72h_allSex_genelist.csv")
-
-#gene.list.funct(DMS_TSS_all_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_fem_genelist.csv")
+gene.list.funct(DMS_TSS_all_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_fem_genelist.csv")
 gene.list.funct(DMS_TSS_05h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_05h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_1h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_1h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_4h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_4h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_24h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_24h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_72h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_72h_fem_genelist.csv")
 
-#gene.list.funct(DMS_TSS_all_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_mal_genelist.csv")
+gene.list.funct(DMS_TSS_all_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_mal_genelist.csv")
 gene.list.funct(DMS_TSS_05h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_05h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_1h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_1h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_4h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_4h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_24h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_24h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_72h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMS_72h_mal_genelist.csv")
 
-#gene.list.funct(DMR_TSS_all_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_05h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_05h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_1h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_1h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_4h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_4h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_24h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_24h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_72h_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_72h_allSex_genelist.csv")
-
-#gene.list.funct(DMR_TSS_all_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_fem_genelist.csv")
+gene.list.funct(DMR_TSS_all_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_fem_genelist.csv")
 gene.list.funct(DMR_TSS_05h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_05h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_1h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_1h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_4h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_4h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_24h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_24h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_72h_fem_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_72h_fem_genelist.csv")
 
-#gene.list.funct(DMR_TSS_all_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_mal_genelist.csv")
+gene.list.funct(DMR_TSS_all_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_mal_genelist.csv")
 gene.list.funct(DMR_TSS_05h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_05h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_1h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_1h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_4h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_4h_mal_genelist.csv")
@@ -1762,42 +1424,28 @@ gene.list.funct(DMR_TSS_24h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_
 gene.list.funct(DMR_TSS_72h_mal_hyper,  "./shortTerm_exp/data/gene_lists_od/DMR_72h_mal_genelist.csv")
 
 #hypo
-#gene.list.funct(DMS_TSS_all_hypo, "./shortTerm_exp/data/gene_lists_od/DMS_allTP_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_05h_hypo, "./shortTerm_exp/data/gene_lists_od/DMS_05h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_1h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_1h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_4h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_4h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_24h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_24h_allSex_genelist.csv")
-gene.list.funct(DMS_TSS_72h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_72h_allSex_genelist.csv")
-
-#gene.list.funct(DMS_TSS_all_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_fem_genelist.csv")
+gene.list.funct(DMS_TSS_all_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_fem_genelist.csv")
 gene.list.funct(DMS_TSS_05h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_05h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_1h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_1h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_4h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_4h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_24h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_24h_fem_genelist.csv")
 gene.list.funct(DMS_TSS_72h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_72h_fem_genelist.csv")
 
-#gene.list.funct(DMS_TSS_all_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_mal_genelist.csv")
+gene.list.funct(DMS_TSS_all_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_allTP_mal_genelist.csv")
 gene.list.funct(DMS_TSS_05h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_05h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_1h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_1h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_4h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_4h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_24h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_24h_mal_genelist.csv")
 gene.list.funct(DMS_TSS_72h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMS_72h_mal_genelist.csv")
 
-#gene.list.funct(DMR_TSS_all_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_05h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_05h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_1h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_1h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_4h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_4h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_24h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_24h_allSex_genelist.csv")
-gene.list.funct(DMR_TSS_72h_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_72h_allSex_genelist.csv")
-
-#gene.list.funct(DMR_TSS_all_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_fem_genelist.csv")
+gene.list.funct(DMR_TSS_all_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_fem_genelist.csv")
 gene.list.funct(DMR_TSS_05h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_05h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_1h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_1h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_4h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_4h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_24h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_24h_fem_genelist.csv")
 gene.list.funct(DMR_TSS_72h_fem_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_72h_fem_genelist.csv")
 
-#gene.list.funct(DMR_TSS_all_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_mal_genelist.csv")
+gene.list.funct(DMR_TSS_all_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_allTP_mal_genelist.csv")
 gene.list.funct(DMR_TSS_05h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_05h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_1h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_1h_mal_genelist.csv")
 gene.list.funct(DMR_TSS_4h_mal_hypo,  "./shortTerm_exp/data/gene_lists_od/DMR_4h_mal_genelist.csv")
