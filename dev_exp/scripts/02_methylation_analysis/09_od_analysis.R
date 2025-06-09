@@ -10,6 +10,9 @@
 #install.packages("dplyr")
 #install.packages("ggpubr")
 #install.packages("VennDiagram")
+#install.packages(methylKit)
+#install.packages(pheatmap)
+#install.packages(stringr)
 
 #load packaes
 library(ggplot2)

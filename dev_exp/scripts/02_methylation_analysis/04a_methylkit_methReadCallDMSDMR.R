@@ -1,5 +1,5 @@
 #####################################################################################################################
-### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation, call DMS and DMRs
+### Goal: Read alignment files into methylKit and filter to create tabix files of filtered cytosine methylation, call DMS and DMRs without overdispersion correction
 ### Author: Janay Fox
 ### R script
 #####################################################################################################################
@@ -10,6 +10,7 @@
 #install.packages("IRanges")
 #install.packages("GenomicRanges")
 #install.packages("methylKit")
+#install.packages("data.table")
 
 #load packages 
 library("S4Vectors", lib.loc="/home/janayfox/R/x86_64-pc-linux-gnu-library/4.2")
