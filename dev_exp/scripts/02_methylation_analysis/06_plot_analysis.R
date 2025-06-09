@@ -10,6 +10,9 @@
 #install.packages("dplyr")
 #install.packages("ggpubr")
 #install.packages("VennDiagram")
+#install.packages(methylKit)
+#install.packages(pheatmap)
+#install.packages(stringr)
 
 #load packaes
 library(ggplot2)
@@ -28,6 +31,13 @@ DMS_diffmeth_all <- readRDS("./dev_exp/data/methylkit_res/DMS_res/DMSdiffmeth_al
 DMR_diffmeth_fem <- readRDS("./dev_exp/data/methylkit_res/DMR_res/DMRdiffmeth_fem_5X_data.RDS")
 DMR_diffmeth_mal <- readRDS("./dev_exp/data/methylkit_res/DMR_res/DMRdiffmeth_mal_5X_data.RDS")
 DMR_diffmeth_all <- readRDS("./dev_exp/data/methylkit_res/DMR_res/DMRdiffmeth_all_5X_data.RDS")
+
+DMS_diffmeth_fem <- readRDS("./dev_exp/data/methylkit_res_updated_SNP/DMSdiffmeth_fem_5X_data.RDS")
+DMS_diffmeth_mal <- readRDS("./dev_exp/data/methylkit_res_updated_SNP/DMSdiffmeth_mal_5X_data.RDS")
+
+DMR_diffmeth_fem <- readRDS("./dev_exp/data/methylkit_res_updated_SNP/DMRdiffmeth_fem_5X_data.RDS")
+DMR_diffmeth_mal <- readRDS("./dev_exp/data/methylkit_res_updated_SNP/DMRdiffmeth_mal_5X_data.RDS")
+
 
 ## Setup functions ##
 # function that makes a column with a name for each DMS/DMR

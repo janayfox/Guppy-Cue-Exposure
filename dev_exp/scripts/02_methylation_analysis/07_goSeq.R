@@ -8,6 +8,17 @@
 #install packages
 #install.packages("ggplot2")
 #install.packages("dplyr")
+#install.packages(genomation)
+#install.packages(DescTools)
+#install.packages(tibble)
+#install.packages(ggpubr)
+#install.packages(GenomicRanges)
+#install.packages(methylKit)
+#install.packages(GOstats)
+#install.packages(biomaRt)
+#install.packages(GSEABase)
+#install.packages(ggpubr)
+#install.packages(stringr)
 
 #load packages
 library(ggplot2)
